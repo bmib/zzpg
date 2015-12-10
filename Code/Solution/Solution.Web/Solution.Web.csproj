@@ -114,13 +114,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Filters\LoggerFilter.cs" />
+    <Compile Include="Filters\UserFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -129,6 +132,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\404.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -162,6 +166,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
+    <Content Include="Views\Home\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Solution.Common\Solution.Common.csproj">
@@ -171,6 +176,10 @@
     <ProjectReference Include="..\Solution.Models\Solution.Models.csproj">
       <Project>{fd4a4dd0-5ae2-47af-9eff-ce148b9c62b7}</Project>
       <Name>Solution.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Solution.Services\Solution.Services.csproj">
+      <Project>{0b64afbb-fd43-4870-98e3-8c4aa9f40603}</Project>
+      <Name>Solution.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

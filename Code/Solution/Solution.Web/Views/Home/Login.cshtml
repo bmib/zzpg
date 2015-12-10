@@ -1,7 +1,9 @@
 ﻿@{
     Layout = null;
 }
+
 <!DOCTYPE html>
+
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -23,17 +25,32 @@
         }
     </style>
     <script>
-        $("#loginForm").submit(function () {
+        function login() {
+            if ($("#loginForm").valid()) {
+                var jsonObj = $('#loginForm').serializeArray();
+                $.post("/Home/LoginAction", jsonObj, 
+                function (data, status) {
+                    if (!data.result) {
+                        alert(data.message);
+                        return;
+                    }
+                    else {
+                        window.location.href = '/Home/Index';
+                    }
+                });
+            }
+        }
+
+        $(document).ready(function(){
             $("#loginForm").validate();
-            return false;
         });
     </script>
 </head>
 <body style=" background-color:#f7f6f2;">
     <div class="container">
-        <form class="form-signin" role="form" method="post" action="/Home/LoginSystem" id="loginForm">
+        <form class="form-signin" role="form" method="post" id="loginForm">
             <div class="form-group-lg">
-                <h3 class="form-signin-heading">登录资质评估系统</h3>
+                <h3 class="form-signin-heading">登录</h3>
             </div>
             <div class="form-group">
                 <label for="inputEmail" class="sr-only">邮箱</label>
@@ -52,7 +69,7 @@
                 @Html.ValidationSummary()
             </div>
             <div class="form-group-lg">
-                <button class="btn btn-success btn-lg btn-block form-control" type="submit" style="max-width: 280px;" data-loading-text="登录中...">登录</button>
+                <button class="btn btn-success btn-lg btn-block form-control" type="button" style="max-width: 280px;" onclick="login();">登录</button>
             </div><hr />
             <div>
                 <a href="/Home/GetPassword" title="点击找回密码">忘记密码</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/Home/Register" title="注册">免费注册&nbsp;<span class="alert-warning">(仅限公司管理员注册)</span></a>
