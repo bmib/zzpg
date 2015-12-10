@@ -1,0 +1,5 @@
+C:\Users\JOHNHE\Downloads\GMS\bin\GMS.Core.Config.dll
+C:\Users\JOHNHE\Downloads\GMS\bin\GMS.Core.Config.pdb
+C:\Users\JOHNHE\Downloads\GMS\Src\GMS.Core.Config\obj\Debug\GMS.Core.Config.csprojResolveAssemblyReference.cache
+C:\Users\JOHNHE\Downloads\GMS\Src\GMS.Core.Config\obj\Debug\GMS.Core.Config.dll
+C:\Users\JOHNHE\Downloads\GMS\Src\GMS.Core.Config\obj\Debug\GMS.Core.Config.pdb

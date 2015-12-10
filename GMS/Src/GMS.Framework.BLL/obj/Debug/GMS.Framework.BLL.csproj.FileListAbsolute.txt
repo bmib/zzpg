@@ -1,0 +1,5 @@
+C:\Users\JOHNHE\Downloads\GMS\bin\GMS.Framework.BLL.XML
+C:\Users\JOHNHE\Downloads\GMS\bin\GMS.Framework.BLL.dll
+C:\Users\JOHNHE\Downloads\GMS\bin\GMS.Framework.BLL.pdb
+C:\Users\JOHNHE\Downloads\GMS\Src\GMS.Framework.BLL\obj\Debug\GMS.Framework.BLL.dll
+C:\Users\JOHNHE\Downloads\GMS\Src\GMS.Framework.BLL\obj\Debug\GMS.Framework.BLL.pdb

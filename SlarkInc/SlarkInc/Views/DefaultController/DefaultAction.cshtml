@@ -1,0 +1,80 @@
+﻿@model SlarkInc.Models.Simple
+Link:
+
+ActionLink:
+@Html.ActionLink("LinkText", "ActionName")
+@Html.ActionLink("LinkText", "ActionName", "ControllerName")
+@Html.ActionLink("LinkText", "ActionName", new { id = 1 })
+
+RoutLink:
+@Html.RouteLink("LinkText", new { action = "ActionName" })
+@Html.RouteLink("LinkText", new { action = "ActionName", controller = "ControllerName" })
+@Html.RouteLink("LinkText", new { action = "ActionName", id = 1 })
+
+Input:
+
+TextBox:
+@Html.TextBox("NameId")
+@Html.TextBox("NameId", "Value")
+
+
+@Html.Hidden("NameId")
+@Html.Hidden("NameId", "Value")
+
+@Html.Password("NameId")
+@Html.Password("NameId", "Value")
+
+@Html.CheckBox("NameId", true)
+@Html.CheckBox("NameId", false)
+
+
+@Html.RadioButton("NameId", "Value", true)
+@Html.RadioButton("NameId", "Value", false)
+
+List:
+@{
+    SelectListItem item;
+    List<SelectListItem> list = new List<SelectListItem>();
+    for (int i = 1; i < 5; i++)
+    {
+        item = new SelectListItem();
+        item.Text = "Text" + i;
+        item.Value = "Value" + i;
+        item.Selected = (i == 2);
+        list.Add(item);
+    }
+}
+
+@Html.DropDownList("NameId", list)
+
+@Html.ListBox("NameId", list)
+
+Attribute:
+@Html.TextBox("NameId", "Value", new { @class = "classText", @style = "width:200px", @tt = "xxx" })
+
+
+@using (Html.BeginForm("actionName", "controllerName", FormMethod.Get))
+{
+    @Html.TextBox("NameId")
+    <input type="submit" value="SubmitButton" />
+}
+
+@{Html.BeginForm("actionName", "controllerName", FormMethod.Post);}
+    @Html.TextBox("NameId")
+    <input type="submit" value="SubmitButton" />
+@{Html.EndForm();}
+
+TagBuilder:
+
+@Html.Submit("SubmitButton")
+
+
+
+
+<br /><br />
+@Html.LabelFor(m => m.Email)
+: @Html.TextBoxFor(m => m.Email)
+<br /><br />
+
+@Html.DisplayFor(m => m.Email)
+@Html.EditorFor(m => m.Email)

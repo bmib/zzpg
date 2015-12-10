@@ -1,0 +1,5 @@
+C:\Users\JOHNHE\Downloads\GMS\bin\GMS.Crm.BLL.dll
+C:\Users\JOHNHE\Downloads\GMS\bin\GMS.Crm.BLL.pdb
+C:\Users\JOHNHE\Downloads\GMS\Src\GMS.Crm.BLL\obj\Debug\GMS.Crm.BLL.csprojResolveAssemblyReference.cache
+C:\Users\JOHNHE\Downloads\GMS\Src\GMS.Crm.BLL\obj\Debug\GMS.Crm.BLL.dll
+C:\Users\JOHNHE\Downloads\GMS\Src\GMS.Crm.BLL\obj\Debug\GMS.Crm.BLL.pdb

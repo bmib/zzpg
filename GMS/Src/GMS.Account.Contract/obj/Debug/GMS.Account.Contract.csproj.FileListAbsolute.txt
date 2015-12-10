@@ -1,0 +1,5 @@
+C:\Users\JOHNHE\Downloads\GMS\bin\GMS.Account.Contract.dll
+C:\Users\JOHNHE\Downloads\GMS\bin\GMS.Account.Contract.pdb
+C:\Users\JOHNHE\Downloads\GMS\Src\GMS.Account.Contract\obj\Debug\GMS.Account.Contract.csprojResolveAssemblyReference.cache
+C:\Users\JOHNHE\Downloads\GMS\Src\GMS.Account.Contract\obj\Debug\GMS.Account.Contract.dll
+C:\Users\JOHNHE\Downloads\GMS\Src\GMS.Account.Contract\obj\Debug\GMS.Account.Contract.pdb
