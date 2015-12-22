@@ -27,9 +27,9 @@
     <script>
         function login() {
             if ($("#loginForm").valid()) {
-                var jsonObj = $('#loginForm').serializeArray();
+                var jsonObj = $("#loginForm").serializeArray();
                 $.post("/Home/LoginAction", jsonObj, 
-                function (data, status) {
+                function (data) {
                     if (!data.result) {
                         alert(data.message);
                         return;
@@ -40,6 +40,10 @@
                 });
             }
         }
+
+        $.ajaxSetup({
+            async: false
+        });
 
         $(document).ready(function(){
             $("#loginForm").validate();
