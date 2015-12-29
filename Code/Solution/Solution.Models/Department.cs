@@ -23,8 +23,8 @@ namespace Solution.Models
         [ForeignKey("CompanyID")]
         public virtual Company Company { get; set; }
 
-        [DisplayName("父级部门ID")]
+        [DisplayName("部门Code")]
         [StringLength(36)]
-        public string ParentDepartmentID { get; set; }
+        public string DepartmentCode { get; set; }
     }
 }
