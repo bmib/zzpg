@@ -8,9 +8,22 @@ namespace Solution.Web.Controllers
 {
     public class ManageController : BaseController
     {
-        //
-        // GET: /Manage/
-        public ActionResult Index()
+        public ActionResult DepartManageView()
+        {
+            return View();
+        }
+
+        public ActionResult UserManageView()
+        {
+            return View();
+        }
+
+        public ActionResult ItemManageView()
+        {
+            return View();
+        }
+
+        public ActionResult CheckManageView()
         {
             return View();
         }

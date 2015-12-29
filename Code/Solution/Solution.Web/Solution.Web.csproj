@@ -114,10 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Assessment\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\Manage\" />
-    <Folder Include="Views\Weight\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -139,6 +136,8 @@
     <Content Include="Content\ace.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap-treeview\css\bootstrap-treeview.css" />
+    <Content Include="Content\bootstrap-treeview\js\bootstrap-treeview.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\images\404.jpg" />
@@ -177,6 +176,13 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Home\Error.cshtml" />
+    <Content Include="Views\Manage\DepartManageView.cshtml" />
+    <Content Include="Views\Manage\UserManageView.cshtml" />
+    <Content Include="Views\Manage\ItemManageView.cshtml" />
+    <Content Include="Views\Manage\CheckManageView.cshtml" />
+    <Content Include="Views\Weight\ItemSortView.cshtml" />
+    <Content Include="Views\Weight\ItemDegreeView.cshtml" />
+    <Content Include="Views\Assessment\CheckListView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Solution.Common\Solution.Common.csproj">

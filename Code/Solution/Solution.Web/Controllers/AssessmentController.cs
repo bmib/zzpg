@@ -10,7 +10,7 @@ namespace Solution.Web.Controllers
     {
         //
         // GET: /Assessment/
-        public ActionResult Index()
+        public ActionResult CheckListView()
         {
             return View();
         }

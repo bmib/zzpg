@@ -10,7 +10,12 @@ namespace Solution.Web.Controllers
     {
         //
         // GET: /Weight/
-        public ActionResult Index()
+        public ActionResult ItemSortView()
+        {
+            return View();
+        }
+
+        public ActionResult ItemDegreeView()
         {
             return View();
         }
