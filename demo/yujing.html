@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="gb2312">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>飞行签派员资质能力评估系统</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/dashboard.css" rel="stylesheet">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <style>
+        .navbar-brand
+        {
+            color: #FFF !important;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">飞行签派员资质能力评估系统</a>
+        </div>
+      </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-sidebar">
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="zhibiao.html">指标体系管理 (管理员)</a></li>
+                    <li><a href="zbzyxdf.html">指标重要性打分 (专家)</a></li>
+                    <li><a href="zbzycdpg.html">指标重要程度评估 (专家)</a></li>
+                    <li><a href="quanzhong.html">指标权重管理 (管理员)</a></li>
+                    <li><a href="fenpei.html">检查任务分配 (管理员)</a></li>
+                    <li class="active"><a href="yujing.html">预警设置 (管理员)</a></li>
+                    <li><a href="pinggu.html">资质能力评估 (检查员)</a></li>
+                    <li><a href="tongji.html">统计分析 (检查员)</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <ol class="breadcrumb">
+                    <li><a href="index.html">飞行签派员资质能力评估系统</a></li>
+                    <li class="active">预警设置</li>
+                </ol>
+                <div class="alert alert-danger">
+                    超过预警值将在统计分析中显示红色，并要求签派员参加培训。
+                </div>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th colspan="2">
+                                预警设置
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                平均分低于：
+                            </td>
+                            <td>
+                                <input type="text" value="2.5" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                【资格】分低于：
+                            </td>
+                            <td>
+                                <input type="text" value="2.0" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                【知识】分低于：
+                            </td>
+                            <td>
+                                <input type="text" value="3.0" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                【能力】分低于：
+                            </td>
+                            <td>
+                                <input type="text" value="2.5" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                【经历】低于：
+                            </td>
+                            <td>
+                                <input type="text" value="2.0" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                【工作绩效】低于：
+                            </td>
+                            <td>
+                                <input type="text" value="1.5" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                【工作态度】低于：
+                            </td>
+                            <td>
+                                <input type="text" value="3.0" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                            <td>
+                                <a class="btn btn-primary">保存</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</body>
+</html>

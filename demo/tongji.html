@@ -1,0 +1,749 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="gb2312">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>飞行签派员资质能力评估系统</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/dashboard.css" rel="stylesheet">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" language="javascript" src="js/Chart.js"></script>
+    <style>
+        .navbar-brand
+        {
+            color: #FFF !important;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">飞行签派员资质能力评估系统</a>
+        </div>
+      </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-sidebar">
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="zhibiao.html">指标体系管理 (管理员)</a></li>
+                    <li><a href="zbzyxdf.html">指标重要性打分 (专家)</a></li>
+                    <li><a href="zbzycdpg.html">指标重要程度评估 (专家)</a></li>
+                    <li><a href="quanzhong.html">指标权重管理 (管理员)</a></li>
+					<li><a href="fenpei.html">检查任务分配 (管理员)</a></li>
+                    <li><a href="yujing.html">预警设置 (管理员)</a></li>
+                    <li><a href="pinggu.html">资质能力评估 (检查员)</a></li>
+                    <li class="active"><a href="tongji.html">统计分析 (检查员)</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <ol class="breadcrumb">
+                    <li><a href="index.html">飞行签派员资质能力评估系统</a></li>
+                    <li class="active">统计分析</li>
+                </ol>
+                <div role="tabpanel">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
+                            data-toggle="tab">签派员得分统计</a></li>
+                        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
+                            公司得分统计</a></li>
+                        <li role="presentation"><a href="#company" aria-controls="company" role="tab" data-toggle="tab">
+                            辖区得分统计</a></li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="home">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            签派员姓名
+                                        </th>
+                                        <th>
+                                            所属部门
+                                        </th>
+                                        <th style="text-align: center;">
+                                            得分<span>&darr;</span>
+                                        </th>
+                                        <th style="text-align: center;">
+                                            得1分的指标数
+                                        </th>
+                                        <th style="text-align: center;">
+                                            得2分的指标数
+                                        </th>
+                                        <th style="text-align: center;">
+                                            得3分的指标数
+                                        </th>
+                                        <th style="text-align: center;">
+                                            得4分的指标数
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            张鹏
+                                        </td>
+                                        <td>
+                                            飞行签派一部
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a>3.98</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">0</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">2</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">35</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">18</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            王金科
+                                        </td>
+                                        <td>
+                                            飞行签派二部
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a>3.96</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标" style="color: Red;">1</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">3</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">33</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">18</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            张奥
+                                        </td>
+                                        <td>
+                                            飞行签派一部
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a>3.93</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">0</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">2</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">35</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">18</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            李童
+                                        </td>
+                                        <td>
+                                            飞行签派一部
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a>3.90</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">0</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">2</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">35</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">18</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            严小静
+                                        </td>
+                                        <td>
+                                            飞行签派一部
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a>3.80</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">0</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">2</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">35</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">18</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            王大山
+                                        </td>
+                                        <td>
+                                            飞行签派一部
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a>3.68</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">0</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">2</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">35</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">18</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            李玉
+                                        </td>
+                                        <td>
+                                            飞行签派一部
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a>3.55</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">0</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">2</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">35</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">18</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            刘云齐
+                                        </td>
+                                        <td>
+                                            飞行签派一部
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a>3.06</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标" style="color: Red;">4</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">5</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">35</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">6</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a data-toggle="modal" data-target="#myModal2">王军</a>
+                                        </td>
+                                        <td>
+                                            飞行签派一部
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a>3.00</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标" style="color: Red;" data-toggle="modal" data-target="#myModal">
+                                                6</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">3</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">28</a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a title="点击查看得分的详细指标">18</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div>
+                                <ul class="pagination" style="float: right;">
+                                    <li><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span> </a>
+                                    </li>
+                                    <li><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span> </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="profile">
+                            <table style="margin-top: 10px; margin-bottom: 10px;">
+                                <tr>
+                                    <td>
+                                        选择公司：
+                                    </td>
+                                    <td>
+                                        <select>
+                                            <option>中国国际航空公司 </option>
+                                            <option>中国东方航空公司 </option>
+                                            <option>海南航空公司 </option>
+                                            <option>南方航空公司 </option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div style="margin-top: 20px;">
+                                            <img src="images/20150611171510.jpg" /></div>
+                                    </td>
+                                    <td valign="top" style="vertical-align: middle; text-align: center;">
+                                        <div style="line-height: 40px; margin-left: 50px;">
+                                            <label>
+                                                <input type="radio" name="zhibiaordo" checked="checked" />
+                                                得1分的指标（前五位）</label><br />
+                                            <label>
+                                                <input type="radio" name="zhibiaordo" />
+                                                得2分的指标（前五位）</label><br />
+                                            <label>
+                                                <input type="radio" name="zhibiaordo" />
+                                                得3分的指标（前五位）</label><br />
+                                            <label>
+                                                <input type="radio" name="zhibiaordo" />
+                                                得4分的指标（前五位）</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th colspan="8">
+                                            部门得分统计
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 160px;">
+                                            部门
+                                        </th>
+                                        <th>
+                                            总分平均得分
+                                        </th>
+                                        <th>
+                                            资格平均得分
+                                        </th>
+                                        <th>
+                                            知识平均得分
+                                        </th>
+                                        <th>
+                                            能力平均得分
+                                        </th>
+                                        <th>
+                                            经历平均得分
+                                        </th>
+                                        <th>
+                                            工作绩效平均得分
+                                        </th>
+                                        <th>
+                                            工作态度平均得分
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            签派一部
+                                        </td>
+                                        <td>
+                                            3.5
+                                        </td>
+                                        <td>
+                                            3.2
+                                        </td>
+                                        <td>
+                                            3.6
+                                        </td>
+                                        <td>
+                                            3.8
+                                        </td>
+                                        <td>
+                                            3.3
+                                        </td>
+                                        <td>
+                                            3.6
+                                        </td>
+                                        <td>
+                                            3.2
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            签派二部
+                                        </td>
+                                        <td>
+                                            3.3
+                                        </td>
+                                        <td>
+                                            3.2
+                                        </td>
+                                        <td>
+                                            3.6
+                                        </td>
+                                        <td>
+                                            3.8
+                                        </td>
+                                        <td>
+                                            3.3
+                                        </td>
+                                        <td>
+                                            3.6
+                                        </td>
+                                        <td>
+                                            3.2
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            签派三部
+                                        </td>
+                                        <td>
+                                            3.2
+                                        </td>
+                                        <td>
+                                            3.2
+                                        </td>
+                                        <td>
+                                            3.6
+                                        </td>
+                                        <td>
+                                            3.8
+                                        </td>
+                                        <td>
+                                            3.3
+                                        </td>
+                                        <td>
+                                            3.6
+                                        </td>
+                                        <td>
+                                            3.2
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            签派五部
+                                        </td>
+                                        <td>
+                                            3.1
+                                        </td>
+                                        <td>
+                                            3.2
+                                        </td>
+                                        <td>
+                                            3.6
+                                        </td>
+                                        <td>
+                                            3.8
+                                        </td>
+                                        <td>
+                                            3.3
+                                        </td>
+                                        <td>
+                                            3.6
+                                        </td>
+                                        <td>
+                                            3.2
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            签派七部
+                                        </td>
+                                        <td>
+                                            3.0
+                                        </td>
+                                        <td>
+                                            3.2
+                                        </td>
+                                        <td>
+                                            3.6
+                                        </td>
+                                        <td>
+                                            3.8
+                                        </td>
+                                        <td>
+                                            3.3
+                                        </td>
+                                        <td>
+                                            3.6
+                                        </td>
+                                        <td>
+                                            3.2
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="company">
+                            <table style="margin-top: 10px; margin-bottom: 10px;">
+                                <tr>
+                                    <td>
+                                        选择地区：
+                                    </td>
+                                    <td>
+                                        <select>
+                                            <option>华北地区 </option>
+                                            <option>西北地区 </option>
+                                            <option>华东地区 </option>
+                                            <option>西南地区 </option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th colspan="8">
+                                            辖区得分统计
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 160px;">
+                                            公司
+                                        </th>
+                                        <th>
+                                            总分平均得分
+                                        </th>
+                                        <th>
+                                            资格平均得分
+                                        </th>
+                                        <th>
+                                            知识平均得分
+                                        </th>
+                                        <th>
+                                            能力平均得分
+                                        </th>
+                                        <th>
+                                            经历平均得分
+                                        </th>
+                                        <th>
+                                            工作绩效平均得分
+                                        </th>
+                                        <th>
+                                            工作态度平均得分
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            中国国际航空公司
+                                        </td>
+                                        <td>
+                                            3.3
+                                        </td>
+                                        <td>
+                                            3.6
+                                        </td>
+                                        <td>
+                                            3.4
+                                        </td>
+                                        <td>
+                                            3.1
+                                        </td>
+                                        <td>
+                                            3.0
+                                        </td>
+                                        <td>
+                                            3.2
+                                        </td>
+                                        <td>
+                                            3.1
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            天津航空公司
+                                        </td>
+                                        <td>
+                                            3.3
+                                        </td>
+                                        <td>
+                                            3.6
+                                        </td>
+                                        <td>
+                                            3.4
+                                        </td>
+                                        <td>
+                                            3.1
+                                        </td>
+                                        <td>
+                                            3.0
+                                        </td>
+                                        <td>
+                                            3.2
+                                        </td>
+                                        <td>
+                                            3.1
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            青岛航空公司
+                                        </td>
+                                        <td>
+                                            3.3
+                                        </td>
+                                        <td>
+                                            3.6
+                                        </td>
+                                        <td>
+                                            3.4
+                                        </td>
+                                        <td>
+                                            3.1
+                                        </td>
+                                        <td>
+                                            3.0
+                                        </td>
+                                        <td>
+                                            3.2
+                                        </td>
+                                        <td>
+                                            3.1
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">
+                    王军 得1分的指标</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                指标
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                3.1.5 管理工作负荷的能力
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                3.3.1 非正常情况处置能力
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                3.4.6 进行放行讲解和交接班讲解的能力
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                5.3.3 下传ACARS信息签派回复率
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                6.2 安全意识
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                6.4 团队意识
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">
+                    王军 一级指标得分统计</h4>
+            </div>
+            <div class="modal-body">
+                <img src="images/20150612142319.jpg" />
+                <div>
+                    <table class="table table-bordered">
+                        <tr>
+                            <td>
+                                总体评价：
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <textarea style="width: 90%">签派经验比较丰富，善于制作飞行计划。</textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
