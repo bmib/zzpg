@@ -23,7 +23,6 @@ namespace Solution.Web
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css", 
-                      "~/Content/ace.min.css",
                       "~/Content/site.css"));
         }
     }

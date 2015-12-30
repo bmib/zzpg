@@ -46,10 +46,11 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - 资质评估系统 - www.zzpgxt.com</p>
+            <center>
+                <p>&copy; @DateTime.Now.Year - 资质评估系统 - www.zzpgxt.com</p>
+            </center>
         </footer>
     </div>
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

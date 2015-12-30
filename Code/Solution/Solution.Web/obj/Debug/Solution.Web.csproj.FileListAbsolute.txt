@@ -82,3 +82,8 @@ F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Web\bin\zh-
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Web\obj\Debug\Solution.Web.csprojResolveAssemblyReference.cache
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Web\obj\Debug\Solution.Web.dll
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Web\obj\Debug\Solution.Web.pdb
+F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Web\bin\Solution.Core.dll
+F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Web\bin\Solution.Framework.dll
+F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Web\bin\log4net.dll
+F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Web\bin\Solution.Core.pdb
+F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Web\bin\Solution.Framework.pdb

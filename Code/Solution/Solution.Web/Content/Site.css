@@ -41,4 +41,23 @@ input[type="checkbox"].input-validation-error {
     display: none;
 }
 
+/*自定义*/
+.page-title{
+    margin-top:10px;
+}
 
+.depart1{
+    margin-left:0px;
+}
+.depart2{
+    margin-left:20px;
+}
+.depart3{
+    margin-left:40px;
+}
+.depart4{
+    margin-left:60px;
+}
+.depart5{
+    margin-left:80px;
+}

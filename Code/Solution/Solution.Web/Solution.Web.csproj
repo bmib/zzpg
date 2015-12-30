@@ -183,11 +183,20 @@
     <Content Include="Views\Weight\ItemSortView.cshtml" />
     <Content Include="Views\Weight\ItemDegreeView.cshtml" />
     <Content Include="Views\Assessment\CheckListView.cshtml" />
+    <Content Include="Views\Manage\DepartAddView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Solution.Common\Solution.Common.csproj">
       <Project>{1a7a2f2a-f09e-4549-8db6-fd8d34383277}</Project>
       <Name>Solution.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Solution.Core\Solution.Core.csproj">
+      <Project>{61ec3922-7d40-4b85-9787-983451bae712}</Project>
+      <Name>Solution.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Solution.Framework\Solution.Framework.csproj">
+      <Project>{2e464d8c-8bc1-4629-ae06-04ac15e42c9f}</Project>
+      <Name>Solution.Framework</Name>
     </ProjectReference>
     <ProjectReference Include="..\Solution.Models\Solution.Models.csproj">
       <Project>{fd4a4dd0-5ae2-47af-9eff-ce148b9c62b7}</Project>

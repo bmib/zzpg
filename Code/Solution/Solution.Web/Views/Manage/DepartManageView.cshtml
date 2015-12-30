@@ -1,6 +1,75 @@
-﻿
+﻿@using Solution.Framework.Contract
+@using Solution.Framework.Utility
+@using Solution.Framework.Web.Controls
+@using Solution.Models;
+
 @{
-    ViewBag.Title = "DepartManageView";
+    ViewBag.Title = "部门管理";
 }
 
-<h2>DepartManageView</h2>
+@model PagedList<Department>
+
+<div class="container">
+    <div class="container-fluid">
+        <div class="page-title">
+            <ol class="breadcrumb">
+                <li><a href="/Home/Index">首页</a></li>
+                <li class="active">部门管理</li>
+            </ol>
+        </div>
+        <p>
+            <a class="btn btn-primary" title='添加一级部门' href="@Url.Action("DepartAddView")?TB_iframe=true&height=350&width=500">添加一级部门</a>
+        </p>
+        <form id="departForm" method="post">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            部门名称
+                        </th>
+                        <th style="width:20%;">
+                            操作
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var m in Model)
+                    {
+                        <tr>
+                            <td>
+                                @if (m.DepartmentCode.Length / 4 == 1)
+                                {
+                                    <div class="depart1">@m.DepartmentName</div>
+                                }
+                                else if (m.DepartmentCode.Length / 4 == 2)
+                                {
+                                    <div class="depart2">@m.DepartmentName</div>
+                                }
+                                else if (m.DepartmentCode.Length / 4 == 3)
+                                {
+                                    <div class="depart3">@m.DepartmentName</div>
+                                }
+                                else if (m.DepartmentCode.Length / 4 == 4)
+                                {
+                                    <div class="depart4">@m.DepartmentName</div>
+                                }
+                                else if (m.DepartmentCode.Length / 4 == 5)
+                                {
+                                    <div class="depart5">@m.DepartmentName</div>
+                                }
+                            </td>
+                            <td align="center">
+                                <a class="btn btn-primary btn-sm">添加下级部门</a>
+                                <a class="btn btn-success  btn-sm" title='编辑用户资料' href="@Url.Action("Edit", new { id = m.DepartmentID })?TB_iframe=true&height=350&width=500">
+                                    修改
+                                </a>
+                                <a class="btn btn-danger  btn-sm" href="@Url.Action("DepartDelete", new { departmentCode = m.DepartmentCode})" onclick="return confirm('确定删除该部门及其下属部门吗？')">删除</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
+     
+    </div>
+</div>
