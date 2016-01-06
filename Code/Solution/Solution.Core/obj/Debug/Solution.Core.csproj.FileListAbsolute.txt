@@ -1,8 +1,5 @@
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Core\bin\Debug\Solution.Core.dll
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Core\bin\Debug\Solution.Core.pdb
-F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Core\obj\Debug\Solution.Core.dll
-F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Core\obj\Debug\Solution.Core.pdb
-F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Core\obj\Debug\Solution.Core.csprojResolveAssemblyReference.cache
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Core\bin\Debug\log4net.dll
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Core\bin\Debug\Newtonsoft.Json.dll
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Core\bin\Debug\Solution.Framework.dll
@@ -22,3 +19,6 @@ F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Core\bin\De
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Core\bin\Debug\zh-Hans\System.Web.Razor.resources.dll
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Core\bin\Debug\zh-Hans\System.Web.WebPages.Razor.resources.dll
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Core\bin\Debug\zh-Hans\System.Web.WebPages.Deployment.resources.dll
+F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Core\obj\Debug\Solution.Core.csprojResolveAssemblyReference.cache
+F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Core\obj\Debug\Solution.Core.dll
+F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Core\obj\Debug\Solution.Core.pdb

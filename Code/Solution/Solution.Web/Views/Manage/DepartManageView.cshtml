@@ -18,7 +18,7 @@
             </ol>
         </div>
         <p>
-            <a class="btn btn-primary" title='添加一级部门' href="@Url.Action("DepartAddView")?TB_iframe=true&height=350&width=500">添加一级部门</a>
+            <a class="btn btn-primary" title='添加一级部门' data-toggle="modal" data-target="#myModal">添加一级部门</a>
         </p>
         <form id="departForm" method="post">
             <table class="table table-bordered table-hover table-striped">
@@ -59,8 +59,8 @@
                                 }
                             </td>
                             <td align="center">
-                                <a class="btn btn-primary btn-sm">添加下级部门</a>
-                                <a class="btn btn-success  btn-sm" title='编辑用户资料' href="@Url.Action("Edit", new { id = m.DepartmentID })?TB_iframe=true&height=350&width=500">
+                                <a class="btn btn-primary btn-sm" onclick="openAddNextDepart('@m.DepartmentID');">添加下级部门</a>
+                                <a class="btn btn-success  btn-sm" title='修改部门' onclick="openModifyDepart('@m.DepartmentID', '@m.DepartmentName');">
                                     修改
                                 </a>
                                 <a class="btn btn-danger  btn-sm" href="@Url.Action("DepartDelete", new { departmentCode = m.DepartmentCode})" onclick="return confirm('确定删除该部门及其下属部门吗？')">删除</a>
@@ -70,6 +70,169 @@
                 </tbody>
             </table>
         </form>
-     
+
     </div>
 </div>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    增加一级部门
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="txtFirstDepartment" class="col-sm-2 control-label">
+                            部门名称
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtFirstDepartment" placeholder="输入部门名称">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="SaveFirstDepart();">
+                    保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    增加下级部门
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="txtNextDepartment" class="col-sm-2 control-label">
+                            部门名称
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="hidden" class="form-control" id="txtBeforeDepartmentID">
+                            <input type="text" class="form-control" id="txtNextDepartment" placeholder="输入部门名称">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="SaveNextDepart();">
+                    保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal3">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    增加下级部门
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="txtCurrentDepartmentName" class="col-sm-2 control-label">
+                            部门名称
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="hidden" class="form-control" id="txtCurrentDepartmentID">
+                            <input type="text" class="form-control" id="txtCurrentDepartmentName" placeholder="输入部门名称">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="SaveModifyDepart();">
+                    保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function SaveFirstDepart() {
+        var departmentName = $('#txtFirstDepartment').val();
+        $.post('/Manage/SaveFirstDepartment', { departmentName: departmentName },
+            function (data, status) {
+                if (!data.result) {
+                    alert('操作失败：' + data.message);
+                    return;
+                }
+                else {
+                    $('#myModal').modal('toggle');
+                    window.location.reload();
+                }
+            });
+    }
+
+    function openAddNextDepart(txtBeforeDepartmentID) {
+        $('#txtBeforeDepartmentID').val(txtBeforeDepartmentID);
+        $('#myModal2').modal();
+    }
+
+    function SaveNextDepart() {
+        var txtBeforeDepartmentID = $('#txtBeforeDepartmentID').val();
+        var departmentName = $('#txtNextDepartment').val();
+        $.post('/Manage/SaveNextDepartment', { departmentName: departmentName, beforeDepartmentID: txtBeforeDepartmentID },
+            function (data, status) {
+                if (!data.result) {
+                    alert('操作失败：' + data.message);
+                    return;
+                }
+                else {
+                    $('#myModal2').modal('toggle');
+                    window.location.reload();
+                }
+            });
+    }
+
+    function openModifyDepart(txtCurrentDepartmentID, txtCurrentDepartmentName){
+        $('#txtCurrentDepartmentID').val(txtCurrentDepartmentID);
+        $('#txtCurrentDepartmentName').val(txtCurrentDepartmentName);
+        $('#myModal3').modal();
+    }
+
+    function SaveModifyDepart() {
+        var txtCurrentDepartmentID = $('#txtCurrentDepartmentID').val();
+        var txtCurrentDepartmentName = $('#txtCurrentDepartmentName').val();
+        $.post('/Manage/SaveModifyDepartment', { txtCurrentDepartmentID: txtCurrentDepartmentID, txtCurrentDepartmentName: txtCurrentDepartmentName },
+            function (data, status) {
+                if (!data.result) {
+                    alert('操作失败：' + data.message);
+                    return;
+                }
+                else {
+                    $('#myModal3').modal('toggle');
+                    window.location.reload();
+                }
+            });
+    }
+</script>

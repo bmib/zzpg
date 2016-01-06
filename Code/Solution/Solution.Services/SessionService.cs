@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Solution.Models;
+using System.Collections;
 using System.Web;
 using System.Web.SessionState;
 
@@ -100,6 +101,64 @@ namespace Solution.Services
             return allKeys;
         }
 
+        #endregion
+
+        #region 常用属性
+        public static string UserID
+        {
+            get
+            {
+                object obj = GetValue("UserID");
+                if (obj == null)
+                {
+                    return string.Empty;
+                }
+                else
+                {
+                    return obj.ToString();
+                }
+            }
+            set
+            {
+                SetValue("UserID", value);
+            }
+        }
+
+        public static User User
+        {
+            get
+            {
+                object obj = GetValue("User");
+                if (obj == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return obj as User;
+                }
+            }
+        }
+
+        public static string CompanyID
+        {
+            get
+            {
+                object obj = GetValue("CompanyID");
+                if (obj == null)
+                {
+                    return string.Empty;
+                }
+                else
+                {
+                    return obj.ToString();
+                }
+            }
+            set
+            {
+                SetValue("CompanyID", value);
+            }
+        }
         #endregion
     }
 }

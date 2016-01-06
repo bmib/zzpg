@@ -62,7 +62,9 @@ namespace Solution.Web.Controllers
                     return Json(new { result = false, message = "密码不正确。" });
                 }
 
+                SessionService.SetValue("UserID", user.UserID);
                 SessionService.SetValue("User", user);
+                SessionService.SetValue("CompanyID", user.CompanyID);
             }
             return Json(new { result = true, message = "" });
         }
