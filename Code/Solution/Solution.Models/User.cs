@@ -45,5 +45,9 @@ namespace Solution.Models
         [DisplayName("角色")]
         [StringLength(512)]
         public string Roles { get; set; }
+
+        [DisplayName("所属部门")]
+        [StringLength(512)]
+        public string Department { get; set; }
     }
 }

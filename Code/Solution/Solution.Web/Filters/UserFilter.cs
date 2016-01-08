@@ -13,7 +13,7 @@ namespace Solution.Filters
             Console.WriteLine(filterContext.ActionDescriptor.ActionName);
             string actionName = filterContext.ActionDescriptor.ActionName;
             List<string> notAuthAction = new List<string> { "Login", "Register", "VerifyImage", "Error", "LoginAction", "RegisterSubmit" };
-            if (SessionService.GetValue("User") == null && !notAuthAction.Contains(actionName))
+            if (SessionService.User == null && !notAuthAction.Contains(actionName))
             {
                 filterContext.Result = new RedirectResult("/Home/Login");
             }

@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Solution.Services;
 using Solution.Framework.Contract;
+using Solution.Common;
 namespace Solution.Web.Controllers
 {
     public class ManageController : BaseController
@@ -150,14 +151,99 @@ namespace Solution.Web.Controllers
             return Json(new { result = false, message = "" });
         }
 
-        public ActionResult DepartEditView(string departmentID)
+        /// <summary>
+        /// 人员管理页面
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public ActionResult UserManageView(Request request)
         {
-            return View();
+            using (DBContext db = new DBContext())
+            {
+                string companyID = ((User)SessionService.GetValue("User")).CompanyID.ToString();
+                var userList = db.User.Where(m => m.CompanyID.Equals(companyID)).OrderBy(m => m.UserName).ToPagedList(request.PageIndex, request.PageSize);
+                return View(userList);
+            }
         }
 
-        public ActionResult UserManageView()
+        /// <summary>
+        /// 保存新添加用户
+        /// </summary>
+        /// <param name="collect"></param>
+        /// <returns></returns>
+        public ActionResult SaveAddUser(FormCollection collect)
         {
-            return View();
+            using (DBContext db = new DBContext())
+            {
+                //获得密匙
+                string salt = EncryptPassWord.CreateSalt();
+                Solution.Models.User user = new Models.User
+                {
+                    UserID = Guid.NewGuid().ToString(),
+                    CompanyID = SessionService.CompanyID,
+                    UserName = collect["txtaddUsername"].ToString().Trim(),
+                    Email = collect["txtaddEmail"].ToString().Trim(),
+                    Password = EncryptPassWord.EncryptPwd(collect["txtaddPassword"].ToString().Trim(), salt),
+                    Salt = salt,
+                    Department = collect["txtaddDepartment"].ToString().Trim(),
+                    Roles = collect["txtaddRoles"].ToString().Trim()
+                };
+
+                db.User.Add(user);
+                db.SaveChanges();
+
+                return Json(new { result = true, message = "" });
+            }
+        }
+
+        /// <summary>
+        /// 保存修改的用户信息
+        /// </summary>
+        /// <param name="collect"></param>
+        /// <returns></returns>
+        public ActionResult SaveModifyUser(FormCollection collect)
+        {
+            string userID = collect["txtmUserID"].ToString().Trim();
+            if (!string.IsNullOrEmpty(userID))
+            {
+                using (DBContext db = new DBContext())
+                {
+                    var user = db.User.Where(m => m.UserID == userID).SingleOrDefault();
+                    if (user != null)
+                    {
+                        user.UserName = collect["txtmUsername"].ToString().Trim();
+                        user.Email = collect["txtmEmail"].ToString().Trim();
+                        if (!string.IsNullOrEmpty(collect["txtmPassword"]))
+                        {
+                            string pwd = EncryptPassWord.EncryptPwd(collect["txtmPassword"].ToString().Trim(), user.Salt);
+                            user.Password = pwd;
+                        }
+                        user.Department = collect["txtmDepartment"].ToString().Trim();
+                        user.Roles = collect["txtmRoles"].ToString().Trim();
+                    }
+
+                    db.SaveChanges();
+
+                    return Json(new { result = true, message = "" });
+                }
+            }
+            return Json(new { result = false, message = "" });
+        }
+
+        /// <summary>
+        /// 删除用户
+        /// </summary>
+        /// <param name="UserID">用户ID</param>
+        /// <returns></returns>
+        public ActionResult UserDelete(string UserID)
+        {
+            using (DBContext db = new DBContext())
+            {
+                var user = db.User.Where(m => m.UserID == UserID).SingleOrDefault();
+                db.User.Remove(user);
+                db.SaveChanges();
+                return RedirectToAction("UserManageView");
+            }
         }
 
         public ActionResult ItemManageView()

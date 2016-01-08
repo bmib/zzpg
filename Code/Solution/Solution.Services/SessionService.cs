@@ -138,6 +138,10 @@ namespace Solution.Services
                     return obj as User;
                 }
             }
+            set
+            {
+                SetValue("User", value);
+            }
         }
 
         public static string CompanyID

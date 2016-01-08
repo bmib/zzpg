@@ -21,25 +21,54 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">系统管理<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("部门管理", "DepartManageView", "Manage")</li>
-                            <li>@Html.ActionLink("人员管理", "UserManageView", "Manage")</li>
-                            <li>@Html.ActionLink("指标库管理", "ItemManageView", "Manage")</li>
-                            <li>@Html.ActionLink("评估管理", "CheckManageView", "Manage")</li>
+                    @if (Solution.Services.SessionService.User.Roles.Contains("admin"))
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">系统管理<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                @*<li>@Html.ActionLink("部门管理", "DepartManageView", "Manage")</li>*@
+                                <li>@Html.ActionLink("人员管理", "UserManageView", "Manage")</li>
+                                <li>@Html.ActionLink("指标库管理", "ItemManageView", "Manage")</li>
+                                <li>@Html.ActionLink("评估管理", "CheckManageView", "Manage")</li>
+                            </ul>
+                        </li>
+                    }
+                    @if (Solution.Services.SessionService.User.Roles.Contains("pro"))
+                    {
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">计算权重<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("重要性排序", "ItemSortView", "Weight")</li>
+                                <li>@Html.ActionLink("重要程度评估", "ItemDegreeView", "Weight")</li>
+                            </ul>
+                        </li>
+                    }
+                    @if (Solution.Services.SessionService.User.Roles.Contains("chk"))
+                    {
+                        <li>@Html.ActionLink("资质评估", "CheckListView", "Assessment")</li>
+                    }
+                </ul>
+                <ul class=" nav navbar-nav navbar-right">
+                    <li class=" dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <span class="glyphicon glyphicon-user"></span><span class="glyphicon glyphicon-triangle-bottom"></span> @Solution.Services.SessionService.User.UserName
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            @*<li>
+                                    <span class="glyphicon glyphicon-user"></span> 个人信息</a>
+                                </li>
+                                <li>
+                                    <span class="glyphicon glyphicon-cog"></span> 设置</a>
+                                </li>*@
+                            <li class="divider"></li>
+                            <li>
+                                <a href="/Home/Logout"><span class="glyphicon glyphicon-log-out"></span> 退出</a>
+                            </li>
                         </ul>
                     </li>
-                    <li>
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">计算权重<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("重要性排序", "ItemSortView", "Weight")</li>
-                            <li>@Html.ActionLink("重要程度评估", "ItemDegreeView", "Weight")</li>
-                        </ul>
-                    </li>
-                    <li>@Html.ActionLink("资质评估", "CheckListView", "Assessment")</li>
                 </ul>
             </div>
+
         </div>
     </div>
     <div class="container body-content">

@@ -159,5 +159,18 @@ namespace Solution.Web.Controllers
         {
             return View();
         }
+
+        /// <summary>
+        /// 退出操作
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Logout()
+        {
+            SessionService.RemoveAt("UserID");
+            SessionService.RemoveAt("User");
+            SessionService.RemoveAt("CompanyID");
+            SessionService.ClearSession();
+            return RedirectToAction("Login");
+        }
     }
 }

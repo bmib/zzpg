@@ -1,7 +1,308 @@
-﻿
+﻿@using Solution.Framework.Contract
+@using Solution.Framework.Utility
+@using Solution.Framework.Web.Controls
+@using Solution.Models;
 @{
-    ViewBag.Title = "UserManageView";
+    ViewBag.Title = "人员管理";
 }
 
-<h2>UserManageView</h2>
+@model PagedList<User>
 
+<div class="container">
+    <div class="container-fluid">
+        <div class="page-title">
+            <ol class="breadcrumb">
+                <li><a href="/Home/Index">首页</a></li>
+                <li class="active">人员管理</li>
+            </ol>
+        </div>
+        <p>
+            <a class="btn btn-default" title='添加人员' data-toggle="modal" data-target="#myModal">添加人员</a>
+            <a class="btn btn-primary" title='批量导入' data-toggle="modal" data-target="#myModal2">批量导入</a>
+        </p>
+        <form id="departForm" method="post">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            人员姓名
+                        </th>
+                        <th>
+                            邮箱地址
+                        </th>
+                        <th>
+                            所属部门
+                        </th>
+                        <th>
+                            角色
+                        </th>
+                        <th style="width:20%;">
+                            操作
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var m in Model)
+                    {
+                    <tr>
+                        <td>
+                            @m.UserName
+                        </td>
+                        <td>
+                            @m.Email
+                        </td>
+                        <td>
+                            @m.Department
+                        </td>
+                        <td>
+                            @if (m.Roles.Contains("admin"))
+                                {
+                            <span>[公司管理员]&nbsp; &nbsp;</span>
+                                }
+                            @if (m.Roles.Contains("pro"))
+                                {
+                            <span>[专家]&nbsp; &nbsp;</span>
+                                }
+                            @if (m.Roles.Contains("chk"))
+                                {
+                            <span>[检查员]&nbsp; &nbsp;</span>
+                                }
+                        </td>
+                        <td align="center">
+                            <a class="btn btn-success  btn-sm" title='修改' onclick="openModifyUser('@m.UserID', '@m.UserName', '@m.Email', '@m.Password', '@m.Department', '@m.Roles');">
+                                修改
+                            </a>
+                            <a class="btn btn-danger  btn-sm" href="@Url.Action("UserDelete", new { UserID = m.UserID })" onclick="return confirm('确定删除该用户吗？')">删除</a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    添加人员
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="formAddUser">
+                    <div class="form-group">
+                        <label for="txtaddUsername" class="col-sm-2 control-label">
+                            人员姓名
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtaddUsername" name="txtaddUsername" placeholder="人员姓名" data-val-required="姓名必填" data-val="true" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtaddEmail" class="col-sm-2 control-label">
+                            邮箱地址
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="txtaddEmail" name="txtaddEmail" placeholder="登录账号" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtaddPassword" class="col-sm-2 control-label">
+                            密码
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtaddPassword" name="txtaddPassword" placeholder="登录密码" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtaddDepartment" class="col-sm-2 control-label">
+                            所属部门
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtaddDepartment" name="txtaddDepartment" placeholder="所属部门" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtaddRoles" class="col-sm-2 control-label">
+                            角色
+                        </label>
+                        <div class="col-sm-10">
+                            <label>
+                                <input type="checkbox" name="txtaddRoles" value="admin" id="txtaddRolesadmin" />公司管理员
+                            </label>&nbsp;&nbsp;
+                            <label>
+                                <input type="checkbox" name="txtaddRoles" value="pro" id="txtaddRolespro" />专家
+                            </label>&nbsp;&nbsp;
+                            <label>
+                                <input type="checkbox" name="txtaddRoles" value="chk" id="txtaddRoleschk" />检查员
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.ValidationSummary()
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="SaveAddUser();">
+                    保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal3">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    修改人员
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="formMpdifyUser">
+                    <div class="form-group">
+                        <label for="txtmUsername" class="col-sm-2 control-label">
+                            人员姓名
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="hidden" class="form-control" id="txtmUserID" name="txtmUserID">
+                            <input type="text" class="form-control" id="txtmUsername" name="txtmUsername" placeholder="人员姓名" data-val-required="姓名必填" data-val="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtmEmail" class="col-sm-2 control-label">
+                            邮箱地址
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtmEmail" name="txtmEmail" placeholder="谨慎修改">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtmPassword" class="col-sm-2 control-label">
+                            重置密码
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtmPassword" name="txtmPassword" placeholder="不需要重置可不填写">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtmDepartment" class="col-sm-2 control-label">
+                            所属部门
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtmDepartment" name="txtmDepartment" placeholder="所属部门">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtmRoles" class="col-sm-2 control-label">
+                            角色
+                        </label>
+                        <div class="col-sm-10">
+                            <label>
+                                <input type="checkbox" name="txtmRoles" value="admin" id="txtmRolesadmin" />公司管理员
+                            </label>&nbsp;&nbsp;
+                            <label>
+                                <input type="checkbox" name="txtmRoles" value="pro" id="txtmRolespro" />专家
+                            </label>&nbsp;&nbsp;
+                            <label>
+                                <input type="checkbox" name="txtmRoles" value="chk" id="txtmRoleschk" />检查员
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.ValidationSummary()
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="SaveModifyUser();">
+                    保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function SaveAddUser() {
+        if ($("#txtaddUsername").val() == '') {
+            alert("姓名必填！");
+        }
+        else if ($("#txtaddEmail").val() == '') {
+            alert("邮箱地址必填！");
+        }
+        else if ($("#txtaddPassword").val() == '') {
+            alert("密码必填！");
+        }
+        else if ($("#txtaddDepartment").val() == '') {
+            alert("部门必填！");
+        }
+        else {
+            var jsonObj = $('#formAddUser').serializeArray();
+            $.post('/Manage/SaveAddUser', jsonObj,
+                    function (data, status) {
+                        if (!data.result) {
+                            alert('操作失败：' + data.message);
+                            return;
+                        }
+                        else {
+                            $('#myModal').modal('toggle');
+                            window.location.reload();
+                        }
+                    });
+        }
+    }
+
+    function openModifyUser(txtmUserID, txtmUsername, txtmEmail, txtmPassword, txtmDepartment, txtmRoles) {
+        $('#txtmUserID').val(txtmUserID);
+        $('#txtmUsername').val(txtmUsername);
+        $('#txtmEmail').val(txtmEmail);
+        $('#txtmDepartment').val(txtmDepartment);
+        var checkObject = document.getElementsByName("txtmRoles");
+        var values = txtmRoles.split(",");
+        for (var j = 0; j < values.length; j++) {
+            for (var i = 0; i < checkObject.length; i++) {
+                if (checkObject[i].value == values[j]) {
+                    checkObject[i].checked = true;
+                    break;
+                }
+            }
+        }
+        $('#myModal3').modal();
+    }
+
+
+
+    function SaveModifyUser() {
+        var jsonObj = $('#formMpdifyUser').serializeArray();
+        $.post('/Manage/SaveModifyUser', jsonObj,
+                function (data, status) {
+                    if (!data.result) {
+                        alert('操作失败：' + data.message);
+                        return;
+                    }
+                    else {
+                        $('#myModal3').modal('toggle');
+                        window.location.reload();
+                    }
+                });
+    }
+
+
+</script>
