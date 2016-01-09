@@ -7,3 +7,12 @@ F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Services\bi
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Services\obj\Debug\Solution.Services.csprojResolveAssemblyReference.cache
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Services\obj\Debug\Solution.Services.dll
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Services\obj\Debug\Solution.Services.pdb
+E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Services\bin\Debug\Solution.Services.dll
+E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Services\bin\Debug\Solution.Services.pdb
+E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Services\bin\Debug\Solution.Models.dll
+E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Services\bin\Debug\EntityFramework.dll
+E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Services\bin\Debug\Solution.Models.pdb
+E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Services\bin\Debug\EntityFramework.xml
+E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Services\obj\Debug\Solution.Services.csprojResolveAssemblyReference.cache
+E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Services\obj\Debug\Solution.Services.dll
+E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Services\obj\Debug\Solution.Services.pdb

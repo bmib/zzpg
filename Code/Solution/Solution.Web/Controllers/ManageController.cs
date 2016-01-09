@@ -246,6 +246,29 @@ namespace Solution.Web.Controllers
             }
         }
 
+        /// <summary>
+        /// 上传用户头像图片
+        /// </summary>
+        /// <param name="id">用户的ID</param>
+        /// <returns></returns>
+        public ActionResult UploadUser()
+        {
+            try
+            {
+                var files = Request.Files;
+                if (files != null && files.Count > 0)
+                {
+
+                }
+
+                return Json(new { result = true, message = "" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = false, message = ex.Message });
+            }
+        }
+
         public ActionResult ItemManageView()
         {
             return View();

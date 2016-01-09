@@ -6,6 +6,7 @@
     ViewBag.Title = "人员管理";
 }
 
+
 @model PagedList<User>
 
 <div class="container">
@@ -19,6 +20,7 @@
         <p>
             <a class="btn btn-default" title='添加人员' data-toggle="modal" data-target="#myModal">添加人员</a>
             <a class="btn btn-primary" title='批量导入' data-toggle="modal" data-target="#myModal2">批量导入</a>
+            
         </p>
         <form id="departForm" method="post">
             <table class="table table-bordered table-hover table-striped">
@@ -159,7 +161,58 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="myModal2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    批量导入人员
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="formAddUser">
+                    <div class="form-group">
+                        <label for="input-1" class="col-sm-2 control-label">
+                            选择文件
+                        </label>
+                        <div class="col-sm-10">
+                            <input id="input-1" type="file" class="file" data-show-preview="false">
+                        </div>
+                    </div>                    
+                </form>
+                <script>
+                    //初始化fileinput控件（第一次初始化）
+                    function initFileInput(ctrlName, uploadUrl) {
+                        var control = $('#' + ctrlName);
+                        control.fileinput({
+                            language: 'zh', //设置语言
+                            uploadUrl: uploadUrl, //上传的地址
+                            allowedFileExtensions: ['xls', 'xlsx'],//接收的文件后缀
+                            showUpload: true, //是否显示上传按钮
+                            showCaption: true,//是否显示标题
+                            showCancel: false,
+                            maxFileCount:1,
+                            browseClass: "btn btn-primary"
+                        });
+                    }
 
+                    initFileInput("input-1", "/Manage/UploadUser");
+                </script>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="SaveImportUser();">
+                    保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="myModal3">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -287,8 +340,6 @@
         $('#myModal3').modal();
     }
 
-
-
     function SaveModifyUser() {
         var jsonObj = $('#formMpdifyUser').serializeArray();
         $.post('/Manage/SaveModifyUser', jsonObj,
@@ -304,5 +355,9 @@
                 });
     }
 
-
+    $('#input-1').on('fileuploaded', function (event, data, previewId, index) {
+        var form = data.form, files = data.files, extra = data.extra,
+            response = data.response, reader = data.reader;
+        console.log('File uploaded triggered');
+    });
 </script>
