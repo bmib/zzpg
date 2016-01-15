@@ -47,3 +47,4 @@ E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Framework\bin\Debug\zh-Han
 E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Framework\obj\Debug\Solution.Framework.csprojResolveAssemblyReference.cache
 E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Framework\obj\Debug\Solution.Framework.dll
 E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Framework\obj\Debug\Solution.Framework.pdb
+F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Framework\obj\Debug\Solution.Framework.csprojResolveAssemblyReference.cache

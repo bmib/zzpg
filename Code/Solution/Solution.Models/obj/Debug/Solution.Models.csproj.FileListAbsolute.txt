@@ -30,3 +30,4 @@ E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Models\obj\Debug\Solution.
 E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Models\obj\Debug\Solution.Models.csproj.GenerateResource.Cache
 E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Models\obj\Debug\Solution.Models.dll
 E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Models\obj\Debug\Solution.Models.pdb
+F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Models\obj\Debug\Solution.Models.csprojResolveAssemblyReference.cache
