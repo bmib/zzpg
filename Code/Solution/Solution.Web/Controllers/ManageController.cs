@@ -23,7 +23,7 @@ namespace Solution.Web.Controllers
         {
             using (DBContext db = new DBContext())
             {
-                string companyID = ((User)SessionService.GetValue("User")).CompanyID.ToString();
+                string companyID = SessionService.CompanyID;
                 var departList = db.Department.Where(m => m.CompanyID.Equals(companyID)).OrderBy(m => m.DepartmentCode).ToPagedList(request.PageIndex, request.PageSize);
                 return View(departList);
             }
@@ -340,6 +340,93 @@ namespace Solution.Web.Controllers
             {
                 return Json(new { result = false, message = ex.Message });
             }
+        }
+
+        /// <summary>
+        /// 指标库管理
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ItemFactoryList(Request request)
+        {
+            using (DBContext db = new DBContext())
+            {
+                string companyID = SessionService.CompanyID;
+                var itemFactoryList = db.ItemFactory.Where(m => m.CompanyID.Equals(companyID)).OrderBy(m => m.ItemFactoryName).ToPagedList(request.PageIndex, request.PageSize);
+                return View(itemFactoryList);
+            }
+        }
+
+        /// <summary>
+        /// 删除指标库
+        /// </summary>
+        /// <param name="itemFatoryID"></param>
+        /// <returns></returns>
+        public ActionResult ItemFactoryDelete(string itemFatoryID)
+        {
+            using (DBContext db = new DBContext())
+            {
+                var itemFactory = db.ItemFactory.Where(m => m.ItemFactoryID.Equals(itemFatoryID)).FirstOrDefault();
+
+                db.ItemFactory.Remove(itemFactory);
+
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("ItemFactoryList");
+        }
+
+        /// <summary>
+        /// 保存新增的指标库
+        /// </summary>
+        /// <param name="txtItemFactoryName"></param>
+        /// <returns></returns>
+        public ActionResult SaveItemFactory(string txtItemFactoryName)
+        {
+            string companyID = SessionService.CompanyID;
+            if (!string.IsNullOrEmpty(txtItemFactoryName) && !string.IsNullOrEmpty(companyID))
+            {
+                using (DBContext db = new DBContext())
+                {
+                    ItemFactory itemFactory = new ItemFactory
+                    {
+                        CompanyID = companyID,
+                        ItemFactoryID = Guid.NewGuid().ToString(),
+                        ItemFactoryName = txtItemFactoryName,
+                        State = 0
+                    };
+
+                    db.ItemFactory.Add(itemFactory);
+                    db.SaveChanges();
+                }
+
+                return Json(new { result = true, message = "" });
+            }
+
+            return Json(new { result = false, message = "" });
+        }
+
+        /// <summary>
+        /// 保存修改的指标库
+        /// </summary>
+        /// <param name="txtCurrentItemFactoryID"></param>
+        /// <param name="txtCurrentItemFactoryName"></param>
+        /// <returns></returns>
+        public ActionResult SaveModifyItemFactory(string txtCurrentItemFactoryID, string txtCurrentItemFactoryName)
+        {
+            string companyID = SessionService.CompanyID;
+            if (!string.IsNullOrEmpty(txtCurrentItemFactoryName) && !string.IsNullOrEmpty(companyID) && !string.IsNullOrEmpty(txtCurrentItemFactoryID))
+            {
+                using (DBContext db = new DBContext())
+                {
+                    ItemFactory itemFactory = db.ItemFactory.Where(m => m.CompanyID == companyID && m.ItemFactoryID == txtCurrentItemFactoryID).SingleOrDefault();
+                    itemFactory.ItemFactoryName = txtCurrentItemFactoryName;
+                    db.SaveChanges();
+                }
+
+                return Json(new { result = true, message = "" });
+            }
+
+            return Json(new { result = false, message = "" });
         }
 
         public ActionResult ItemManageView()

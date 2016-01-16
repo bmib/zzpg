@@ -32,5 +32,8 @@ namespace Solution.Models
         public DbSet<Company> Company { get; set; }
         public DbSet<Department> Department { get; set; }
         public DbSet<User> User { get; set; }
+        public DbSet<ItemFactory> ItemFactory { get; set; }
+        public DbSet<Item> Item { get; set; }
+        public DbSet<ItemPoint> ItemPoint { get; set; }
     }
 }

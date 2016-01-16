@@ -231,6 +231,7 @@
     <Content Include="Views\Weight\ItemSortView.cshtml" />
     <Content Include="Views\Weight\ItemDegreeView.cshtml" />
     <Content Include="Views\Assessment\CheckListView.cshtml" />
+    <Content Include="Views\Manage\ItemFactoryList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Solution.Common\Solution.Common.csproj">
