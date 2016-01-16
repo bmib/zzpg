@@ -7,6 +7,9 @@ using System.Web.Mvc;
 using Solution.Services;
 using Solution.Framework.Contract;
 using Solution.Common;
+using System.IO;
+using System.Data;
+using System.Data.Entity.Validation;
 namespace Solution.Web.Controllers
 {
     public class ManageController : BaseController
@@ -247,21 +250,91 @@ namespace Solution.Web.Controllers
         }
 
         /// <summary>
-        /// 上传用户头像图片
+        /// 下载用户导入模板
         /// </summary>
-        /// <param name="id">用户的ID</param>
+        /// <returns></returns>
+        public ActionResult DownLoadUserTemplate()
+        {
+            var fileName = Server.MapPath("~/Content/template/UserTemplate.xls");
+            return File(fileName, "application/ms-excel", "UserTemplate.xls");
+        }
+
+        /// <summary>
+        /// 批量导入用户
+        /// </summary>
         /// <returns></returns>
         public ActionResult UploadUser()
         {
+            int successNum = 0;
             try
             {
                 var files = Request.Files;
                 if (files != null && files.Count > 0)
                 {
+                    int length = files[0].FileName.Split('.').Count();
+                    string extName = files[0].FileName.Split('.')[length - 1];
+                    DirectoryInfo dir = new DirectoryInfo(HttpContext.Server.MapPath("../Files"));
+                    if (!dir.Exists)// 如果不存在，则创建目录  
+                        dir.Create();
+                    Random ran = new Random();
+                    int RandKey = ran.Next(1000, 9999);
+                    string fileName = Path.Combine(dir.FullName, Path.GetFileName(string.Concat(DateTime.Now.ToString("yyyyMMddHHmmss"), "_", RandKey.ToString(), ".", extName)));
+                    files[0].SaveAs(fileName);
 
+                    DataSet ds = ExcelHelper.ExcelToDS(fileName, "sheet1");
+
+                    using (DBContext db = new DBContext())
+                    {
+                        if (ds != null && ds.Tables.Count > 0)
+                        {
+                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                            {
+                                string email = ds.Tables[0].Rows[i][1].ToString().Trim();
+                                if (!string.IsNullOrEmpty(email))
+                                {
+                                    //判断email是否已经存在
+                                    var chkuser = db.User.Where(m => m.Email.Equals(email)).SingleOrDefault();
+                                    if (chkuser == null)
+                                    {
+                                        string userName = ds.Tables[0].Rows[i][0].ToString().Trim();
+
+                                        string pwd = ds.Tables[0].Rows[i][2].ToString().Trim();
+                                        string department = ds.Tables[0].Rows[i][3].ToString().Trim();
+                                        string roles = ds.Tables[0].Rows[i][4].ToString().Trim();
+                                        if (string.IsNullOrEmpty(pwd))
+                                        {
+                                            pwd = email;
+                                        }
+
+                                        //获得密匙
+                                        string salt = EncryptPassWord.CreateSalt();
+                                        //得到经过加密后的"密码"
+                                        string espassword = EncryptPassWord.EncryptPwd(pwd, salt);
+
+                                        User user = new User
+                                        {
+                                            UserID = Guid.NewGuid().ToString(),
+                                            UserName = userName,
+                                            Email = email,
+                                            Password = espassword,
+                                            Department = department,
+                                            Roles = roles,
+                                            Salt = salt,
+                                            CompanyID = SessionService.CompanyID
+                                        };
+
+                                        db.User.Add(user);
+
+                                        successNum++;
+                                    }
+                                }
+                            }
+                        }
+                        db.SaveChanges();
+                    }
                 }
 
-                return Json(new { result = true, message = "" });
+                return Json(new { result = true, message = string.Concat("操作成功，导入了", successNum.ToString(), "个用户。") });
             }
             catch (Exception ex)
             {

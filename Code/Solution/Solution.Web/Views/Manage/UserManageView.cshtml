@@ -18,9 +18,9 @@
             </ol>
         </div>
         <p>
-            <a class="btn btn-default" title='添加人员' data-toggle="modal" data-target="#myModal">添加人员</a>
-            <a class="btn btn-primary" title='批量导入' data-toggle="modal" data-target="#myModal2">批量导入</a>
-            
+            <a class="btn btn-primary" title='添加人员' data-toggle="modal" data-target="#myModal">添加人员</a>
+            <a class="btn btn-warning" title='批量导入' data-toggle="modal" data-target="#myModal2">批量导入</a>
+
         </p>
         <form id="departForm" method="post">
             <table class="table table-bordered table-hover table-striped">
@@ -46,37 +46,37 @@
                 <tbody>
                     @foreach (var m in Model)
                     {
-                    <tr>
-                        <td>
-                            @m.UserName
-                        </td>
-                        <td>
-                            @m.Email
-                        </td>
-                        <td>
-                            @m.Department
-                        </td>
-                        <td>
-                            @if (m.Roles.Contains("admin"))
+                        <tr>
+                            <td>
+                                @m.UserName
+                            </td>
+                            <td>
+                                @m.Email
+                            </td>
+                            <td>
+                                @m.Department
+                            </td>
+                            <td>
+                                @if (m.Roles.Contains("admin"))
                                 {
-                            <span>[公司管理员]&nbsp; &nbsp;</span>
+                                    <span>[公司管理员]&nbsp; &nbsp;</span>
                                 }
-                            @if (m.Roles.Contains("pro"))
+                                @if (m.Roles.Contains("pro"))
                                 {
-                            <span>[专家]&nbsp; &nbsp;</span>
+                                    <span>[专家]&nbsp; &nbsp;</span>
                                 }
-                            @if (m.Roles.Contains("chk"))
+                                @if (m.Roles.Contains("chk"))
                                 {
-                            <span>[检查员]&nbsp; &nbsp;</span>
+                                    <span>[检查员]&nbsp; &nbsp;</span>
                                 }
-                        </td>
-                        <td align="center">
-                            <a class="btn btn-success  btn-sm" title='修改' onclick="openModifyUser('@m.UserID', '@m.UserName', '@m.Email', '@m.Password', '@m.Department', '@m.Roles');">
-                                修改
-                            </a>
-                            <a class="btn btn-danger  btn-sm" href="@Url.Action("UserDelete", new { UserID = m.UserID })" onclick="return confirm('确定删除该用户吗？')">删除</a>
-                        </td>
-                    </tr>
+                            </td>
+                            <td align="center">
+                                <a class="btn btn-success  btn-sm" title='修改' onclick="openModifyUser('@m.UserID', '@m.UserName', '@m.Email', '@m.Password', '@m.Department', '@m.Roles');">
+                                    修改
+                                </a>
+                                <a class="btn btn-danger  btn-sm" href="@Url.Action("UserDelete", new { UserID = m.UserID })" onclick="return confirm('确定删除该用户吗？')">删除</a>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -181,7 +181,8 @@
                         <div class="col-sm-10">
                             <input id="input-1" type="file" class="file" data-show-preview="false">
                         </div>
-                    </div>                    
+                    </div>
+              
                 </form>
                 <script>
                     //初始化fileinput控件（第一次初始化）
@@ -191,24 +192,35 @@
                             language: 'zh', //设置语言
                             uploadUrl: uploadUrl, //上传的地址
                             allowedFileExtensions: ['xls', 'xlsx'],//接收的文件后缀
-                            showUpload: true, //是否显示上传按钮
+                            showUpload: false, //是否显示上传按钮
                             showCaption: true,//是否显示标题
                             showCancel: false,
-                            maxFileCount:1,
+                            maxFileCount: 1,
                             browseClass: "btn btn-primary"
                         });
                     }
 
                     initFileInput("input-1", "/Manage/UploadUser");
+
+                    $('#input-1').on('fileloaded', function (event, file, previewId, index, reader) {
+                        $('#input-1').fileinput('upload');
+                        $('#myModal2').modal('toggle');
+                    });
+
+                    $('#input-1').on('fileuploaded', function (event, data, previewId, index) {
+                        alert(data.response.message);
+                        window.location.reload();
+                    });
+
                 </script>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">
                     关闭
                 </button>
-                <button type="button" class="btn btn-primary" onclick="SaveImportUser();">
-                    保存
-                </button>
+                <a class="btn btn-primary" href="/Manage/DownLoadUserTemplate">
+                    下载导入模板
+                </a>
             </div>
         </div>
     </div>

@@ -18,16 +18,4 @@ F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Models\obj\
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Models\obj\Debug\Solution.Models.csproj.GenerateResource.Cache
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Models\obj\Debug\Solution.Models.dll
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Models\obj\Debug\Solution.Models.pdb
-E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Models\bin\Debug\Solution.Models.dll.config
-E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Models\bin\Debug\Solution.Models.dll
-E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Models\bin\Debug\Solution.Models.pdb
-E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Models\bin\Debug\EntityFramework.dll
-E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Models\bin\Debug\EntityFramework.SqlServer.dll
-E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Models\bin\Debug\EntityFramework.xml
-E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Models\bin\Debug\EntityFramework.SqlServer.xml
-E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Models\obj\Debug\Solution.Models.csprojResolveAssemblyReference.cache
-E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Models\obj\Debug\Solution.Models.Migrations.ver.resources
-E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Models\obj\Debug\Solution.Models.csproj.GenerateResource.Cache
-E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Models\obj\Debug\Solution.Models.dll
-E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Models\obj\Debug\Solution.Models.pdb
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Models\obj\Debug\Solution.Models.csprojResolveAssemblyReference.cache

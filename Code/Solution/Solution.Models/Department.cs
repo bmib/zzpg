@@ -16,15 +16,12 @@ namespace Solution.Models
         [StringLength(128)]
         public string DepartmentName { get; set; }
 
-        [DisplayName("所属公司ID")]
-        [StringLength(36)]
-        public string CompanyID { get; set; }
-
-        [ForeignKey("CompanyID")]
-        public virtual Company Company { get; set; }
-
         [DisplayName("部门Code")]
         [StringLength(36)]
         public string DepartmentCode { get; set; }
+
+        [DisplayName("所属公司ID")]
+        [StringLength(36)]
+        public string CompanyID { get; set; }
     }
 }
