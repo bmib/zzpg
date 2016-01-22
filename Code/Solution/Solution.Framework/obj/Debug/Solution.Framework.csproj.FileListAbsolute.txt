@@ -22,7 +22,6 @@ F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Framework\b
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Framework\bin\Debug\zh-Hans\System.Web.WebPages.Razor.resources.dll
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Framework\obj\Debug\Solution.Framework.dll
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Framework\obj\Debug\Solution.Framework.pdb
-F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Framework\obj\Debug\Solution.Framework.csprojResolveAssemblyReference.cache
 E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Framework\bin\Debug\Solution.Framework.dll
 E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Framework\bin\Debug\Solution.Framework.pdb
 E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Framework\bin\Debug\Microsoft.Web.Infrastructure.dll

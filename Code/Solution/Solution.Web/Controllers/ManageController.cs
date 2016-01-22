@@ -429,9 +429,214 @@ namespace Solution.Web.Controllers
             return Json(new { result = false, message = "" });
         }
 
-        public ActionResult ItemManageView()
+        /// <summary>
+        /// 指标管理视图
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="itemFactoryID"></param>
+        /// <returns></returns>
+        public ActionResult ItemManageView(Request request, string itemFactoryID)
         {
-            return View();
+            using (DBContext db = new DBContext())
+            {
+                var itemList = db.Item.Where(m => m.ItemFactoryID.Equals(itemFactoryID)).OrderBy(m => m.ItemCode).ToPagedList(request.PageIndex, request.PageSize);
+                return View(itemList);
+            }
+        }
+
+        /// <summary>
+        /// 删除指标操作
+        /// </summary>
+        /// <param name="ItemCode"></param>
+        /// <returns></returns>
+        public ActionResult ItemDelete(string ItemCode, string ItemFactoryID)
+        {
+            using (DBContext db = new DBContext())
+            {
+                //重新计算指标的编号
+                List<Item> numList = db.Item.Where(m => m.ItemFactoryID == ItemFactoryID && m.ItemCode.Length == ItemCode.Length).ToList();
+                Item numItem = db.Item.Where(m => m.ItemFactoryID == ItemFactoryID && m.ItemCode == ItemCode).SingleOrDefault();
+                foreach (var temp in numList)
+                {
+                    var nums = temp.ItemNumber.Split('.');
+                    int last = int.Parse(nums[nums.Length - 1]);
+                    var curNums = numItem.ItemNumber.Split('.');
+                    if (last > int.Parse(curNums[curNums.Length - 1]))
+                    {
+                        string strnumber = string.Empty; 
+                        for (int i = 0; i < nums.Length - 1; i++)
+                        {
+                            strnumber = string.Concat(strnumber, nums[i], ".");
+                        }
+
+                        strnumber = string.Concat(strnumber, (last-1).ToString());
+
+                        temp.ItemNumber = strnumber;
+                    }
+                }
+
+                //删除指标及下级指标
+                List<Item> itemList = db.Item.Where(m => m.ItemCode.StartsWith(ItemCode) && m.ItemFactoryID == ItemFactoryID).ToList();
+                foreach (Item item in itemList)
+                {
+                    List<ItemPoint> pointList = db.ItemPoint.Where(m => m.ItemID == item.ItemID).ToList();
+                    foreach(ItemPoint point in pointList)
+                    {
+                        db.ItemPoint.Remove(point); //删除考核点
+                    }
+
+                    db.Item.Remove(item); //删除指标
+                }
+
+                db.SaveChanges();
+            }
+
+            return new RedirectResult("/Manage/ItemManageView?itemFactoryID=" + ItemFactoryID);
+        }
+
+        /// <summary>
+        /// 添加一级指标
+        /// </summary>
+        /// <param name="ItemName"></param>
+        /// <returns></returns>
+        public ActionResult SaveFirstItem(string ItemName, string ItemFactoryID, string CheckStandard, string pointList)
+        {
+            if (!string.IsNullOrEmpty(ItemName) && !string.IsNullOrEmpty(ItemFactoryID))
+            {
+                using (DBContext db = new DBContext())
+                {
+                    int itemCode = 1;
+                    int ItemNumber = 1;
+                    //获取一级指标最大的指标
+                    Item item = db.Item.Where(m => m.ItemFactoryID == ItemFactoryID && m.ItemCode.Length == 4).OrderByDescending(m => m.ItemCode).FirstOrDefault();
+                    if (item != null)
+                    {
+                        itemCode = int.Parse(item.ItemCode) + 1;
+                        ItemNumber = int.Parse(item.ItemNumber) + 1;
+                    }
+
+                    //新增指标
+                    Item newItem = new Item
+                    {
+                        ItemID = Guid.NewGuid().ToString(),
+                        ItemFactoryID = ItemFactoryID,
+                        ItemCode = itemCode.ToString().PadLeft(4, '0'),
+                        ItemNumber = ItemNumber.ToString(),
+                        CheckStandard = CheckStandard,
+                        ItemName = ItemName
+                    };
+
+                    //新增指标考核点
+                    if (!string.IsNullOrEmpty(pointList))
+                    {
+                        foreach (string point in pointList.Split(','))
+                        {
+                            if (!string.IsNullOrEmpty(point))
+                            {
+                                ItemPoint itemPoint = new ItemPoint
+                                {
+                                    ItemID = newItem.ItemID,
+                                    ItemPointID = Guid.NewGuid().ToString(),
+                                    ItemPointName = point
+                                };
+                                db.ItemPoint.Add(itemPoint);
+                            }
+                        }
+                    }
+
+                    db.Item.Add(newItem);
+                    db.SaveChanges();
+                }
+
+                return Json(new { result = true, message = "" });
+            }
+
+            return Json(new { result = false, message = "" });
+        }
+
+        /// <summary>
+        /// 添加下级指标
+        /// </summary>
+        /// <param name="txtNextItemName"></param>
+        /// <param name="txtBeforeItemID"></param>
+        /// <param name="CheckStandard"></param>
+        /// <param name="pointList"></param>
+        /// <returns></returns>
+        public ActionResult SaveNextItem(string txtNextItemName, string txtBeforeItemID, string CheckStandard, string pointList)
+        {
+            if (!string.IsNullOrEmpty(txtNextItemName) && !string.IsNullOrEmpty(txtBeforeItemID))
+            {
+                using (DBContext db = new DBContext())
+                {
+                    Item beforeItem = db.Item.Where(m => m.ItemID == txtBeforeItemID).SingleOrDefault();
+                    int len = beforeItem.ItemCode.Length + 4;
+                    string code = beforeItem.ItemCode;
+                    int itemCode = 1;
+                    int itemNumber = 1;
+                    //获取下级部门编码最大的部门
+                    Item item = db.Item.Where(m => m.ItemCode.Length == len && m.ItemCode.StartsWith(code)).OrderByDescending(m => m.ItemCode).FirstOrDefault();
+                    if (item != null)
+                    {
+                        itemCode = int.Parse(item.ItemCode.Substring(beforeItem.ItemCode.Length, 4)) + 1;
+                        var num = item.ItemNumber.Split('.');
+                        itemNumber = int.Parse(num[num.Length - 1]) + 1;
+                    }
+
+                    Item newItem = new Item
+                    {
+                        ItemFactoryID = beforeItem.ItemFactoryID,
+                        ItemCode = string.Concat(beforeItem.ItemCode, itemCode.ToString().PadLeft(4, '0')),
+                        ItemID = Guid.NewGuid().ToString(),
+                        ItemName = txtNextItemName,
+                        CheckStandard = CheckStandard,
+                        ItemNumber = string.Concat(beforeItem.ItemNumber, ".", itemNumber.ToString())
+                    };
+
+                    //新增指标考核点
+                    if (!string.IsNullOrEmpty(pointList))
+                    {
+                        foreach (string point in pointList.Split(','))
+                        {
+                            if (!string.IsNullOrEmpty(point))
+                            {
+                                ItemPoint itemPoint = new ItemPoint
+                                {
+                                    ItemID = newItem.ItemID,
+                                    ItemPointID = Guid.NewGuid().ToString(),
+                                    ItemPointName = point
+                                };
+                                db.ItemPoint.Add(itemPoint);
+                            }
+                        }
+                    }
+
+                    db.Item.Add(newItem);
+                    db.SaveChanges();
+                }
+
+                return Json(new { result = true, message = "" });
+            }
+
+            return Json(new { result = false, message = "" });
+        }
+
+
+        public ActionResult SaveModifyItem(string txtCurrentDepartmentID, string txtCurrentDepartmentName)
+        {
+            string companyID = SessionService.CompanyID;
+            if (!string.IsNullOrEmpty(txtCurrentDepartmentID) && !string.IsNullOrEmpty(companyID) && !string.IsNullOrEmpty(txtCurrentDepartmentName))
+            {
+                using (DBContext db = new DBContext())
+                {
+                    Department depart = db.Department.Where(m => m.CompanyID == companyID && m.DepartmentID == txtCurrentDepartmentID).SingleOrDefault();
+                    depart.DepartmentName = txtCurrentDepartmentName;
+                    db.SaveChanges();
+                }
+
+                return Json(new { result = true, message = "" });
+            }
+
+            return Json(new { result = false, message = "" });
         }
 
         public ActionResult CheckManageView()
