@@ -107,9 +107,7 @@
                                 <a href="#" onclick="addFirstItemPoint();">添加</a>
                             </div>
                             <div id="divFirstItemPointList">
-                                <div class="divFirstItemPoint">
-                                    <input type="text" name="txtFirstItemPoint" class="form-control col-sm-10" /><a href="#" onclick="deleteFirstItemPoint(0);" class="col-sm-2">删除</a>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -165,9 +163,7 @@
                                 <a href="#" onclick="addNextItemPoint();">添加</a>
                             </div>
                             <div id="divNextItemPointList">
-                                <div class="divNextItemPoint">
-                                    <input type="text" name="txtNextItemPoint" class="form-control col-sm-10" /><a href="#" onclick="deleteNextItemPoint(0);" class="col-sm-2">删除</a>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -192,18 +188,39 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h4 class="modal-title">
-                    增加下级指标
+                    修改指标
                 </h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label for="txtCurrentItemName" class="col-sm-2 control-label">
+                        <label for="txtModifyItemName" class="col-sm-2 control-label">
                             指标名称
                         </label>
                         <div class="col-sm-10">
-                            <input type="hidden" class="form-control" id="txtCurrentItemID">
-                            <input type="text" class="form-control" id="txtCurrentItemName" placeholder="输入指标名称">
+                            <input type="hidden" class="form-control" id="txtModifyItemID">
+                            <input type="text" class="form-control" id="txtModifyItemName" placeholder="输入指标名称">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtModifyItemStandard" class="col-sm-2 control-label">
+                            评估标准
+                        </label>
+                        <div class="col-sm-10">
+                            <textarea id="txtModifyItemStandard" name="txtModifyItemStandard" cols="20" rows="6" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtModifyItemPoint" class="col-sm-2 control-label">
+                            考核点
+                        </label>
+                        <div class="col-sm-10">
+                            <div class="divider ">
+                                <a href="#" onclick="addModifyItemPoint();">添加</a>
+                            </div>
+                            <div id="divModifyItemPointList">
+
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -225,7 +242,9 @@
         var r = window.location.search.substr(1).match(reg);
         if (r != null) return unescape(r[2]); return null;
     }
+
     var ItemFactoryID = getQueryString("itemFactoryID");
+
     function SaveFirstItem() {
         var ItemName = $('#txtFirstItemName').val();
         var CheckStandard = $('#txtFirstItemStandard').val();
@@ -256,8 +275,8 @@
         $(".divFirstItemPoint").eq(id).remove();
     }
 
-
     function openAddNextItem(txtBeforeItemID) {
+        $("#divFirstItemPointList").html("");
         $('#txtBeforeItemID').val(txtBeforeItemID);
         $('#myModal2').modal();
     }
@@ -293,16 +312,42 @@
         $(".divNextItemPoint").eq(id).remove();
     }
 
-    function openModifyItem(txtCurrentItemID, txtCurrentItemName) {
-        $('#txtCurrentItemID').val(txtCurrentItemID);
-        $('#txtCurrentItemName').val(txtCurrentItemName);
+    function openModifyItem(txtModifyItemID, txtModifyItemName) {
+        $("#divModifyItemPointList").html("");
+        $('#txtModifyItemID').val(txtModifyItemID);
+        $('#txtModifyItemName').val(txtModifyItemName);
+        var txtModifyCheckStandard = "";
+        var points = "";
+        $.post('/Manage/GetModifyItem', { ItemID: txtModifyItemID },
+            function (data, status) {
+                if (!data.result) {
+                    alert('操作失败：' + data.message);
+                    return;
+                }
+                else {
+                    txtModifyCheckStandard = data.CheckStandard;
+                    points = data.ItemPoints;
+                }
+            });
+        $('#txtModifyItemStandard').val(txtModifyCheckStandard);
+        var ps = points.split(',');
+        for (var i = 0; i < ps.length; i++) {
+            var html = '<div  class="divModifyItemPoint"><input type="text" name="txtModifyItemPoint"  class="form-control  col-sm-10" value="' + ps[i] + '" /><a href="#" onclick="deleteModifyItemPoint(' + $(".divModifyItemPoint").length + ');" class="col-sm-2">删除</a></div>';
+            $("#divModifyItemPointList").append(html);
+        }
         $('#myModal3').modal();
     }
 
     function SaveModifyItem() {
-        var txtCurrentItemID = $('#txtCurrentItemID').val();
-        var txtCurrentItemName = $('#txtCurrentItemName').val();
-        $.post('/Manage/SaveModifyItem', { txtCurrentItemID: txtCurrentItemID, txtCurrentItemName: txtCurrentItemName },
+        var txtModifyItemID = $('#txtModifyItemID').val();
+        var txtModifyItemName = $('#txtModifyItemName').val();
+        var CheckStandard = $('#txtModifyItemStandard').val();
+        var ctrpoint = document.getElementsByName("txtModifyItemPoint");
+        var pointList = "";
+        for (var i = 0; i < ctrpoint.length; i++) {
+            pointList = pointList + ctrpoint[i].value + ',';
+        }
+        $.post('/Manage/SaveModifyItem', { txtModifyItemName: txtModifyItemName, txtModifyItemID: txtModifyItemID, CheckStandard: CheckStandard, pointList: pointList },
             function (data, status) {
                 if (!data.result) {
                     alert('操作失败：' + data.message);
@@ -314,4 +359,17 @@
                 }
             });
     }
+
+    function addModifyItemPoint() {
+        var html = '<div  class="divModifyItemPoint"><input type="text" name="txtModifyItemPoint"  class="form-control  col-sm-10" /><a href="#" onclick="deleteModifyItemPoint(' + $(".divModifyItemPoint").length + ');" class="col-sm-2">删除</a></div>';
+        $("#divModifyItemPointList").append(html);
+    }
+
+    function deleteModifyItemPoint(id) {
+        $(".divModifyItemPoint").eq(id).remove();
+    }
+
+    $.ajaxSetup({
+        async: false
+    });
 </script>

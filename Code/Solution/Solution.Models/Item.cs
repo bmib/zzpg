@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -37,5 +38,7 @@ namespace Solution.Models
          [DisplayName("Code")]
          [StringLength(36)]
          public string ItemCode { get; set; }
+
+         public virtual List<ItemPoint> ItemPoints { get; set; }
     }
 }
