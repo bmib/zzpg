@@ -35,5 +35,18 @@ namespace Solution.Models
         public DbSet<ItemFactory> ItemFactory { get; set; }
         public DbSet<Item> Item { get; set; }
         public DbSet<ItemPoint> ItemPoint { get; set; }
+
+        public DbSet<Check> Check { get; set; }
+        public DbSet<CheckItem> CheckItem { get; set; }
+        public DbSet<CheckItemPoint> CheckItemPoint { get; set; }
+        public DbSet<CheckItemScore> CheckItemScore { get; set; }
+        public DbSet<CheckTask> CheckTask { get; set; }
+        public DbSet<CheckUserScore> CheckUserScore { get; set; }
+
+        public DbSet<Pay> Pay { get; set; }
+        public DbSet<PayCheckTask> PayCheckTask { get; set; }
+        public DbSet<WeightMark> WeightMark { get; set; }
+        public DbSet<WeightPoint> WeightPoint { get; set; }
+        public DbSet<WeightTask> WeightTask { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace Solution.Models
 
         [DisplayName("被考核人员ID")]
         [StringLength(36)]
-        public string CheckTaskUser { get; set; }
+        public string UserID { get; set; }
 
         [DisplayName("检查员ID")]
         [StringLength(36)]
@@ -33,7 +33,7 @@ namespace Solution.Models
         /// 1为已完成
         /// </summary>
         [DisplayName("状态")]
-        [StringLength(36)]
+        [StringLength(1)]
         public string State { get; set; }
 
         [DisplayName("创建时间")]
