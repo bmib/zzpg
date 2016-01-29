@@ -4,8 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Solution.Models
 {
-    [Table("T_WeightTask")]
-    public class WeightTask
+    public class ViewWeightTask
     {
         [DisplayName("ID")]
         [Key]
@@ -16,11 +15,8 @@ namespace Solution.Models
         [StringLength(36)]
         public string CheckID { get; set; }
 
-        [ForeignKey("CheckID")]
-        public virtual Check Check { get; set; }
-
         [DisplayName("专家ID")]
-        [StringLength(36)]
+        [StringLength(128)]
         public string WeightUser { get; set; }
 
         /// <summary>

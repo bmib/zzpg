@@ -1,0 +1,392 @@
+﻿@using Solution.Framework.Contract
+@using Solution.Framework.Utility
+@using Solution.Framework.Web.Controls
+@using Solution.Models;
+@{
+    ViewBag.Title = "CheckDetailView";
+    List<CheckItem> checkItemList = (List<CheckItem>)ViewBag.checkItemList;
+    List<ViewWeightTask> weightTaskList = (List<ViewWeightTask>)ViewBag.weightTaskList;
+}
+
+@model Check
+
+<div class="container">
+    <div class="container-fluid">
+        <div class="page-title">
+            <ol class="breadcrumb">
+                <li><a href="/Home/Index">首页</a></li>
+                <li><a href="/Manage/CheckManageView">评估管理</a></li>
+                <li class="active">@ViewBag.CheckName</li>
+            </ol>
+        </div>
+        <div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">指标及权重</a></li>
+                <li role="presentation"><a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">人员及任务分配</a></li>
+                <li role="presentation"><a href="#tab3" aria-controls="tab3" role="tab" data-toggle="tab">支付信息</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="tab1">
+                    <p></p>
+                    <p>
+                        @{
+                            if (Model.State == "0")
+                            {
+                                <a class="btn btn-primary" title='从指标库导入指标' data-toggle="modal" data-target="#myModal">导入指标</a>
+                            }
+                            else if (Model.State == "1")
+                            {
+                                <a class="btn btn-primary" title='分配专家计算权重' data-toggle="modal" data-target="#myModal2">分配专家计算权重</a>
+                            }
+                            else if (Model.State == "2")
+                            {
+                                <a class="btn btn-primary" title='查看专家计算权重情况' data-toggle="modal" data-target="#myModal3">查看专家计算权重情况</a>
+                            }
+                        }
+                    </p>
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    指标名称
+                                </th>
+                                <th>权重</th>
+                                <th style="width:20%;">
+                                    操作
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var m in checkItemList)
+                            {
+                                <tr>
+                                    <td>
+                                        @if (m.CheckItemCode.Length / 4 == 1)
+                                        {
+                                            <div class="depart1">@m.CheckItemNumber @m.CheckItemName</div>
+                                        }
+                                        else if (m.CheckItemCode.Length / 4 == 2)
+                                        {
+                                            <div class="depart2">@m.CheckItemNumber @m.CheckItemName</div>
+                                        }
+                                        else if (m.CheckItemCode.Length / 4 == 3)
+                                        {
+                                            <div class="depart3">@m.CheckItemNumber @m.CheckItemName</div>
+                                        }
+                                    </td>
+                                    <td>@m.Weight</td>
+                                    <td align="center">
+                                        <a class="btn btn-success  btn-sm" title='修改权重' onclick="openModifyCheckItemWeight('@m.CheckItemID');">
+                                            修改权重
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="tab2"></div>
+                <div role="tabpanel" class="tab-pane" id="tab3"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    从指标库导入指标
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="txtCheckName" class="col-sm-3 control-label">
+                            选择指标库
+                        </label>
+                        <div class="col-sm-9">
+                            <select id="ItemFactorySelect" class="form-control">
+                                @foreach (ItemFactory itemF in (List<ItemFactory>)ViewBag.ItemFactoryList)
+                                {
+                                    <option value="@itemF.ItemFactoryID">@itemF.ItemFactoryName</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="ImportItems();">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    分配专家计算权重
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="txtCheckName" class="col-sm-3 control-label">
+                            选择专家
+                        </label>
+                        <div class="col-sm-9">
+                            @foreach (User user in (List<User>)ViewBag.proList)
+{
+    <div class="checkbox form-control">
+        <label>
+            <input type="checkbox" name="proListCheckbox" value="@user.UserID"> @user.UserName
+        </label>
+    </div>
+}
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="AssignPro();">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal3">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    查看专家计算权重情况
+                </h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                专家名称
+                            </th>
+                            <th>
+                                任务类型
+                            </th>
+                            <th>状态</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var m in weightTaskList)
+                        {
+                        <tr>
+                            <td>
+                                @m.WeightUser
+                            </td>
+                            <td>
+                                @if (m.Type == "0")
+                                    { <div>指标排序</div>}
+                                    else
+                                    { <div>指标重要性打分</div>}
+                            </td>
+                            <td>
+                                @if (m.State == "0")
+                                    { <div>未完成</div>}
+                                    else
+                                    { <div>已完成</div>}
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal4">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    修改权重
+                </h4>
+            </div>
+            <div class="modal-body">
+                <span class="alert">
+                    指标权重保留3位小数，权重之和必须等于1。
+                </span>
+                <input type="hidden" id="txtCheckItemID" />
+                <form id="weightForm">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    指标名称
+                                </th>
+                                <th>
+                                    权重
+                                </th>
+                                <th>修改</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modifyWeightTbodyID"></tbody>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="SaveCheckItemWeight();">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var CheckID = getQueryString("CheckID");
+
+    //导入指标库
+    function ImportItems() {
+        var factoryID = $("#ItemFactorySelect").val();
+        $.post('/Manage/ImportCheckItems', { CheckID: CheckID, factoryID: factoryID },
+          function (data, status) {
+              if (!data.result) {
+                  alert('操作失败：' + data.message);
+                  return;
+              }
+              else {
+                  $('#myModal').modal('toggle');
+                  window.location.reload();
+              }
+          });
+    }
+
+    //分配专家
+    function AssignPro() {
+        var s = document.getElementsByName("proListCheckbox");
+        var s2 = "";
+        for (var i = 0; i < s.length; i++) {
+            if (s[i].checked) {
+                s2 = s2 + s[i].value + ',';
+            }
+        }
+        s2 = s2.substr(0, s2.length - 1);
+        if (s2 == "") {
+            alert("请选择专家");
+        }
+        else if (s2.split(",").length > 5 || s2.split(",").length < 3) {
+            alert("请选择3-5位专家");
+        }
+        else {
+            $.post('/Manage/AssignPro', { CheckID: CheckID, proUser: s2 },
+              function (data, status) {
+                  if (!data.result) {
+                      alert('操作失败：' + data.message);
+                      return;
+                  }
+                  else {
+                      $('#myModal2').modal('toggle');
+                      window.location.reload();
+                  }
+              });
+        }
+    }
+
+    //点击修改权重操作
+    function openModifyCheckItemWeight(CheckItemID) {
+        $('#modifyWeightTbodyID').html("");
+        $.post('/Manage/GetModifyCheckItemWeight', { CheckID: CheckID, CheckItemID: CheckItemID },
+              function (data, status) {
+                  if (!data.result) {
+                      alert('操作失败：' + data.message);
+                      return;
+                  }
+                  else {
+                      $("#txtCheckItemID").val(CheckItemID);
+                      var json = eval(data).data;
+                      //alert(json);
+                      $.each(json, function (idx, item) {
+                          var input = '<input class="checkItemWeightInput form-control" type="text" value="' + item.Weight + '" name="checkItemweight_' + item.CheckItemID + '" />';
+                          var html = html + '<tr><td>' + item.CheckItemNumber + '  ' + item.CheckItemName + '</td><td>' + item.Weight + '</td><td>' + input + '</td></tr>';
+                          $('#modifyWeightTbodyID').append(html);
+                      });
+
+                      $('#myModal4').modal();
+                  }
+              });
+    }
+
+    //保存修改后的权重
+    function SaveCheckItemWeight() {
+        var count = parseFloat(0);
+        $('.checkItemWeightInput').each(function (i) {
+            if (this.type == 'text' && this.value != "") {
+                count = toDecimal(count + parseFloat(this.value));
+            }
+        });
+
+        if (count != 1) {
+            alert("权重之和必须等于1");
+        }
+        else {
+            var jsonObj = $('#weightForm').serializeArray();
+            var txtCheckItemID = {};
+            txtCheckItemID.name = 'txtCheckItemID';
+            txtCheckItemID.value = $('#txtCheckItemID').val();
+            jsonObj.push(txtCheckItemID);
+            var txtCheckID = {};
+            txtCheckID.name = 'txtCheckID';
+            txtCheckID.value = CheckID;
+            jsonObj.push(txtCheckID);
+            $.post('/Manage/SaveCheckItemWeight',
+                    jsonObj,
+                    function (data, status) {
+                        if (!data.result) {
+                            alert(data.message);
+                            return;
+                        }
+                        else {
+                            $('#myModal4').modal('toggle');
+                            window.location.reload();
+                        }
+                    });
+        }
+    }
+</script>

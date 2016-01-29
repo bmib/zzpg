@@ -722,9 +722,253 @@ namespace Solution.Web.Controllers
             return Json(new { result = false, message = "" });
         }
 
-        public ActionResult CheckManageView()
+        /// <summary>
+        /// 检查列表视图
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public ActionResult CheckManageView(Request request)
         {
-            return View();
+            using (DBContext db = new DBContext())
+            {
+                string companyID = SessionService.CompanyID;
+                var checkList = db.Check.Where(m => m.CompanyID.Equals(companyID)).OrderByDescending(m => m.CreatedTime).ToPagedList(request.PageIndex, request.PageSize);
+                return View(checkList);
+            }
+        }
+
+        /// <summary>
+        /// 保存检查
+        /// </summary>
+        /// <param name="txtCheckName"></param>
+        /// <returns></returns>
+        public ActionResult SaveCheck(string txtCheckName)
+        {
+            if (!string.IsNullOrEmpty(txtCheckName))
+            {
+                using (DBContext db = new DBContext())
+                {
+                    Check check = new Check
+                    {
+                        CheckID = Guid.NewGuid().ToString(),
+                        CheckName = txtCheckName,
+                        CompanyID = SessionService.CompanyID,
+                        CreatedTime = DateTime.Now,
+                        CreatedUser = SessionService.UserID,
+                        State = "0"
+                    };
+
+                    db.Check.Add(check);
+                    db.SaveChanges();
+                }
+
+                return Json(new { result = true, message = "" });
+            }
+
+            return Json(new { result = false, message = "检查名称不能为空" });
+        }
+
+        /// <summary>
+        /// 保存修改的检查名称
+        /// </summary>
+        /// <param name="txtCheckID"></param>
+        /// <param name="txtCurrentCheckName"></param>
+        /// <returns></returns>
+        public ActionResult SaveModifyCheck(string txtCheckID, string txtCurrentCheckName)
+        {
+            if (!string.IsNullOrEmpty(txtCheckID))
+            {
+                using (DBContext db = new DBContext())
+                {
+                    Check check = db.Check.Where(m => m.CheckID == txtCheckID).FirstOrDefault();
+                    check.CheckName = txtCurrentCheckName;
+                    db.SaveChanges();
+                }
+
+                return Json(new { result = true, message = "" });
+            }
+
+            return Json(new { result = false, message = "" });
+        }
+
+        /// <summary>
+        /// 评估详情页面
+        /// </summary>
+        /// <param name="CheckID"></param>
+        /// <returns></returns>
+        public ActionResult CheckDetailView(string CheckID)
+        {
+            using (DBContext db = new DBContext())
+            {
+                string companyID = SessionService.CompanyID;
+                var check = db.Check.Where(m => m.CompanyID.Equals(companyID) && m.CheckID.Equals(CheckID)).SingleOrDefault();
+                ViewBag.CheckName = check.CheckName;
+                ViewBag.CheckState = check.State;
+                ViewBag.ItemFactoryList = db.ItemFactory.Where(m => m.CompanyID == companyID).ToList();
+
+                var checkItemList = db.CheckItem.Where(m => m.CheckID == CheckID).OrderBy(m => m.CheckItemCode).ToList();
+                ViewBag.checkItemList = checkItemList; //指标列表
+
+                List<User> proList = db.User.Where(m => m.CompanyID == companyID && m.Roles.Contains("pro")).ToList();
+                ViewBag.proList = proList; //专家列表
+
+                var weightTaskList = (from m in db.WeightTask
+                                      join n in db.User on m.WeightUser equals n.UserID
+                                      select new ViewWeightTask
+                                                   {
+                                                       CheckID = m.CheckID,
+                                                       WeightUser = n.UserName,
+                                                       State = m.State,
+                                                       Type = m.Type,
+                                                       WeightTaskID = m.WeightTaskID
+                                                   }).ToList();
+                ViewBag.weightTaskList = weightTaskList; //权重任务情况
+
+                return View(check);
+            }
+        }
+
+        /// <summary>
+        /// 从指标库导入指标
+        /// </summary>
+        /// <param name="CheckID"></param>
+        /// <param name="factoryID"></param>
+        /// <returns></returns>
+        public ActionResult ImportCheckItems(string CheckID, string factoryID)
+        {
+            if (!string.IsNullOrEmpty(CheckID) && !string.IsNullOrEmpty(factoryID))
+            {
+                using (DBContext db = new DBContext())
+                {
+                    var itemList = db.Item.Include("ItemPoints").Where(m => m.ItemFactoryID == factoryID).ToList();
+                    foreach (var item in itemList)
+                    {
+                        CheckItem checkItem = new CheckItem
+                        {
+                            CheckItemID = Guid.NewGuid().ToString(),
+                            CheckID = CheckID,
+                            CheckItemName = item.ItemName,
+                            CheckItemCode = item.ItemCode,
+                            CheckItemNumber = item.ItemNumber,
+                            CheckStandard = item.CheckStandard,
+                            CheckItemPoints = new List<CheckItemPoint>()
+                        };
+
+                        foreach (var point in item.ItemPoints)
+                        {
+                            CheckItemPoint checkItemPoint = new CheckItemPoint
+                            {
+                                CheckItemPointID = Guid.NewGuid().ToString(),
+                                CheckItemID = checkItem.CheckItemID,
+                                CheckItemPointName = point.ItemPointName
+                            };
+                            checkItem.CheckItemPoints.Add(checkItemPoint);
+                        }
+
+                        db.CheckItem.Add(checkItem);
+                    }
+                    var check = db.Check.Where(m => m.CheckID == CheckID).FirstOrDefault();
+                    check.State = "1";
+                    db.SaveChanges();
+                }
+                return Json(new { result = true, message = "" });
+            }
+
+            return Json(new { result = false, message = "" });
+        }
+
+        /// <summary>
+        /// 分配专家计算权重
+        /// </summary>
+        /// <param name="CheckID"></param>
+        /// <param name="proUser"></param>
+        /// <returns></returns>
+        public ActionResult AssignPro(string CheckID, string proUser)
+        {
+            if (!string.IsNullOrEmpty(CheckID) && !string.IsNullOrEmpty(proUser))
+            {
+                using (DBContext db = new DBContext())
+                {
+                    foreach (string userid in proUser.Split(','))
+                    {
+                        WeightTask wTask = new WeightTask
+                        {
+                            WeightTaskID = Guid.NewGuid().ToString(),
+                            CheckID = CheckID,
+                            WeightUser = userid,
+                            Type = "0",
+                            State = "0"
+                        };
+                        db.WeightTask.Add(wTask);
+                    }
+
+                    var check = db.Check.Where(m => m.CheckID == CheckID).FirstOrDefault();
+                    check.State = "2";
+                    db.SaveChanges();
+                }
+                return Json(new { result = true, message = "" });
+            }
+
+            return Json(new { result = false, message = "" });
+        }
+
+        /// <summary>
+        /// 获取修改权重的指标及权重值
+        /// </summary>
+        /// <param name="CheckID"></param>
+        /// <param name="CheckItemID"></param>
+        /// <returns></returns>
+        public ActionResult GetModifyCheckItemWeight(string CheckID, string CheckItemID)
+        {
+            if (!string.IsNullOrEmpty(CheckID) && !string.IsNullOrEmpty(CheckItemID))
+            {
+                using (DBContext db = new DBContext())
+                {
+                    CheckItem checkItem = db.CheckItem.Where(m => m.CheckID == CheckID && m.CheckItemID == CheckItemID).SingleOrDefault();
+                    string code = checkItem.CheckItemCode;
+                    string beginCode = code.Substring(0, code.Length - 4);
+                    List<CheckItem> checkItemList = db.CheckItem.Where(m => m.CheckID == CheckID && m.CheckItemCode.Length == code.Length && m.CheckItemCode.StartsWith(beginCode)).OrderBy(m => m.CheckItemCode).ToList();
+
+                    return Json(new { result = true, message = "" , data = checkItemList});
+                }
+            }
+
+            return Json(new { result = false, message = "" });
+        }
+
+        /// <summary>
+        /// 保存修改的权重
+        /// </summary>
+        /// <param name="txtCheckID"></param>
+        /// <param name="txtCheckItemID"></param>
+        /// <param name="collection"></param>
+        /// <returns></returns>
+        public ActionResult SaveCheckItemWeight(string txtCheckID, string txtCheckItemID, FormCollection collection)
+        {
+            if (!string.IsNullOrEmpty(txtCheckItemID))
+            {
+                using (DBContext db = new DBContext())
+                {
+                    CheckItem checkItem = db.CheckItem.Where(m => m.CheckID == txtCheckID && m.CheckItemID == txtCheckItemID).SingleOrDefault();
+                    string code = checkItem.CheckItemCode;
+                    string beginCode = code.Substring(0, code.Length - 4);
+                    List<CheckItem> checkItemList = db.CheckItem.Where(m => m.CheckID == txtCheckID && m.CheckItemCode.Length == code.Length && m.CheckItemCode.StartsWith(beginCode)).OrderBy(m => m.CheckItemCode).ToList();
+
+                    foreach (CheckItem item in checkItemList)
+                    {
+                        if (!string.IsNullOrEmpty(collection["checkItemweight_" + item.CheckItemID]))
+                        {
+                            item.Weight = double.Parse(collection["checkItemweight_" + item.CheckItemID]);
+                        }
+                    }
+
+                    db.SaveChanges();
+
+                    return Json(new { result = true, message = "", data = checkItemList });
+                }
+            }
+
+            return Json(new { result = false, message = "" });
         }
     }
 }

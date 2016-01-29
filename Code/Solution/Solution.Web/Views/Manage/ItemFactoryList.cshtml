@@ -41,7 +41,7 @@
                             </td>
                             <td align="center">
                                
-                                <a class="btn btn-success  btn-sm" title='修改部门' onclick="openModifyItemFactory('@m.ItemFactoryID', '@m.ItemFactoryName');">
+                                <a class="btn btn-success  btn-sm" title='修改' onclick="openModifyItemFactory('@m.ItemFactoryID', '@m.ItemFactoryName');">
                                     修改
                                 </a>
                                 <a class="btn btn-danger  btn-sm" href="@Url.Action("ItemFactoryDelete", new { itemFatoryID = m.ItemFactoryID })" onclick="return confirm('确定删除该指标库吗？')">删除</a>
@@ -73,7 +73,7 @@
                             指标库名称
                         </label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="txtItemFactoryName" placeholder="输入指标库名称名称">
+                            <input type="text" class="form-control" id="txtItemFactoryName" placeholder="输入指标库名称">
                         </div>
                     </div>
                 </form>
