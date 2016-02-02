@@ -1,0 +1,97 @@
+﻿@using Solution.Framework.Contract
+@using Solution.Framework.Utility
+@using Solution.Framework.Web.Controls
+@using Solution.Models;
+@{
+
+}
+
+@model PagedList<User>
+
+<div class="container">
+    <div class="container-fluid">
+        <div class="page-title">
+            <ol class="breadcrumb">
+                <li><a href="/Home/Index">首页</a></li>
+                <li><a href="/Manage/CheckUserView?CheckID=@ViewBag.CheckID">评估人员</a></li>
+                <li class="active">添加人员</li>
+            </ol>
+        </div>
+        <p>
+            <a class="btn btn-primary" title='添加' href="#" onclick="addCheckUser('@ViewBag.CheckID');">添加选择的人员</a>
+            <a class="btn btn-danger" title='添加' href="#" onclick="addCheckUserAll('@ViewBag.CheckID');">一键添加公司所有人员</a>
+        </p>
+        <form id="departForm" method="post">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            选择
+                        </th>
+                        <th>
+                            部门
+                        </th>
+                        <th>
+                            人员姓名
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var m in Model)
+                    {
+                        <tr>
+                            <td><input type="checkbox" class="checkUserCheckBox" name="checkUserCheckBox" /></td>
+                            <td>@m.Department</td>
+                            <td>@m.UserName</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+<script>
+    //添加选择的用户
+    function addCheckUser(CheckID) {
+        var s = document.getElementsByName("checkUserCheckBox");
+        var s2 = "";
+        for (var i = 0; i < s.length; i++) {
+            if (s[i].checked) {
+                s2 = s2 + s[i].value + ',';
+            }
+        }
+        s2 = s2.substr(0, s2.length - 1);
+        if (s2 == "") {
+            alert("请选择人员");
+        }
+        else{
+            $.post('/Manage/CheckUserAddPart', { CheckID: CheckID, UserID: s2 },
+            function (data, status) {
+                if (!data.result) {
+                    alert('操作失败：' + data.message);
+                    return;
+                }
+                else {
+                    alert('操作成功：' + data.message);
+                    window.location.href = "/Manage/CheckUserView?CheckID=" + CheckID;
+                }
+            });
+        }
+    }
+
+    //添加公司所有用户
+    function addCheckUserAll(CheckID) {
+        $.post('/Manage/CheckUserAddAll', { CheckID: CheckID },
+        function (data, status) {
+            if (!data.result) {
+                alert('操作失败：' + data.message);
+                return;
+            }
+            else {
+                alert('操作成功：' + data.message);
+                window.location.href = "/Manage/CheckUserView?CheckID=" + CheckID;
+            }
+        });
+    }
+</script>

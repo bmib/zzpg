@@ -180,6 +180,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\images\404.jpg" />
+    <Content Include="Content\images\code.jpg" />
     <Content Include="Content\sb-admin-2.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -234,6 +235,9 @@
     <Content Include="Views\Assessment\CheckListView.cshtml" />
     <Content Include="Views\Manage\ItemFactoryList.cshtml" />
     <Content Include="Views\Manage\CheckDetailView.cshtml" />
+    <Content Include="Views\Manage\CheckUserView.cshtml" />
+    <Content Include="Views\Manage\CheckUserAddView.cshtml" />
+    <Content Include="Views\Manage\PayListView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Solution.Common\Solution.Common.csproj">

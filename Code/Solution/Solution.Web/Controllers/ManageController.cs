@@ -929,7 +929,7 @@ namespace Solution.Web.Controllers
                     string beginCode = code.Substring(0, code.Length - 4);
                     List<CheckItem> checkItemList = db.CheckItem.Where(m => m.CheckID == CheckID && m.CheckItemCode.Length == code.Length && m.CheckItemCode.StartsWith(beginCode)).OrderBy(m => m.CheckItemCode).ToList();
 
-                    return Json(new { result = true, message = "" , data = checkItemList});
+                    return Json(new { result = true, message = "", data = checkItemList });
                 }
             }
 
@@ -969,6 +969,240 @@ namespace Solution.Web.Controllers
             }
 
             return Json(new { result = false, message = "" });
+        }
+
+        /// <summary>
+        /// 评估用户页面
+        /// </summary>
+        /// <param name="CheckID"></param>
+        /// <returns></returns>
+        public ActionResult CheckUserView(string CheckID)
+        {
+            using (DBContext db = new DBContext())
+            {
+                string companyID = SessionService.CompanyID;
+                var check = db.Check.Where(m => m.CompanyID.Equals(companyID) && m.CheckID.Equals(CheckID)).SingleOrDefault();
+                ViewBag.CheckName = check.CheckName;
+                ViewBag.CheckState = check.State;
+
+                var checkUserList = (from m in db.CheckTask
+                                     join u in db.User on m.UserID equals u.UserID
+                                     join u2 in db.User on m.Checker equals u2.UserID
+                                     select new ViewCheckUser
+                                     {
+                                         CheckID = m.CheckID,
+                                         UserID = m.UserID,
+                                         State = m.State,
+                                         Checker = m.Checker,
+                                         CheckerName = u2.UserName,
+                                         UserName = u.UserName,
+                                         UserDepartmentName = u.Department,
+                                         CheckTaskID = m.CheckTaskID,
+                                         CreatedTime = m.CreatedTime,
+                                         FinishedTime = m.FinishedTime
+                                     }).OrderBy(m => m.UserName).OrderBy(m => m.UserDepartmentName).ToList();
+
+                ViewBag.checkUserList = checkUserList;
+
+                var checker = db.User.Where(m => m.CompanyID == companyID && m.Roles.Contains("chk")).ToList();
+                ViewBag.checkerList = checker;
+
+                return View(check);
+            }
+        }
+
+        /// <summary>
+        /// 添加评估用户视图
+        /// </summary>
+        /// <param name="CheckID"></param>
+        /// <returns></returns>
+        public ActionResult CheckUserAddView(string CheckID)
+        {
+            ViewBag.CheckID = CheckID;
+            using (DBContext db = new DBContext())
+            {
+                string companyID = SessionService.CompanyID;
+
+                var UserList = db.User.Where(m => m.CompanyID == companyID).ToList();
+
+                return View(UserList);
+            }
+        }
+
+        /// <summary>
+        /// 添加部分评估人员
+        /// </summary>
+        /// <param name="CheckID"></param>
+        /// <param name="UserID"></param>
+        /// <returns></returns>
+        public ActionResult CheckUserAddPart(string CheckID, string UserID)
+        {
+            int number = 0;
+            if (!string.IsNullOrEmpty(CheckID) && !string.IsNullOrEmpty(UserID))
+            {
+                using (DBContext db = new DBContext())
+                {
+                    if (UserID.Split(',').Count() > 0)
+                    {
+                        //创建支付
+                        Pay pay = new Pay
+                        {
+                            PayID = Guid.NewGuid().ToString(),
+                            CompanyID = SessionService.CompanyID,
+                            CreatedTime = DateTime.Now,
+                            State = "0"
+                        };
+                        db.Pay.Add(pay);
+
+                        foreach (string temp in UserID.Split(','))
+                        {
+                            var exist = db.CheckTask.Where(m => m.UserID == temp && m.CheckID == CheckID).Count();
+                            if (exist == 0)
+                            {
+                                CheckTask task = new CheckTask
+                                {
+                                    CheckTaskID = Guid.NewGuid().ToString(),
+                                    CheckID = CheckID,
+                                    UserID = temp,
+                                    CreatedTime = DateTime.Now,
+                                    State = "0"
+                                };
+                                db.CheckTask.Add(task);
+
+                                PayCheckTask payCheckTask = new PayCheckTask
+                                {
+                                    PayCheckTaskID = Guid.NewGuid().ToString(),
+                                    CheckTaskID = task.CheckTaskID,
+                                    PayID = pay.PayID
+                                };
+                                db.PayCheckTask.Add(payCheckTask);
+                                number++;
+                            }
+                        }
+
+                        pay.Money = number * Constants.PerUserPrice;
+                    }
+
+                    db.SaveChanges();
+                }
+            }
+
+            return Json(new { result = true, message = "添加人员" + number + "个" });
+        }
+
+        /// <summary>
+        /// 添加公司所有人员
+        /// </summary>
+        /// <param name="CheckID"></param>
+        /// <returns></returns>
+        public ActionResult CheckUserAddAll(string CheckID)
+        {
+            int number = 0;
+            if (!string.IsNullOrEmpty(CheckID))
+            {
+                using (DBContext db = new DBContext())
+                {
+                    var userList = db.User.Where(m => m.CompanyID == SessionService.CompanyID).ToList();
+                    if (userList.Count() > 0)
+                    {
+                        //创建支付
+                        Pay pay = new Pay
+                        {
+                            PayID = Guid.NewGuid().ToString(),
+                            CompanyID = SessionService.CompanyID,
+                            CreatedTime = DateTime.Now,
+                            State = "0"
+                        };
+                        db.Pay.Add(pay);
+
+                        foreach (var user in userList)
+                        {
+                            string temp = user.UserID;
+                            var exist = db.CheckTask.Where(m => m.UserID == temp && m.CheckID == CheckID).Count();
+                            if (exist == 0)
+                            {
+                                CheckTask task = new CheckTask
+                                {
+                                    CheckTaskID = Guid.NewGuid().ToString(),
+                                    CheckID = CheckID,
+                                    UserID = temp,
+                                    CreatedTime = DateTime.Now,
+                                    State = "0"
+                                };
+                                db.CheckTask.Add(task);
+
+                                PayCheckTask payCheckTask = new PayCheckTask
+                                {
+                                    PayCheckTaskID = Guid.NewGuid().ToString(),
+                                    CheckTaskID = task.CheckTaskID,
+                                    PayID = pay.PayID
+                                };
+                                db.PayCheckTask.Add(payCheckTask);
+                                number++;
+                            }
+                        }
+
+                        pay.Money = number * Constants.PerUserPrice;
+                    }
+
+                    db.SaveChanges();
+                }
+            }
+
+            return Json(new { result = true, message = "添加人员" + number + "个" });
+        }
+
+        /// <summary>
+        /// 分配检查员
+        /// </summary>
+        /// <param name="CheckID"></param>
+        /// <param name="checkerID"></param>
+        /// <param name="UserID"></param>
+        /// <returns></returns>
+        public ActionResult AssignChecker(string CheckID, string checkerID, string UserID)
+        {
+            if (!string.IsNullOrEmpty(CheckID) && !string.IsNullOrEmpty(checkerID) && !string.IsNullOrEmpty(UserID))
+            {
+                using (DBContext db = new DBContext())
+                {
+                    var task = db.CheckTask.Where(m => m.CheckID == CheckID && UserID.Contains(m.UserID)).ToList();
+                    foreach (var temp in task)
+                    {
+                        temp.Checker = checkerID;
+                        temp.State = "2";
+                    }
+                }
+            }
+            return Json(new { result = true, message = "" });
+        }
+
+        /// <summary>
+        /// 支付页面
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult PayListView()
+        {
+            using(DBContext db = new DBContext())
+            {
+                var list = db.Pay.Where(m => m.CompanyID == SessionService.CompanyID).ToList();
+                return View(list);
+            }
+        }
+
+        /// <summary>
+        /// 支付完成
+        /// </summary>
+        /// <param name="PayID"></param>
+        /// <returns></returns>
+        public ActionResult PayFinished(string PayID)
+        {
+            using (DBContext db = new DBContext())
+            {
+                var pay = db.Pay.Where(m => m.PayID == PayID).SingleOrDefault();
+                pay.State = "1";
+                db.SaveChanges();
+            }
+            return Json(new { result = true, message = "" });
         }
     }
 }

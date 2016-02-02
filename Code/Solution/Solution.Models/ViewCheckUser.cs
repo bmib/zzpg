@@ -5,20 +5,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Solution.Models
 {
-    [Table("T_CheckTask")]
-    public class CheckTask
+    public class ViewCheckUser
     {
         [DisplayName("ID")]
-        [Key]
         [StringLength(36)]
         public string CheckTaskID { get; set; }
 
         [DisplayName("检查ID")]
         [StringLength(36)]
         public string CheckID { get; set; }
-
-        [ForeignKey("CheckID")]
-        public virtual Check Check { get; set; }
 
         [DisplayName("被考核人员ID")]
         [StringLength(36)]
@@ -28,11 +23,21 @@ namespace Solution.Models
         [StringLength(36)]
         public string Checker { get; set; }
 
+        [DisplayName("被考核人员姓名")]
+        [StringLength(128)]
+        public string UserName { get; set; }
+
+        [DisplayName("检查员姓名")]
+        [StringLength(128)]
+        public string CheckerName { get; set; }
+
+        [DisplayName("被考核人员部门")]
+        [StringLength(256)]
+        public string UserDepartmentName { get; set; }
+
         /// <summary>
-        /// 0：未支付
-        /// 1：未分配检查员
-        /// 2：待评估
-        /// 3：评估完成
+        /// 0为未完成
+        /// 1为已完成
         /// </summary>
         [DisplayName("状态")]
         [StringLength(1)]

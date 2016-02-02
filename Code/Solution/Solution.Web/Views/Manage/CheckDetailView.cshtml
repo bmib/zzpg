@@ -3,7 +3,6 @@
 @using Solution.Framework.Web.Controls
 @using Solution.Models;
 @{
-    ViewBag.Title = "CheckDetailView";
     List<CheckItem> checkItemList = (List<CheckItem>)ViewBag.checkItemList;
     List<ViewWeightTask> weightTaskList = (List<ViewWeightTask>)ViewBag.weightTaskList;
 }
@@ -16,7 +15,7 @@
             <ol class="breadcrumb">
                 <li><a href="/Home/Index">首页</a></li>
                 <li><a href="/Manage/CheckManageView">评估管理</a></li>
-                <li class="active">@ViewBag.CheckName</li>
+                <li class="active">@ViewBag.CheckName - 指标及权重</li>
             </ol>
         </div>
         <div>

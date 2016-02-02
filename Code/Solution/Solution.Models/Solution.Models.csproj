@@ -67,6 +67,7 @@
     <Compile Include="PayCheckTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="ViewCheckUser.cs" />
     <Compile Include="ViewWeightTask.cs" />
     <Compile Include="WeightMark.cs" />
     <Compile Include="WeightPoint.cs" />
