@@ -34,6 +34,6 @@ namespace Solution.Models
         public string State { get; set; }
 
         [DisplayName("创建时间")]
-        public DateTime CreatedTime { get; set; }
+        public DateTime? CreatedTime { get; set; }
     }
 }

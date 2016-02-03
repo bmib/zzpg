@@ -38,7 +38,7 @@ namespace Solution.Models
         public virtual Company Company { get; set; }
 
         [DisplayName("创建时间")]
-        public DateTime CreatedTime { get; set; }
+        public DateTime? CreatedTime { get; set; }
 
         [DisplayName("创建人")]
         [StringLength(36)]

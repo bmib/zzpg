@@ -13,7 +13,7 @@ namespace Solution.Models.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201601290840027_[ver]"; }
+            get { return "201602030223179_[ver]"; }
         }
         
         string IMigrationMetadata.Source

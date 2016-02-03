@@ -58,9 +58,9 @@
     <Compile Include="Item.cs" />
     <Compile Include="ItemFactory.cs" />
     <Compile Include="ItemPoint.cs" />
-    <Compile Include="Migrations\201601290840027_[ver].cs" />
-    <Compile Include="Migrations\201601290840027_[ver].Designer.cs">
-      <DependentUpon>201601290840027_[ver].cs</DependentUpon>
+    <Compile Include="Migrations\201602030223179_[ver].cs" />
+    <Compile Include="Migrations\201602030223179_[ver].Designer.cs">
+      <DependentUpon>201602030223179_[ver].cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Pay.cs" />
@@ -78,8 +78,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201601290840027_[ver].resx">
-      <DependentUpon>201601290840027_[ver].cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201602030223179_[ver].resx">
+      <DependentUpon>201602030223179_[ver].cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

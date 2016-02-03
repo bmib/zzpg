@@ -22,10 +22,10 @@
 
         <p>
             <div class="alert alert-warning">
-                检查收费标准：每人每次298元。添加人员后请<a href="/Manage/PayListView">点击此处</a>完成支付。
+                <span>资质评估收费标准：每人每次</span>@Solution.Common.Constants.PerUserPrice<span>元。添加人员后请<a href="/Manage/PayListView">点击此处</a>完成支付。</span>
             </div>
             <a class="btn btn-primary" title='添加人员' href="/Manage/CheckUserAddView?CheckID=@Model.CheckID">添加人员</a>
-            <a class="btn btn-danger" title='分配检查员' data-toggle="modal" data-target="#myModal">分配检查员</a>
+            <a class="btn btn-danger" title='分配检查员' href="#" data-toggle="modal" data-target="#myModal">分配检查员</a>
         </p>
         <form id="departForm" method="post">
             <table class="table table-bordered table-hover table-striped">
@@ -115,7 +115,7 @@
                             <select id="checkerSelect" class="form-control">
                                 @foreach (var u in checkerList)
                                 {
-                                <option value="@u.UserID">@u.UserName</option>
+                                    <option value="@u.UserID">@u.UserName</option>
                                 }
                             </select>
                         </div>
@@ -135,31 +135,32 @@
 </div>
 
 <script>
-function AssignChecker(){
-    var checkerID = $("#checkerSelect").val();
-    var s = document.getElementsByName("checkUserCheckBox");
-    var s2 = "";
-    for (var i = 0; i < s.length; i++) {
-        if (s[i].checked) {
-            s2 = s2 + s[i].value + ',';
+    var CheckID = getQueryString("CheckID");
+    function AssignChecker(){
+        var checkerID = $("#checkerSelect").val();
+        var s = document.getElementsByName("checkUserCheckBox");
+        var s2 = "";
+        for (var i = 0; i < s.length; i++) {
+            if (s[i].checked) {
+                s2 = s2 + s[i].value + ',';
+            }
+        }
+        s2 = s2.substr(0, s2.length - 1);
+        if (s2 == "") {
+            alert("请选择被评估人员");
+        }
+        else {
+            $.post('/Manage/AssignChecker', { CheckID: CheckID, checkerID: checkerID, UserID: s2 },
+              function (data, status) {
+                  if (!data.result) {
+                      alert('操作失败：' + data.message);
+                      return;
+                  }
+                  else {
+                      $('#myModal').modal('toggle');
+                      window.location.reload();
+                  }
+              });
         }
     }
-    s2 = s2.substr(0, s2.length - 1);
-    if (s2 == "") {
-        alert("请选择被评估人员");
-    }
-    else {
-        $.post('/Manage/AssignChecker', { CheckID: @Model.CheckID, checkerID: checkerID, UserID: s2 },
-          function (data, status) {
-              if (!data.result) {
-                  alert('操作失败：' + data.message);
-                  return;
-              }
-              else {
-                  $('#myModal').modal('toggle');
-                  window.location.reload();
-              }
-          });
-    }
-}
 </script>

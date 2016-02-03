@@ -3,7 +3,7 @@
 @using Solution.Framework.Web.Controls
 @using Solution.Models;
 
-@model PagedList<Pay>
+@model List<Pay>
 <div class="container">
     <div class="container-fluid">
         <div class="page-title">
@@ -54,7 +54,7 @@
                             <td align="center">
                                 @if (m.State == "0")
                                 {
-                                    <a class="btn btn-success  btn-sm" href="#" onclick="startPay('@m.PayID');">支付</a>
+                                    <a class="btn btn-success  btn-sm" href="#" onclick="startPay('@m.PayID', '@m.Money');">支付</a>
                                 }
                             </td>
                         </tr>
@@ -78,26 +78,48 @@
             </div>
             <div class="modal-body">
                 <input type="hidden" id="PayInput" />
-                <div class="alert">
-                    支付完成后，请点击支付完成按钮。系统管理员将在2个小时之内完成确认，请耐心等待。
+                <div class="alert alert-warning">
+                    提示：完成支付后，系统将在2个小时之内完成确认，请耐心等待。
+                </div>
+                <div style="margin-bottom:10px; width:100%; text-align:center;">
+                    <span id="moneySpan" class="h1" style="color:red;"></span>
                 </div>
                 <div>
-                    支付方式1：微信支付。扫描以下二维码完成支付。
-                    <div>
-                        <img src="~/Content/images/code.jpg" alt="请用微信扫描二维码" />
-                    </div>
+                    <table style="width:100%">
+                        <tr>
+                            <td>
+                                <b>
+                                    支付方式1：微信支付。<br />使用微信扫描以下二维码完成支付。
+                                </b>
+                                <div>
+                                    <img src="~/Content/images/code.jpg" alt="请用微信扫描二维码" width="200" height="200" />
+                                </div>
+                            </td>
+                            <td>
+                                <b>
+                                    支付方式2：支付宝支付。<br />使用支付宝扫描以下二维码完成支付。
+                                </b>
+                                <div>
+                                    <img src="~/Content/images/code2.jpg" alt="请用微信扫描二维码" width="200" height="200" />
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
                 </div>
-                <div>
-                    支付方式2：银行转账。转账到以下银行账号。
+                <div style="margin-top:15px;">
+                    <b>
+                        支付方式3：银行转账。转账到以下银行账号：
+                    </b>
                     <div>
                         工商银行：9558 8002 0014 3553 747 何华杰
                     </div>
                     @*<div>
-                        建设银行：9558 8002 0014 3553 747 何华杰
-                    </div>
-                    <div>
-                        招商银行：9558 8002 0014 3553 747 何华杰
-                    </div>*@
+                            建设银行：9558 8002 0014 3553 747 何华杰
+                        </div>
+                        <div>
+                            招商银行：9558 8002 0014 3553 747 何华杰
+                        </div>*@
                 </div>
             </div>
             <div class="modal-footer">
@@ -105,7 +127,7 @@
                     关闭
                 </button>
                 <button type="button" class="btn btn-primary" onclick="FinishPay();">
-                    完成支付
+                    已完成支付
                 </button>
             </div>
         </div>
@@ -114,14 +136,15 @@
 
 <script>
     //点击支付按钮
-    function startPay(payID) {
+    function startPay(payID, money) {
         $("#PayInput").val(payID);
         $('#myModal').modal();
+        $("#moneySpan").html("￥" + money);
     }
 
     //完成支付
     function FinishPay() {
-        if (confirm("确认已经完成支付并提交管理员确认吗？")) {
+        if (confirm("确认已经完成支付，提交系统确认吗？")) {
             var PayID = $("#PayInput").val();
             $.post('/Manage/PayFinished', { PayID: PayID },
              function (data, status) {

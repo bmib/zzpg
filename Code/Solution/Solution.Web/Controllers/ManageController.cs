@@ -987,14 +987,15 @@ namespace Solution.Web.Controllers
 
                 var checkUserList = (from m in db.CheckTask
                                      join u in db.User on m.UserID equals u.UserID
-                                     join u2 in db.User on m.Checker equals u2.UserID
+                                     join u2 in db.User on m.Checker equals u2.UserID into temp
+                                     from tt in temp.DefaultIfEmpty()
                                      select new ViewCheckUser
                                      {
                                          CheckID = m.CheckID,
                                          UserID = m.UserID,
                                          State = m.State,
                                          Checker = m.Checker,
-                                         CheckerName = u2.UserName,
+                                         CheckerName = tt == null ? "" : tt.UserName,
                                          UserName = u.UserName,
                                          UserDepartmentName = u.Department,
                                          CheckTaskID = m.CheckTaskID,
@@ -1016,14 +1017,14 @@ namespace Solution.Web.Controllers
         /// </summary>
         /// <param name="CheckID"></param>
         /// <returns></returns>
-        public ActionResult CheckUserAddView(string CheckID)
+        public ActionResult CheckUserAddView(string CheckID, Request request)
         {
             ViewBag.CheckID = CheckID;
             using (DBContext db = new DBContext())
             {
                 string companyID = SessionService.CompanyID;
 
-                var UserList = db.User.Where(m => m.CompanyID == companyID).ToList();
+                var UserList = db.User.Where(m => m.CompanyID == companyID).OrderBy(m => m.UserName).OrderBy(m => m.Department).ToPagedList(request.PageIndex, request.PageSize);
 
                 return View(UserList);
             }
@@ -1171,6 +1172,7 @@ namespace Solution.Web.Controllers
                         temp.Checker = checkerID;
                         temp.State = "2";
                     }
+                    db.SaveChanges();
                 }
             }
             return Json(new { result = true, message = "" });
