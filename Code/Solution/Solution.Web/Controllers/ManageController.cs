@@ -1,15 +1,14 @@
-﻿using Solution.Models;
+﻿using Solution.Common;
+using Solution.Framework.Contract;
+using Solution.Models;
+using Solution.Services;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Solution.Services;
-using Solution.Framework.Contract;
-using Solution.Common;
-using System.IO;
-using System.Data;
-using System.Data.Entity.Validation;
 namespace Solution.Web.Controllers
 {
     public class ManageController : BaseController

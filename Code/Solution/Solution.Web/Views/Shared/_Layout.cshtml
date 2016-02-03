@@ -12,7 +12,7 @@
     @RenderSection("scripts", required: false)
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -79,9 +79,11 @@
         @RenderBody()
         <hr />
         <footer>
-            <center>
-                <p>&copy; @DateTime.Now.Year - 资质评估系统 - www.zzpgxt.com</p>
-            </center>
+            <div class="container">
+                <center>
+                    <p class="text-muted">&copy; @DateTime.Now.Year - 资质评估系统 - www.zzpgxt.com</p>
+                </center>
+            </div>
         </footer>
     </div>
 </body>

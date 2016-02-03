@@ -239,6 +239,8 @@
     <Content Include="Views\Manage\CheckUserView.cshtml" />
     <Content Include="Views\Manage\CheckUserAddView.cshtml" />
     <Content Include="Views\Manage\PayListView.cshtml" />
+    <Content Include="Views\Weight\ItemSortDetailView.cshtml" />
+    <Content Include="Views\Weight\ItemDegreeDetailView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Solution.Common\Solution.Common.csproj">

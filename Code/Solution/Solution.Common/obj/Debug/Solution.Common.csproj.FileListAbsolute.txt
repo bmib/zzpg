@@ -8,6 +8,5 @@ E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Common\obj\Debug\Solution.
 E:\何华杰\资质管理\zzpg\Code\Solution\Solution.Common\obj\Debug\Solution.Common.pdb
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Common\bin\Debug\Solution.Common.dll
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Common\bin\Debug\Solution.Common.pdb
-F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Common\obj\Debug\Solution.Common.csprojResolveAssemblyReference.cache
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Common\obj\Debug\Solution.Common.dll
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Common\obj\Debug\Solution.Common.pdb
