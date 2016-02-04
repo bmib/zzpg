@@ -210,6 +210,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\Solution.js" />
+    <Content Include="Scripts\stickUp.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -241,6 +242,7 @@
     <Content Include="Views\Manage\PayListView.cshtml" />
     <Content Include="Views\Weight\ItemSortDetailView.cshtml" />
     <Content Include="Views\Weight\ItemDegreeDetailView.cshtml" />
+    <Content Include="Views\Assessment\CheckDetailView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Solution.Common\Solution.Common.csproj">

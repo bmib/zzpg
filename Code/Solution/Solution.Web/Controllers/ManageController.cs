@@ -820,7 +820,7 @@ namespace Solution.Web.Controllers
                                                        State = m.State,
                                                        Type = m.Type,
                                                        WeightTaskID = m.WeightTaskID
-                                                   }).ToList();
+                                                   }).OrderBy(m => m.WeightUser).OrderBy(m => m.Type).ToList();
                 ViewBag.weightTaskList = weightTaskList; //权重任务情况
 
                 return View(check);
@@ -1183,7 +1183,7 @@ namespace Solution.Web.Controllers
         /// <returns></returns>
         public ActionResult PayListView()
         {
-            using(DBContext db = new DBContext())
+            using (DBContext db = new DBContext())
             {
                 var list = db.Pay.Where(m => m.CompanyID == SessionService.CompanyID).ToList();
                 return View(list);

@@ -12,18 +12,15 @@ namespace Solution.Models
         [StringLength(36)]
         public string CheckUserScoreID { get; set; }
 
-        [DisplayName("检查ID")]
+        [DisplayName("检查任务ID")]
         [StringLength(36)]
-        public string CheckID { get; set; }
-
-        [ForeignKey("CheckID")]
-        public virtual Check Check { get; set; }
-
-        [DisplayName("被考核人员ID")]
-        [StringLength(36)]
-        public string CheckTaskUser { get; set; }
+        public string CheckTaskID { get; set; }
 
         [DisplayName("得分")]
         public double Score { get; set; }
+
+        [DisplayName("总体评价")]
+        [StringLength(4000)]
+        public string Remark { get; set; }
     }
 }

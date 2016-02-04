@@ -1,0 +1,239 @@
+﻿@using Solution.Framework.Contract
+@using Solution.Framework.Utility
+@using Solution.Framework.Web.Controls
+@using Solution.Models;
+@{
+    ViewBag.Title = "CheckDetailView";
+}
+
+@model List<ViewCheckTaskItem>
+
+<div class="container">
+    <div class="container-fluid">
+        <div class="page-title">
+            <ol class="breadcrumb">
+                <li><a href="/Home/Index">首页</a></li>
+                <li><a href="/Assessment/CheckListView">评估检查</a></li>
+                <li class="active">评估检查</li>
+            </ol>
+        </div>
+        <p class="navbar-wrapper">
+            <a class="btn btn-primary" href="#" onclick="SaveForm();">保存</a>
+            <a class="btn btn-danger" href="#" onclick="SubmitForm();">提交</a>
+        </p>
+        <form id="checkItemForm" method="post">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            指标名称
+                        </th>
+                        <th>
+                            评分
+                        </th>
+                        <th>
+                            评分说明
+                        </th>
+                        <th>
+                            考核点/评分标准
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var m in Model)
+                    {
+                        <tr>
+                            <td>
+                                @m.CheckItemNumber @m.CheckItemName
+                            </td>
+                            <td>
+                                @if (!m.HaveChild)
+                                {
+                                    if (m.Score == 1)
+                                    {
+                                        <label class="radio-inline">
+                                            <input type="radio" name="radio_@m.CheckItemID" value="1" checked="checked" /> 1分
+                                        </label>
+                                    }
+                                    else
+                                    {
+                                        <label class="radio-inline">
+                                            <input type="radio" name="radio_@m.CheckItemID" value="1" /> 1分
+                                        </label>
+                                    }
+                                    if (m.Score == 2)
+                                    {
+                                        <label class="radio-inline">
+                                            <input type="radio" name="radio_@m.CheckItemID" value="2" checked="checked" /> 2分
+                                        </label>
+                                    }
+                                    else
+                                    {
+                                        <label class="radio-inline">
+                                            <input type="radio" name="radio_@m.CheckItemID" value="2" /> 2分
+                                        </label>
+                                    }
+                                    if (m.Score == 3)
+                                    {
+                                        <label class="radio-inline">
+                                            <input type="radio" name="radio_@m.CheckItemID" value="3" checked="checked" /> 3分
+                                        </label>
+                                    }
+                                    else
+                                    {
+                                        <label class="radio-inline">
+                                            <input type="radio" name="radio_@m.CheckItemID" value="3" /> 3分
+                                        </label>
+                                    }
+                                    if (m.Score == 4)
+                                    {
+                                        <label class="radio-inline">
+                                            <input type="radio" name="radio_@m.CheckItemID" value="4" checked="checked" /> 4分
+                                        </label>
+                                    }
+                                    else
+                                    {
+                                        <label class="radio-inline">
+                                            <input type="radio" name="radio_@m.CheckItemID" value="4" /> 4分
+                                        </label>
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @if (!m.HaveChild)
+                                {
+                                    <textarea class="form-control" name="mark_@m.CheckItemID">@m.CheckMark</textarea>
+                                    <input id="checkstandardInput_@m.CheckItemID" type="hidden" value="@m.CheckStandard" />
+                                    <input id="checkpointInput_@m.CheckItemID" type="hidden" value="@m.CheckPoint" />
+                                }
+                            </td>
+                            <td align="center">
+                                @if (!m.HaveChild)
+                                {
+                                    <a class="btn btn-info btn-sm" href="#" onclick="openStandardWindow('@m.CheckItemID', '@m.CheckItemName', '@m.CheckItemNumber');">点击查看</a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>总体评价</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <textarea class="form-control" cols="100" rows="5" name="RemarkTextarea">@ViewBag.Remark</textarea>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    查看考核点/评分标准 【<span id="spanCheckItemName"></span>】
+                </h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                考核点
+                            </th>
+                            <th>
+                                评分标准
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><div id="divCheckPoint"></div></td>
+                            <td><div id="divCheckStandard"></div></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    jQuery(function ($) {
+        $(document).ready(function () {
+            $('.navbar-wrapper').stickUp();
+        });
+    });
+
+    function openStandardWindow(CheckItemID, CheckItemName, CheckItemNumber) {
+        $("#spanCheckItemName").html(CheckItemNumber + " " + CheckItemName);
+        $("#divCheckStandard").html($("#checkstandardInput_" + CheckItemID).val());
+
+        var point = $("#checkpointInput_" + CheckItemID).val();
+        var html = "";
+        for (var i = 0 ; i < point.split(',').length; i++) {
+            html += point.split(',')[i] + "<br />";
+        }
+
+        $("#divCheckPoint").html(html);
+
+        $('#myModal').modal();
+    }
+
+    function SaveForm() {
+        var jsonObj = $('#checkItemForm').serializeArray();
+        var CheckTaskID = {};
+        CheckTaskID.name = 'CheckTaskID';
+        CheckTaskID.value = getQueryString("CheckTaskID");
+        jsonObj.push(CheckTaskID);
+        $.post('/Assessment/SaveCheckResult',
+                   jsonObj,
+                   function (data, status) {
+                       if (!data.result) {
+                           alert(data.message);
+                           return;
+                       }
+                       else {
+                           //window.location.reload();
+                           alert("保存成功");
+                       }
+                   });
+    }
+
+    function SubmitForm() {
+        var jsonObj = $('#checkItemForm').serializeArray();
+        var CheckTaskID = {};
+        CheckTaskID.name = 'CheckTaskID';
+        CheckTaskID.value = getQueryString("CheckTaskID");
+        jsonObj.push(CheckTaskID);
+        $.post('/Assessment/SubmitCheckResult',
+                   jsonObj,
+                   function (data, status) {
+                       if (!data.result) {
+                           alert(data.message);
+                           return;
+                       }
+                       else {
+
+                           window.location.href = "/Assessment/CheckListView";
+                       }
+                   });
+    }
+</script>

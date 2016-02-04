@@ -19,77 +19,62 @@
             </ol>
         </div>
         <div>
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">指标及权重</a></li>
-                <li role="presentation"><a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">人员及任务分配</a></li>
-                <li role="presentation"><a href="#tab3" aria-controls="tab3" role="tab" data-toggle="tab">支付信息</a></li>
-            </ul>
-
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="tab1">
-                    <p></p>
-                    <p>
-                        @{
+            <p>
+                @{
                             if (Model.State == "0")
                             {
-                                <a class="btn btn-primary" title='从指标库导入指标' data-toggle="modal" data-target="#myModal">导入指标</a>
+                        <a class="btn btn-primary" title='从指标库导入指标' data-toggle="modal" data-target="#myModal">导入指标</a>
                             }
                             else if (Model.State == "1")
                             {
-                                <a class="btn btn-primary" title='分配专家计算权重' data-toggle="modal" data-target="#myModal2">分配专家计算权重</a>
+                        <a class="btn btn-primary" title='分配专家计算权重' data-toggle="modal" data-target="#myModal2">分配专家计算权重</a>
                             }
                             else if (Model.State == "2")
                             {
-                                <a class="btn btn-primary" title='查看专家计算权重情况' data-toggle="modal" data-target="#myModal3">查看专家计算权重情况</a>
+                        <a class="btn btn-primary" title='查看专家计算权重情况' data-toggle="modal" data-target="#myModal3">查看专家计算权重情况</a>
                             }
-                        }
-                    </p>
-                    <table class="table table-bordered table-hover table-striped">
-                        <thead>
-                            <tr>
-                                <th>
-                                    指标名称
-                                </th>
-                                <th>权重</th>
-                                <th style="width:20%;">
-                                    操作
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var m in checkItemList)
+                }
+            </p>
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            指标名称
+                        </th>
+                        <th>权重</th>
+                        <th style="width:20%;">
+                            操作
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var m in checkItemList)
                             {
-                                <tr>
-                                    <td>
-                                        @if (m.CheckItemCode.Length / 4 == 1)
+                            <tr>
+                                <td>
+                                    @if (m.CheckItemCode.Length / 4 == 1)
                                         {
-                                            <div class="depart1">@m.CheckItemNumber @m.CheckItemName</div>
+                                        <div class="depart1">@m.CheckItemNumber @m.CheckItemName</div>
                                         }
                                         else if (m.CheckItemCode.Length / 4 == 2)
                                         {
-                                            <div class="depart2">@m.CheckItemNumber @m.CheckItemName</div>
+                                        <div class="depart2">@m.CheckItemNumber @m.CheckItemName</div>
                                         }
                                         else if (m.CheckItemCode.Length / 4 == 3)
                                         {
-                                            <div class="depart3">@m.CheckItemNumber @m.CheckItemName</div>
+                                        <div class="depart3">@m.CheckItemNumber @m.CheckItemName</div>
                                         }
-                                    </td>
-                                    <td>@m.Weight</td>
-                                    <td align="center">
-                                        <a class="btn btn-success  btn-sm" title='修改权重' onclick="openModifyCheckItemWeight('@m.CheckItemID');">
-                                            修改权重
-                                        </a>
-                                    </td>
-                                </tr>
+                                </td>
+                                <td>@m.Weight</td>
+                                <td align="center">
+                                    <a class="btn btn-success  btn-sm" title='修改权重' onclick="openModifyCheckItemWeight('@m.CheckItemID');">
+                                        修改权重
+                                    </a>
+                                </td>
+                            </tr>
                             }
-                        </tbody>
-                    </table>
-                </div>
-                <div role="tabpanel" class="tab-pane" id="tab2"></div>
-                <div role="tabpanel" class="tab-pane" id="tab3"></div>
-            </div>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -153,13 +138,13 @@
                         </label>
                         <div class="col-sm-9">
                             @foreach (User user in (List<User>)ViewBag.proList)
-{
-    <div class="checkbox form-control">
-        <label>
-            <input type="checkbox" name="proListCheckbox" value="@user.UserID"> @user.UserName
-        </label>
-    </div>
-}
+                            {
+                                <div class="checkbox form-control">
+                                    <label>
+                                        <input type="checkbox" name="proListCheckbox" value="@user.UserID"> @user.UserName
+                                    </label>
+                                </div>
+                            }
                         </div>
                     </div>
                 </form>
@@ -203,23 +188,23 @@
                     <tbody>
                         @foreach (var m in weightTaskList)
                         {
-                        <tr>
-                            <td>
-                                @m.WeightUser
-                            </td>
-                            <td>
-                                @if (m.Type == "0")
+                            <tr>
+                                <td>
+                                    @m.WeightUser
+                                </td>
+                                <td>
+                                    @if (m.Type == "0")
                                     { <div>指标排序</div>}
                                     else
                                     { <div>指标重要性打分</div>}
-                            </td>
-                            <td>
-                                @if (m.State == "0")
+                                </td>
+                                <td>
+                                    @if (m.State == "0")
                                     { <div>未完成</div>}
                                     else
                                     { <div>已完成</div>}
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>
@@ -245,9 +230,9 @@
                 </h4>
             </div>
             <div class="modal-body">
-                <span class="alert">
+                <div class="alert alert-warning">
                     指标权重保留3位小数，权重之和必须等于1。
-                </span>
+                </div>
                 <input type="hidden" id="txtCheckItemID" />
                 <form id="weightForm">
                     <table class="table table-bordered table-hover table-striped">

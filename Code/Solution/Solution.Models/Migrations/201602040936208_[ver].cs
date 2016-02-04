@@ -7,12 +7,12 @@ namespace Solution.Models.Migrations
     {
         public override void Up()
         {
-            AddColumn("dbo.T_CheckItem", "WeightPoint", c => c.Double(nullable: false));
+            AlterColumn("dbo.T_CheckItemScore", "Score", c => c.Double(nullable: false));
         }
         
         public override void Down()
         {
-            DropColumn("dbo.T_CheckItem", "WeightPoint");
+            AlterColumn("dbo.T_CheckItemScore", "Score", c => c.Int(nullable: false));
         }
     }
 }

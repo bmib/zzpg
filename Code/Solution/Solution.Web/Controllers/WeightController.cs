@@ -39,7 +39,7 @@ namespace Solution.Web.Controllers
             {
                 var task = db.WeightTask.Include("Check").Where(m => m.WeightTaskID == WeightTaskID).SingleOrDefault();
                 var listAll = (from m in db.CheckItem
-                               join n in db.WeightMark on m.CheckItemID equals n.CheckItemID into temp
+                               join n in db.WeightMark on new { CheckItemID = m.CheckItemID, WeightUser = SessionService.UserID } equals new { CheckItemID = n.CheckItemID, WeightUser = n.WeightUser } into temp
                                from t in temp.DefaultIfEmpty()
                                where m.CheckID == task.CheckID
                                select new ViewCheckItem
@@ -172,6 +172,8 @@ namespace Solution.Web.Controllers
 
                 weightTask.State = "1"; //将任务状态改为已完成
 
+                db.SaveChanges();
+
                 //判断是否所有的任务都已经完成，如果完成，生成指标重要程度任务
                 var count = db.WeightTask.Where(m => m.CheckID == weightTask.CheckID && m.State == "0").Count();
                 if (count == 0)
@@ -222,7 +224,7 @@ namespace Solution.Web.Controllers
             {
                 var task = db.WeightTask.Include("Check").Where(m => m.WeightTaskID == WeightTaskID).SingleOrDefault();
                 var listAll = (from m in db.CheckItem
-                               join n in db.WeightPoint on m.CheckItemID equals n.CheckItemID into temp
+                               join n in db.WeightPoint on new { CheckItemID = m.CheckItemID, WeightUser = SessionService.UserID } equals new { CheckItemID = n.CheckItemID, WeightUser = n.WeightUser } into temp
                                from t in temp.DefaultIfEmpty()
                                where m.CheckID == task.CheckID
                                select new ViewCheckItem
@@ -352,6 +354,8 @@ namespace Solution.Web.Controllers
 
                 weightTask.State = "1"; //将任务状态改为已完成
 
+                db.SaveChanges();
+
                 //判断是否所有的任务都已经完成，如果完成，计算权重
                 var count = db.WeightTask.Where(m => m.CheckID == weightTask.CheckID && m.State == "0" && m.Type == "1").Count();
                 if (count == 0)
@@ -403,11 +407,12 @@ namespace Solution.Web.Controllers
         public void CountWeight(List<CheckItem> items, int proCount)
         {
             items = items.OrderByDescending(m => m.WeightOrder).ToList();
+            double[] result = new double[items.Count];
             double total = 0;
-            double count = 1;
-            for (int i = 0; i < items.Count; i++)
+            for (int i = 0; i < items.Count - 1; i++)
             {
-                for (int j = i; j < items.Count; j++)
+                double count = 1;
+                for (int j = i; j < items.Count - 1; j++)
                 {
                     count = count * Math.Round(items[j].WeightPoint / proCount, 1);
                 }
@@ -415,9 +420,11 @@ namespace Solution.Web.Controllers
             }
 
             items[items.Count - 1].Weight = Math.Round(1 / (1 + total), 3);
-            for(int k = items.Count-2; k>0; k--)
+            result[items.Count - 1] = 1 / (1 + total);
+            for (int k = items.Count - 2; k >= 0; k--)
             {
-                items[k].Weight = Math.Round(Math.Round(items[k].WeightPoint / proCount, 1) * items[k + 1].Weight, 3);
+                items[k].Weight = Math.Round(Math.Round(items[k].WeightPoint / proCount, 1) * result[k + 1], 3);
+                result[k] = Math.Round(items[k].WeightPoint / proCount, 1) * result[k + 1];
             }
         }
     }

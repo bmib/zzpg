@@ -16,15 +16,15 @@ namespace Solution.Models
         [StringLength(36)]
         public string CheckItemID { get; set; }
 
-        [DisplayName("被考核人员ID")]
+        [DisplayName("检查任务ID")]
         [StringLength(36)]
-        public string CheckTaskUser { get; set; }
+        public string CheckTaskID { get; set; }
 
         [DisplayName("检查员评分")]
-        public int Score { get; set; }
+        public double Score { get; set; }
 
-        [DisplayName("检查员ID")]
-        [StringLength(36)]
-        public string Checker { get; set; }
+        [DisplayName("评分说明")]
+        [StringLength(4000)]
+        public string CheckMark { get; set; }
     }
 }
