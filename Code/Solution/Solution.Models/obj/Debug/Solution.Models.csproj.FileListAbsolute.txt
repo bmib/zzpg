@@ -25,7 +25,7 @@ F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Models\bin\
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Models\bin\Debug\EntityFramework.SqlServer.dll
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Models\bin\Debug\EntityFramework.xml
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Models\bin\Debug\EntityFramework.SqlServer.xml
-F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Models\obj\Debug\Solution.Models.dll
-F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Models\obj\Debug\Solution.Models.pdb
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Models\obj\Debug\Solution.Models.Migrations.ver.resources
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Models\obj\Debug\Solution.Models.csproj.GenerateResource.Cache
+F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Models\obj\Debug\Solution.Models.dll
+F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Models\obj\Debug\Solution.Models.pdb

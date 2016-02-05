@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - 资质评估系统</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("资质评估系统", "Index", "Home", null, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @if (Solution.Services.SessionService.User.Roles.Contains("admin"))
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">系统管理<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                @*<li>@Html.ActionLink("部门管理", "DepartManageView", "Manage")</li>*@
+                                <li>@Html.ActionLink("人员管理", "UserManageView", "Manage")</li>
+                                <li>@Html.ActionLink("指标库管理", "ItemFactoryList", "Manage")</li>
+                                <li>@Html.ActionLink("评估管理", "CheckManageView", "Manage")</li>
+                                <li>@Html.ActionLink("支付信息", "PayListView", "Manage")</li>
+                            </ul>
+                        </li>
+                    }
+                    @if (Solution.Services.SessionService.User.Roles.Contains("pro"))
+                    {
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">权重计算<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("重要性排序", "ItemSortView", "Weight")</li>
+                                <li>@Html.ActionLink("重要程度评估", "ItemDegreeView", "Weight")</li>
+                            </ul>
+                        </li>
+                    }
+                    @if (Solution.Services.SessionService.User.Roles.Contains("chk"))
+                    {
+                        <li>@Html.ActionLink("评估检查", "CheckListView", "Assessment")</li>
+                    }
+                </ul>
+                <ul class=" nav navbar-nav navbar-right">
+                    <li class=" dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <span class="glyphicon glyphicon-user"></span><span class="glyphicon glyphicon-triangle-bottom"></span> @Solution.Services.SessionService.User.UserName
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            @*<li>
+                                    <span class="glyphicon glyphicon-user"></span> 个人信息</a>
+                                </li>
+                                <li>
+                                    <span class="glyphicon glyphicon-cog"></span> 设置</a>
+                                </li>*@
+                            <li class="divider"></li>
+                            <li>
+                                <a href="/Home/Logout"><span class="glyphicon glyphicon-log-out"></span> 退出</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <div class="container">
+                <center>
+                    <p class="text-muted">&copy; @DateTime.Now.Year - 资质评估系统 - www.zzpgxt.com</p>
+                </center>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,369 @@
+﻿@using Solution.Framework.Contract
+@using Solution.Framework.Utility
+@using Solution.Framework.Web.Controls
+@using Solution.Models;
+
+@{
+    ViewBag.Title = "指标管理";
+}
+
+@model PagedList<Item>
+
+<div class="container">
+    <div class="container-fluid">
+        <div class="page-title">
+            <ol class="breadcrumb">
+                <li><a href="/Home/Index">首页</a></li>
+                <li><a href="/Manage/ItemFactoryList">指标库管理</a></li>
+                <li class="active">指标管理</li>
+            </ol>
+        </div>
+        <p>
+            <a class="btn btn-primary" title='添加一级指标' data-toggle="modal" data-target="#myModal">添加一级指标</a>
+        </p>
+        <form id="itemForm" method="post">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            指标名称
+                        </th>
+                        <th style="width:20%;">
+                            操作
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var m in Model)
+                    {
+                        <tr>
+                            <td>
+                                @if (m.ItemCode.Length / 4 == 1)
+                                {
+                                    <div class="depart1">@m.ItemNumber @m.ItemName</div>
+                                }
+                                else if (m.ItemCode.Length / 4 == 2)
+                                {
+                                    <div class="depart2">@m.ItemNumber @m.ItemName</div>
+                                }
+                                else if (m.ItemCode.Length / 4 == 3)
+                                {
+                                    <div class="depart3">@m.ItemNumber @m.ItemName</div>
+                                }
+                            </td>
+                            <td align="center">
+                                @if (m.ItemCode.Length / 4 < 3)
+                                {
+                                    <a class="btn btn-primary btn-sm" onclick="openAddNextItem('@m.ItemID');">添加下级指标</a>
+                                }
+                                <a class="btn btn-success  btn-sm" title='修改指标' onclick="openModifyItem('@m.ItemID', '@m.ItemName');">
+                                    修改
+                                </a>
+                                <a class="btn btn-danger  btn-sm" href="@Url.Action("ItemDelete", new { ItemCode = m.ItemCode, ItemFactoryID = m.ItemFactoryID })" onclick="return confirm('确定删除该指标及其下级指标吗？')">删除</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
+
+    </div>
+</div>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    增加一级指标
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="txtFirstItem" class="col-sm-2 control-label">
+                            指标名称
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtFirstItemName" placeholder="输入指标名称">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtFirstItemStandard" class="col-sm-2 control-label">
+                            评估标准
+                        </label>
+                        <div class="col-sm-10">
+                            <textarea id="txtFirstItemStandard" name="txtFirstItemStandard" cols="20" rows="6" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtFirstItemPoint" class="col-sm-2 control-label">
+                            考核点
+                        </label>
+                        <div class="col-sm-10">
+                            <div class="divider ">
+                                <a href="#" onclick="addFirstItemPoint();">添加</a>
+                            </div>
+                            <div id="divFirstItemPointList">
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="SaveFirstItem();">
+                    保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    增加下级指标
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="txtNextItemName" class="col-sm-2 control-label">
+                            指标名称
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="hidden" class="form-control" id="txtBeforeItemID">
+                            <input type="text" class="form-control" id="txtNextItemName" placeholder="输入指标名称">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtNextItemStandard" class="col-sm-2 control-label">
+                            评估标准
+                        </label>
+                        <div class="col-sm-10">
+                            <textarea id="txtNextItemStandard" name="txtNextItemStandard" cols="20" rows="6" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtNextItemPoint" class="col-sm-2 control-label">
+                            考核点
+                        </label>
+                        <div class="col-sm-10">
+                            <div class="divider ">
+                                <a href="#" onclick="addNextItemPoint();">添加</a>
+                            </div>
+                            <div id="divNextItemPointList">
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="SaveNextItem();">
+                    保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal3">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    修改指标
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="txtModifyItemName" class="col-sm-2 control-label">
+                            指标名称
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="hidden" class="form-control" id="txtModifyItemID">
+                            <input type="text" class="form-control" id="txtModifyItemName" placeholder="输入指标名称">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtModifyItemStandard" class="col-sm-2 control-label">
+                            评估标准
+                        </label>
+                        <div class="col-sm-10">
+                            <textarea id="txtModifyItemStandard" name="txtModifyItemStandard" cols="20" rows="6" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtModifyItemPoint" class="col-sm-2 control-label">
+                            考核点
+                        </label>
+                        <div class="col-sm-10">
+                            <div class="divider ">
+                                <a href="#" onclick="addModifyItemPoint();">添加</a>
+                            </div>
+                            <div id="divModifyItemPointList">
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="SaveModifyItem();">
+                    保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var ItemFactoryID = getQueryString("itemFactoryID");
+
+    function SaveFirstItem() {
+        var ItemName = $('#txtFirstItemName').val();
+        var CheckStandard = $('#txtFirstItemStandard').val();
+        var ctrpoint = document.getElementsByName("txtFirstItemPoint");
+        var pointList = "";
+        for (var i = 0; i < ctrpoint.length; i++) {
+            pointList = pointList + ctrpoint[i].value + ',';
+        }
+        $.post('/Manage/SaveFirstItem', { ItemName: ItemName, ItemFactoryID: ItemFactoryID, CheckStandard: CheckStandard, pointList: pointList },
+            function (data, status) {
+                if (!data.result) {
+                    alert('操作失败：' + data.message);
+                    return;
+                }
+                else {
+                    $('#myModal').modal('toggle');
+                    window.location.reload();
+                }
+            });
+    }
+
+    function addFirstItemPoint() {
+        var html = '<div  class="divFirstItemPoint"><input type="text" name="txtFirstItemPoint"  class="form-control  col-sm-10" /><a href="#" onclick="deleteFirtItemPoint(' + $(".divFirstItemPoint").length + ');" class="col-sm-2">删除</a></div>';
+        $("#divFirstItemPointList").append(html);
+    }
+
+    function deleteFirstItemPoint(id) {
+        $(".divFirstItemPoint").eq(id).remove();
+    }
+
+    function openAddNextItem(txtBeforeItemID) {
+        $("#divFirstItemPointList").html("");
+        $('#txtBeforeItemID').val(txtBeforeItemID);
+        $('#myModal2').modal();
+    }
+
+    function SaveNextItem() {
+        var txtBeforeItemID = $('#txtBeforeItemID').val();
+        var txtNextItemName = $('#txtNextItemName').val();
+        var CheckStandard = $('#txtNextItemStandard').val();
+        var ctrpoint = document.getElementsByName("txtNextItemPoint");
+        var pointList = "";
+        for (var i = 0; i < ctrpoint.length; i++) {
+            pointList = pointList + ctrpoint[i].value + ',';
+        }
+        $.post('/Manage/SaveNextItem', { txtNextItemName: txtNextItemName, txtBeforeItemID: txtBeforeItemID, CheckStandard: CheckStandard, pointList: pointList },
+            function (data, status) {
+                if (!data.result) {
+                    alert('操作失败：' + data.message);
+                    return;
+                }
+                else {
+                    $('#myModal2').modal('toggle');
+                    window.location.reload();
+                }
+            });
+    }
+
+    function addNextItemPoint() {
+        var html = '<div  class="divNextItemPoint"><input type="text" name="txtNextItemPoint"  class="form-control  col-sm-10" /><a href="#" onclick="deleteNextItemPoint(' + $(".divNextItemPoint").length + ');" class="col-sm-2">删除</a></div>';
+        $("#divNextItemPointList").append(html);
+    }
+
+    function deleteNextItemPoint(id) {
+        $(".divNextItemPoint").eq(id).remove();
+    }
+
+    function openModifyItem(txtModifyItemID, txtModifyItemName) {
+        $("#divModifyItemPointList").html("");
+        $('#txtModifyItemID').val(txtModifyItemID);
+        $('#txtModifyItemName').val(txtModifyItemName);
+        var txtModifyCheckStandard = "";
+        var points = "";
+        $.post('/Manage/GetModifyItem', { ItemID: txtModifyItemID },
+            function (data, status) {
+                if (!data.result) {
+                    alert('操作失败：' + data.message);
+                    return;
+                }
+                else {
+                    txtModifyCheckStandard = data.CheckStandard;
+                    points = data.ItemPoints;
+                }
+            });
+        $('#txtModifyItemStandard').val(txtModifyCheckStandard);
+        var ps = points.split(',');
+        for (var i = 0; i < ps.length; i++) {
+            var html = '<div  class="divModifyItemPoint"><input type="text" name="txtModifyItemPoint"  class="form-control  col-sm-10" value="' + ps[i] + '" /><a href="#" onclick="deleteModifyItemPoint(' + $(".divModifyItemPoint").length + ');" class="col-sm-2">删除</a></div>';
+            $("#divModifyItemPointList").append(html);
+        }
+        $('#myModal3').modal();
+    }
+
+    function SaveModifyItem() {
+        var txtModifyItemID = $('#txtModifyItemID').val();
+        var txtModifyItemName = $('#txtModifyItemName').val();
+        var CheckStandard = $('#txtModifyItemStandard').val();
+        var ctrpoint = document.getElementsByName("txtModifyItemPoint");
+        var pointList = "";
+        for (var i = 0; i < ctrpoint.length; i++) {
+            pointList = pointList + ctrpoint[i].value + ',';
+        }
+        $.post('/Manage/SaveModifyItem', { txtModifyItemName: txtModifyItemName, txtModifyItemID: txtModifyItemID, CheckStandard: CheckStandard, pointList: pointList },
+            function (data, status) {
+                if (!data.result) {
+                    alert('操作失败：' + data.message);
+                    return;
+                }
+                else {
+                    $('#myModal3').modal('toggle');
+                    window.location.reload();
+                }
+            });
+    }
+
+    function addModifyItemPoint() {
+        var html = '<div  class="divModifyItemPoint"><input type="text" name="txtModifyItemPoint"  class="form-control  col-sm-10" /><a href="#" onclick="deleteModifyItemPoint(' + $(".divModifyItemPoint").length + ');" class="col-sm-2">删除</a></div>';
+        $("#divModifyItemPointList").append(html);
+    }
+
+    function deleteModifyItemPoint(id) {
+        $(".divModifyItemPoint").eq(id).remove();
+    }
+
+    $.ajaxSetup({
+        async: false
+    });
+</script>

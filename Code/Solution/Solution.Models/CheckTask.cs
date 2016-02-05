@@ -43,5 +43,7 @@ namespace Solution.Models
 
         [DisplayName("完成时间")]
         public DateTime? FinishedTime { get; set; }
+
+        
     }
 }

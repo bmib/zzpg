@@ -1,0 +1,66 @@
+﻿@using Solution.Framework.Contract
+@using Solution.Framework.Utility
+@using Solution.Framework.Web.Controls
+@using Solution.Models;
+@{
+    ViewBag.Title = "CheckListView";
+}
+
+@model List<ViewCheckTask>
+
+<div class="container">
+    <div class="container-fluid">
+        <div class="page-title">
+            <ol class="breadcrumb">
+                <li><a href="/Home/Index">首页</a></li>
+                <li class="active">评估检查</li>
+            </ol>
+        </div>
+        <form id="departForm" method="post">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            部门
+                        </th>
+                        <th>
+                            姓名
+                        </th>
+                        <th>
+                            状态
+                        </th>
+                        <th style="width:30%;">
+                            操作
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var m in Model)
+                    {
+                        <tr>
+                            <td>
+                                @m.Department
+                            </td>
+                            <td>
+                                @m.UserName
+                            </td>
+                            <td>
+                                @if(m.State == "2")
+                                {
+                                    <span>待评估</span>
+                                }
+                                else if (m.State == "3")
+                                {
+                                    <span>评估完成</span>
+                                }
+                            </td>
+                            <td align="center">
+                                <a class="btn btn-info btn-sm" href="/Assessment/CheckDetailView?CheckTaskID=@m.CheckTaskID">评估检查</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>

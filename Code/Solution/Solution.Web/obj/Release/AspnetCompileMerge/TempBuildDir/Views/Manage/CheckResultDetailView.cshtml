@@ -1,0 +1,54 @@
+﻿@using Solution.Framework.Contract
+@using Solution.Framework.Utility
+@using Solution.Framework.Web.Controls
+@using Solution.Models;
+@{
+    ViewBag.Title = "CheckResultDetailView";
+}
+
+@model  List<ViewCheckResultDetail>
+
+<div class="container">
+    <div class="container-fluid">
+        <div class="page-title">
+            <ol class="breadcrumb">
+                <li><a href="/Home/Index">首页</a></li>
+                <li><a href="/Manage/CheckResultView?CheckID=@ViewBag.CheckID">评估结果</a></li>
+                <li class="active">查看得分情况-[@ViewBag.Department] @ViewBag.UserName</li>
+            </ol>
+        </div>
+        <form id="departForm" method="post">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            指标
+                        </th>
+                        <th>
+                            得分
+                        </th>
+                        <th>
+                            评分说明
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var m in Model)
+                    {
+                        <tr>
+                            <td>
+                                @m.CheckItemNumber @m.CheckItemName
+                            </td>
+                            <td>
+                                @m.Score
+                            </td>
+                            <td>
+                                @m.CheckMark
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>

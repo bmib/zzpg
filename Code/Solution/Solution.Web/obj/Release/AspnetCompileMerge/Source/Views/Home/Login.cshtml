@@ -1,0 +1,84 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>登录</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+    <style>
+        .form-signin {
+            max-width: 330px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+
+        input {
+            margin-bottom: 10px;
+        }
+    </style>
+    <script>
+        function login() {
+            if ($("#loginForm").valid()) {
+                var jsonObj = $("#loginForm").serializeArray();
+                $.post("/Home/LoginAction", jsonObj, 
+                function (data) {
+                    if (!data.result) {
+                        alert(data.message);
+                        return;
+                    }
+                    else {
+                        window.location.href = '/Home/Index';
+                    }
+                });
+            }
+        }
+
+        $.ajaxSetup({
+            async: false
+        });
+
+        $(document).ready(function(){
+            $("#loginForm").validate();
+        });
+    </script>
+</head>
+<body style=" background-color:#f7f6f2;">
+    <div class="container">
+        <form class="form-signin" role="form" method="post" id="loginForm">
+            <div class="form-group-lg">
+                <h3 class="form-signin-heading">登录资质评估系统</h3>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail" class="sr-only">邮箱</label>
+                <input type="email" id="inputEmail" name="inputEmail" class="form-control" data-val-required="邮箱必填" data-val="true" data-val-email="邮箱地址不正确" style="max-width:280px;" placeholder="邮箱" required autofocus>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword" class="sr-only">密码</label>
+                <input type="password" id="inputPassword" name="inputPassword" class="form-control" data-val-required="密码必填" data-val="true" style="max-width: 280px;" placeholder="密码" required>
+            </div>
+            <div class="form-group">
+                <label for="inputCheckCode" class="sr-only">验证码</label>
+                <img src="/Home/VerifyImage" id="VerifyImage" title="看不清？点击换一个" onclick="javascript:document.getElementById('VerifyImage').src='@Url.Action("VerifyImage", "Home")?r='+Math.random();return false;" width="80" />
+                &nbsp;&nbsp;<input type="text" id="inputCheckCode" name="inputCheckCode" class="form-control pull-left" data-val-required="验证码必填" data-val="true" style="max-width:200px;" placeholder="验证码" required>
+            </div>
+            <div class="form-group">
+                @Html.ValidationSummary()
+            </div>
+            <div class="form-group-lg">
+                <button class="btn btn-success btn-lg btn-block form-control" type="button" style="max-width: 280px;" onclick="login();">登录</button>
+            </div><hr />
+            <div>
+                <a href="/Home/GetPassword" title="点击找回密码">忘记密码</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/Home/Register" title="注册">免费注册&nbsp;<span class="alert-warning">(仅限公司管理员注册)</span></a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

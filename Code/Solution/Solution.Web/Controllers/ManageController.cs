@@ -9,6 +9,9 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Office.Interop.Excel;
+using System.Reflection;
+using System.Runtime.InteropServices;
 namespace Solution.Web.Controllers
 {
     public class ManageController : BaseController
@@ -1080,7 +1083,7 @@ namespace Solution.Web.Controllers
                             }
                         }
 
-                        pay.Money = number * Constants.PerUserPrice;
+                        pay.Money = number * Solution.Common.Constants.PerUserPrice;
                     }
 
                     db.SaveChanges();
@@ -1142,7 +1145,7 @@ namespace Solution.Web.Controllers
                             }
                         }
 
-                        pay.Money = number * Constants.PerUserPrice;
+                        pay.Money = number * Solution.Common.Constants.PerUserPrice;
                     }
 
                     db.SaveChanges();
@@ -1150,6 +1153,243 @@ namespace Solution.Web.Controllers
             }
 
             return Json(new { result = true, message = "添加人员" + number + "个" });
+        }
+
+        /// <summary>
+        /// 评估结果页面
+        /// </summary>
+        /// <param name="CheckID"></param>
+        /// <returns></returns>
+        public ActionResult CheckResultView(string CheckID)
+        {
+            ViewBag.CheckID = CheckID;
+            using (DBContext db = new DBContext())
+            {
+                var list = (from m in db.User
+                            join n in db.CheckTask on m.UserID equals n.UserID
+                            join x in db.CheckUserScore on n.CheckTaskID equals x.CheckTaskID
+                            where n.CheckID == CheckID && n.State == "3"
+                            select new ViewCheckResult
+                            {
+                                UserID = m.UserID,
+                                UserName = m.UserName,
+                                Department = m.Department,
+                                Score = x.Score,
+                                Remark = x.Remark
+                            }).OrderBy(m => m.UserName).OrderBy(m => m.Department).OrderByDescending(m => m.Score).ToList();
+
+                return View(list);
+            }
+        }
+
+        /// <summary>
+        /// 查看用户详细得分情况
+        /// </summary>
+        /// <param name="CheckID"></param>
+        /// <param name="UserID"></param>
+        /// <returns></returns>
+        public ActionResult CheckResultDetailView(string CheckID, string UserID)
+        {
+            ViewBag.CheckID = CheckID;
+
+            using (DBContext db = new DBContext())
+            {
+                var user = db.User.Where(m => m.UserID == UserID).SingleOrDefault();
+                ViewBag.Department = user.Department;
+                ViewBag.UserName = user.UserName;
+                var list = (from n in db.CheckTask
+                            join x in db.CheckItemScore on n.CheckTaskID equals x.CheckTaskID
+                            join h in db.CheckItem on x.CheckItemID equals h.CheckItemID
+                            where n.CheckID == CheckID && n.UserID == UserID && n.State == "3"
+                            select new ViewCheckResultDetail
+                            {
+                                CheckItemID = x.CheckItemID,
+                                CheckItemName = h.CheckItemName,
+                                CheckItemNumber = h.CheckItemNumber,
+                                CheckItemCode = h.CheckItemCode,
+                                Score = x.Score,
+                                CheckMark = x.CheckMark
+                            }).OrderBy(m => m.CheckItemCode).ToList();
+
+                return View(list);
+            }
+        }
+
+        /// <summary>
+        /// 导出结果
+        /// </summary>
+        /// <param name="CheckID">检查ID</param>
+        /// <returns></returns>
+        public ActionResult ExportCheckResult(string CheckID)
+        {
+            using (DBContext db = new DBContext())
+            {
+                var model = db.Check.Where(m => m.CheckID == CheckID).SingleOrDefault();
+                if (model != null && !string.IsNullOrEmpty(model.ExcelFileName))
+                {
+                    var fileName = Server.MapPath(string.Concat("~/Content/file/", model.ExcelFileName));
+                    return File(fileName, "application/ms-excel", string.Concat(DateTime.Now.ToString("yyyyMMddHHmmssffff"), ".xlsx"));
+                }
+                else
+                {
+                    //新生成Excel文件
+                    System.Data.DataTable dt = new System.Data.DataTable("ExportData");
+                    dt.Columns.Add("ItemName");
+                    dt.Rows.Add("");
+                    var checkItemList = db.CheckItem.Where(m => m.CheckID == CheckID).OrderBy(m => m.CheckItemCode).ToList();
+                    for (int i = 0; i < checkItemList.Count; i++)
+                    {
+                        dt.Rows.Add(checkItemList[i].CheckItemCode);
+                        dt.Rows[i + 1]["ItemName"] = string.Concat(checkItemList[i].CheckItemNumber, " ", checkItemList[i].CheckItemName);
+                    }
+
+                    dt.Rows.Add("Total");
+                    dt.Rows[checkItemList.Count + 1]["ItemName"] = "总分";
+
+                    var checkTask = (from m in db.CheckTask
+                                     join n in db.User on m.UserID equals n.UserID
+                                     where m.CheckID == CheckID && m.State == "3"
+                                     select new
+                                     {
+                                         UserID = m.UserID,
+                                         Department = n.Department,
+                                         UserName = n.UserName,
+                                         CheckTaskID = m.CheckTaskID
+                                     }).ToList();
+
+                    for (int j = 0; j < checkTask.Count; j++)
+                    {
+                        dt.Columns.Add(checkTask[j].UserID);
+                        dt.Rows[0][j + 1] = checkTask[j].UserName;
+
+                        string uID = checkTask[j].UserID;
+                        var list = (from n in db.CheckTask
+                                    join x in db.CheckItemScore on n.CheckTaskID equals x.CheckTaskID
+                                    join h in db.CheckItem on x.CheckItemID equals h.CheckItemID
+                                    where n.CheckID == CheckID && n.UserID == uID && n.State == "3"
+                                    select new ViewCheckResultDetail
+                                    {
+                                        CheckItemID = x.CheckItemID,
+                                        CheckItemName = h.CheckItemName,
+                                        CheckItemNumber = h.CheckItemNumber,
+                                        CheckItemCode = h.CheckItemCode,
+                                        Score = x.Score,
+                                        CheckMark = x.CheckMark
+                                    }).OrderBy(m => m.CheckItemCode).ToList();
+
+                        for (int k = 0; k < list.Count; k++)
+                        {
+                            dt.Rows[k + 1][j + 1] = list[k].Score;
+                        }
+                        string cTaskID = checkTask[j].CheckTaskID;
+                        var userScore = db.CheckUserScore.Where(m => m.CheckTaskID == cTaskID).SingleOrDefault();
+                        if (userScore != null)
+                        {
+                            dt.Rows[list.Count + 1][j + 1] = userScore.Score;
+                        }
+                    }
+
+                    //将DataTable保存为excel
+                    string FileName = string.Concat(DateTime.Now.ToString("yyyyMMddHHmmssffff"), ".xlsx");
+                    string FilePath = Server.MapPath(string.Concat("~/Content/file/", FileName));
+                    if (ExportExcel(dt, FilePath))
+                    {
+                        model.ExcelFileName = FileName;
+                    }
+
+                    db.SaveChanges();
+
+                    return File(FilePath, "application/ms-excel", string.Concat(DateTime.Now.ToString("yyyyMMddHHmmssffff"), ".xlsx"));
+                }
+            }
+        }
+
+        /// <summary>
+        /// 导出Excel
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public bool ExportExcel(System.Data.DataTable dt, string path)
+        {
+            bool succeed = false;
+            if (dt != null)
+            {
+                Microsoft.Office.Interop.Excel.Application xlApp = null;
+                try
+                {
+                    xlApp = new Microsoft.Office.Interop.Excel.Application();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+                if (xlApp != null)
+                {
+                    try
+                    {
+                        Microsoft.Office.Interop.Excel.Workbook xlBook = xlApp.Workbooks.Add(true);
+                        object oMissing = System.Reflection.Missing.Value;
+                        Microsoft.Office.Interop.Excel.Worksheet xlSheet = null;
+
+                        xlSheet = (Worksheet)xlBook.Worksheets[1];
+                        xlSheet.Name = dt.TableName;
+
+                        int rowIndex = 1;
+                        int colIndex = 1;
+                        int colCount = dt.Columns.Count;
+                        int rowCount = dt.Rows.Count;
+
+                        //列名的处理
+                        //for (int i = 0; i < colCount; i++)
+                        //{
+                        //    xlSheet.Cells[rowIndex, colIndex] = dt.Columns[i].ColumnName;
+                        //    colIndex++;
+                        //}
+                        //列名加粗显示
+                        //xlSheet.get_Range(xlSheet.Cells[rowIndex, 1], xlSheet.Cells[rowIndex, colCount]).Font.Bold = true;
+                        //xlSheet.get_Range(xlSheet.Cells[rowIndex, 1], xlSheet.Cells[rowCount + 1, colCount]).Font.Name = "Arial";
+                        //xlSheet.get_Range(xlSheet.Cells[rowIndex, 1], xlSheet.Cells[rowCount + 1, colCount]).Font.Size = "10";
+                        //rowIndex++;
+
+                        for (int i = 0; i < rowCount; i++)
+                        {
+                            colIndex = 1;
+                            for (int j = 0; j < colCount; j++)
+                            {
+                                xlSheet.Cells[rowIndex, colIndex] = dt.Rows[i][j].ToString();
+                                colIndex++;
+                            }
+                            rowIndex++;
+                        }
+                        xlSheet.Cells.EntireColumn.AutoFit();
+
+                        xlApp.DisplayAlerts = false;
+                        path = Path.GetFullPath(path);
+                        xlBook.SaveCopyAs(path);
+                        xlBook.Close(false, null, null);
+                        xlApp.Workbooks.Close();
+                        Marshal.ReleaseComObject(xlSheet);
+                        Marshal.ReleaseComObject(xlBook);
+                        xlBook = null;
+                        succeed = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        succeed = false;
+                    }
+                    finally
+                    {
+                        xlApp.Quit();
+                        Marshal.ReleaseComObject(xlApp);
+                        int generation = System.GC.GetGeneration(xlApp);
+                        xlApp = null;
+                        System.GC.Collect(generation);
+                    }
+                }
+            }
+            return succeed;
         }
 
         /// <summary>

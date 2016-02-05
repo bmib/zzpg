@@ -1,0 +1,162 @@
+﻿@using Solution.Framework.Contract
+@using Solution.Framework.Utility
+@using Solution.Framework.Web.Controls
+@using Solution.Models;
+
+@model List<Pay>
+<div class="container">
+    <div class="container-fluid">
+        <div class="page-title">
+            <ol class="breadcrumb">
+                <li><a href="/Home/Index">首页</a></li>
+                <li><a href="/Manage/CheckManageView">评估管理</a></li>
+                <li class="active">支付</li>
+            </ol>
+        </div>
+        <form id="departForm" method="post">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            下单时间
+                        </th>
+                        <th>
+                            金额
+                        </th>
+                        <th>
+                            状态
+                        </th>
+                        <th style="width:20%;">
+                            操作
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var m in Model)
+                    {
+                        <tr>
+                            <td>@m.CreatedTime</td>
+                            <td>@m.Money</td>
+                            <td>
+                                @if (m.State == "0")
+                                {
+                                    <span>未支付</span>
+                                }
+                                else if (m.State == "1")
+                                {
+                                    <span>支付完成待确认</span>
+                                }
+                                else if (m.State == "2")
+                                {
+                                    <span>支付成功</span>
+                                }
+                            </td>
+                            <td align="center">
+                                @if (m.State == "0")
+                                {
+                                    <a class="btn btn-success  btn-sm" href="#" onclick="startPay('@m.PayID', '@m.Money');">支付</a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    支付
+                </h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="PayInput" />
+                <div class="alert alert-warning">
+                    提示：完成支付后，系统将在2个小时之内完成确认，请耐心等待。
+                </div>
+                <div style="margin-bottom:10px; width:100%; text-align:center;">
+                    <span id="moneySpan" class="h1" style="color:red;"></span>
+                </div>
+                <div>
+                    <table style="width:100%">
+                        <tr>
+                            <td>
+                                <b>
+                                    支付方式1：微信支付。<br />使用微信扫描以下二维码完成支付。
+                                </b>
+                                <div>
+                                    <img src="~/Content/images/code.jpg" alt="请用微信扫描二维码" width="200" height="200" />
+                                </div>
+                            </td>
+                            <td>
+                                <b>
+                                    支付方式2：支付宝支付。<br />使用支付宝扫描以下二维码完成支付。
+                                </b>
+                                <div>
+                                    <img src="~/Content/images/code2.jpg" alt="请用微信扫描二维码" width="200" height="200" />
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+                <div style="margin-top:15px;">
+                    <b>
+                        支付方式3：银行转账。转账到以下银行账号：
+                    </b>
+                    <div>
+                        工商银行：9558 8002 0014 3553 747 何华杰
+                    </div>
+                    @*<div>
+                            建设银行：9558 8002 0014 3553 747 何华杰
+                        </div>
+                        <div>
+                            招商银行：9558 8002 0014 3553 747 何华杰
+                        </div>*@
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="FinishPay();">
+                    已完成支付
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //点击支付按钮
+    function startPay(payID, money) {
+        $("#PayInput").val(payID);
+        $('#myModal').modal();
+        $("#moneySpan").html("￥" + money);
+    }
+
+    //完成支付
+    function FinishPay() {
+        if (confirm("确认已经完成支付，提交系统确认吗？")) {
+            var PayID = $("#PayInput").val();
+            $.post('/Manage/PayFinished', { PayID: PayID },
+             function (data, status) {
+                 if (!data.result) {
+                     alert('操作失败：' + data.message);
+                     return;
+                 }
+                 else {
+                     $('#myModal').modal('toggle');
+                     window.location.reload();
+                 }
+             });
+        }
+    }
+</script>

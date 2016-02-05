@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="zzpg" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^F:\\HEHUAJIE\\DOCUMENTS\\资质评估系统\\zzpg\\Code\\Solution\\Solution\.Web\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^F:\\HEHUAJIE\\DOCUMENTS\\资质评估系统\\zzpg\\Code\\Solution\\Solution\.Web\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="SolutionContext-Web.config Connection String" description="" value="Data Source=123.57.209.28;Initial Catalog=zzpg;Persist Security Info=True;User ID=sa;Password=P@ssw0rd4;MultipleActiveResultSets=True" tags="">
+    <parameterEntry kind="XmlFile" scope="F:\\HEHUAJIE\\DOCUMENTS\\资质评估系统\\zzpg\\Code\\Solution\\Solution\.Web\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='SolutionContext']/@connectionString" />
+  </parameter>
+</parameters>

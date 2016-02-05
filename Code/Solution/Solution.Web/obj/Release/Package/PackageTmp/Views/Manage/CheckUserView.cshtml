@@ -1,0 +1,184 @@
+﻿@using Solution.Framework.Contract
+@using Solution.Framework.Utility
+@using Solution.Framework.Web.Controls
+@using Solution.Models;
+
+@{
+    List<ViewCheckUser> checkUserList = (List<ViewCheckUser>)ViewBag.checkUserList;
+    List<User> checkerList = (List<User>)ViewBag.checkerList;
+}
+
+@model Check
+
+<div class="container">
+    <div class="container-fluid">
+        <div class="page-title">
+            <ol class="breadcrumb">
+                <li><a href="/Home/Index">首页</a></li>
+                <li><a href="/Manage/CheckManageView">评估管理</a></li>
+                <li class="active">@ViewBag.CheckName - 评估人员</li>
+            </ol>
+        </div>
+
+        <p>
+            <div class="alert alert-warning">
+                <span>资质评估收费标准：每人每次</span>@Solution.Common.Constants.PerUserPrice<span>元。添加人员后请<a href="/Manage/PayListView">点击此处</a>完成支付。</span>
+            </div>
+            <a class="btn btn-primary" title='添加人员' href="/Manage/CheckUserAddView?CheckID=@Model.CheckID">添加人员</a>
+            <a class="btn btn-danger" title='分配检查员' href="#" onclick="openAssignWindow();">分配检查员</a>
+        </p>
+        <form id="departForm" method="post">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>选择</th>
+                        <th>
+                            部门
+                        </th>
+                        <th>
+                            姓名
+                        </th>
+                        <th>
+                            检查员
+                        </th>
+                        <th>
+                            状态
+                        </th>
+                        <th style="width:20%;">
+                            操作
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var m in checkUserList)
+                    {
+                        <tr>
+                            <td>
+                                @if (m.State == "1")
+                                {
+                                    <input type="checkbox" name="checkUserCheckBox" class="checkUserCheckBox" value="@m.UserID" />
+                                }
+                            </td>
+                            <td>@m.UserDepartmentName</td>
+                            <td>@m.UserName</td>
+                            <td>@m.CheckerName</td>
+                            <td>
+                                @if (m.State == "0")
+                                {
+                                    <span>未支付</span>
+                                }
+                                else if (m.State == "1")
+                                {
+                                    <span>未分配检查员</span>
+                                }
+                                else if (m.State == "2")
+                                {
+                                    <span>待评估</span>
+                                }
+                                else if (m.State == "3")
+                                {
+                                    <span>评估完成</span>
+                                }
+                            </td>
+                            <td align="center">
+                                @if (m.State == "3")
+                                {
+                                    <a class="btn btn-success  btn-sm" href="/Manage/CheckUserResultView?CheckID=@m.CheckID&UserID=@m.UserID">查看评估结果</a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    分配检查员
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="txtCheckName" class="col-sm-3 control-label">
+                            选择检查员
+                        </label>
+                        <div class="col-sm-9">
+                            <select id="checkerSelect" class="form-control">
+                                @foreach (var u in checkerList)
+                                {
+                                    <option value="@u.UserID">@u.UserName</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="AssignChecker();">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var CheckID = getQueryString("CheckID");
+
+    function openAssignWindow() {
+        var s = document.getElementsByName("checkUserCheckBox");
+        var s2 = "";
+        for (var i = 0; i < s.length; i++) {
+            if (s[i].checked) {
+                s2 = s2 + s[i].value + ',';
+            }
+        }
+        s2 = s2.substr(0, s2.length - 1);
+        if (s2 == "") {
+            alert("请选择被评估人员");
+        }
+        else {
+            $('#myModal').modal();
+        }
+    }
+
+    function AssignChecker() {
+        var checkerID = $("#checkerSelect").val();
+        var s = document.getElementsByName("checkUserCheckBox");
+        var s2 = "";
+        for (var i = 0; i < s.length; i++) {
+            if (s[i].checked) {
+                s2 = s2 + s[i].value + ',';
+            }
+        }
+        s2 = s2.substr(0, s2.length - 1);
+        if (s2 == "") {
+            alert("请选择被评估人员");
+        }
+        else {
+            $.post('/Manage/AssignChecker', { CheckID: CheckID, checkerID: checkerID, UserID: s2 },
+              function (data, status) {
+                  if (!data.result) {
+                      alert('操作失败：' + data.message);
+                      return;
+                  }
+                  else {
+                      $('#myModal').modal('toggle');
+                      window.location.reload();
+                  }
+              });
+        }
+    }
+</script>

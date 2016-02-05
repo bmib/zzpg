@@ -1,0 +1,166 @@
+﻿@using Solution.Framework.Contract
+@using Solution.Framework.Utility
+@using Solution.Framework.Web.Controls
+@using Solution.Models;
+@{
+    ViewBag.Title = "指标库管理";
+}
+
+
+@model PagedList<ItemFactory>
+
+<div class="container">
+    <div class="container-fluid">
+        <div class="page-title">
+            <ol class="breadcrumb">
+                <li><a href="/Home/Index">首页</a></li>
+                <li class="active">指标库管理</li>
+            </ol>
+        </div>
+        <p>
+            <a class="btn btn-primary" title='新增指标库' data-toggle="modal" data-target="#myModal">新增指标库</a>
+        </p>
+        <form id="departForm" method="post">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            指标库名称
+                        </th>
+                        <th style="width:20%;">
+                            操作
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var m in Model)
+                    {
+                        <tr>
+                            <td>
+                                @m.ItemFactoryName
+                            </td>
+                            <td align="center">
+                               
+                                <a class="btn btn-success  btn-sm" title='修改' onclick="openModifyItemFactory('@m.ItemFactoryID', '@m.ItemFactoryName');">
+                                    修改
+                                </a>
+                                <a class="btn btn-danger  btn-sm" href="@Url.Action("ItemFactoryDelete", new { itemFatoryID = m.ItemFactoryID })" onclick="return confirm('确定删除该指标库吗？')">删除</a>
+                                <a class="btn btn-info btn-sm" href="/Manage/ItemManageView?itemFactoryID=@m.ItemFactoryID">指标管理</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    新增指标库
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="txtItemFactoryName" class="col-sm-3 control-label">
+                            指标库名称
+                        </label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="txtItemFactoryName" placeholder="输入指标库名称">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="SaveItemFactory();">
+                    保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal3">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    修改指标库
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="txtCurrentItemFactoryName" class="col-sm-3 control-label">
+                            指标库名称
+                        </label>
+                        <div class="col-sm-9">
+                            <input type="hidden" class="form-control" id="txtCurrentItemFactoryID">
+                            <input type="text" class="form-control" id="txtCurrentItemFactoryName" placeholder="输入指标库名称">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="SaveModifyItemFactory();">
+                    保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function SaveItemFactory() {
+        var txtItemFactoryName = $('#txtItemFactoryName').val();
+        $.post('/Manage/SaveItemFactory', { txtItemFactoryName: txtItemFactoryName },
+            function (data, status) {
+                if (!data.result) {
+                    alert('操作失败：' + data.message);
+                    return;
+                }
+                else {
+                    $('#myModal').modal('toggle');
+                    window.location.reload();
+                }
+            });
+    }
+
+    function openModifyItemFactory(ItemFactoryID, ItemFactoryName) {
+        $('#txtCurrentItemFactoryID').val(ItemFactoryID);
+        $('#txtCurrentItemFactoryName').val(ItemFactoryName);
+        $('#myModal3').modal();
+    }
+
+    function SaveModifyItemFactory() {
+        var txtCurrentItemFactoryID = $('#txtCurrentItemFactoryID').val();
+        var txtCurrentItemFactoryName = $('#txtCurrentItemFactoryName').val();
+        $.post('/Manage/SaveModifyItemFactory', { txtCurrentItemFactoryID: txtCurrentItemFactoryID, txtCurrentItemFactoryName: txtCurrentItemFactoryName },
+            function (data, status) {
+                if (!data.result) {
+                    alert('操作失败：' + data.message);
+                    return;
+                }
+                else {
+                    $('#myModal3').modal('toggle');
+                    window.location.reload();
+                }
+            });
+    }
+    </script>

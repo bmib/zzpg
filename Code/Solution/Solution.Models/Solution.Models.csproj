@@ -58,9 +58,9 @@
     <Compile Include="Item.cs" />
     <Compile Include="ItemFactory.cs" />
     <Compile Include="ItemPoint.cs" />
-    <Compile Include="Migrations\201602040936208_[ver].cs" />
-    <Compile Include="Migrations\201602040936208_[ver].Designer.cs">
-      <DependentUpon>201602040936208_[ver].cs</DependentUpon>
+    <Compile Include="Migrations\201602051240350_[ver].cs" />
+    <Compile Include="Migrations\201602051240350_[ver].Designer.cs">
+      <DependentUpon>201602051240350_[ver].cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Pay.cs" />
@@ -69,6 +69,8 @@
     <Compile Include="User.cs" />
     <Compile Include="ViewCheckItem.cs" />
     <Compile Include="ViewCheckItemMark.cs" />
+    <Compile Include="ViewCheckResult.cs" />
+    <Compile Include="ViewCheckResultDetail.cs" />
     <Compile Include="ViewCheckTask.cs" />
     <Compile Include="ViewCheckTaskItem.cs" />
     <Compile Include="ViewCheckUser.cs" />
@@ -82,8 +84,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201602040936208_[ver].resx">
-      <DependentUpon>201602040936208_[ver].cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201602051240350_[ver].resx">
+      <DependentUpon>201602051240350_[ver].cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

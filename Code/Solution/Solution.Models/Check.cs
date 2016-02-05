@@ -43,5 +43,9 @@ namespace Solution.Models
         [DisplayName("创建人")]
         [StringLength(36)]
         public string CreatedUser { get; set; }
+
+        [DisplayName("导出的文件地址")]
+        [StringLength(4000)]
+        public string ExcelFileName { get; set; }
     }
 }

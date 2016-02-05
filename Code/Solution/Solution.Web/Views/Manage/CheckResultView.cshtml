@@ -1,0 +1,63 @@
+﻿@using Solution.Framework.Contract
+@using Solution.Framework.Utility
+@using Solution.Framework.Web.Controls
+@using Solution.Models;
+@{
+    ViewBag.Title = "CheckResultView";
+}
+
+
+@model  List<ViewCheckResult>
+
+<div class="container">
+    <div class="container-fluid">
+        <div class="page-title">
+            <ol class="breadcrumb">
+                <li><a href="/Home/Index">首页</a></li>
+                <li class="active">评估结果</li>
+            </ol>
+        </div>
+        <p>
+            <a class="btn btn-success" title='导出评估结果' href="/Manage/ExportCheckResult?CheckID=@ViewBag.CheckID">导出评估结果(Excel格式)</a>
+        </p>
+        <form id="departForm" method="post">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            部门
+                        </th>
+                        <th>
+                            姓名
+                        </th>
+                        <th>
+                            得分
+                        </th>
+                        <th style="width:20%;">
+                            操作
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var m in Model)
+                    {
+                        <tr>
+                            <td>
+                                @m.Department
+                            </td>
+                            <td>
+                                @m.UserName
+                            </td>
+                            <td>
+                                @m.Score
+                            </td>
+                            <td align="center">
+                                <a class="btn btn-info btn-sm" href="/Manage/CheckResultDetailView?CheckID=@ViewBag.CheckID&UserID=@m.UserID">查看得分情况</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>

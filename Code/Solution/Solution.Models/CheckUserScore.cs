@@ -22,5 +22,7 @@ namespace Solution.Models
         [DisplayName("总体评价")]
         [StringLength(4000)]
         public string Remark { get; set; }
+
+        
     }
 }
