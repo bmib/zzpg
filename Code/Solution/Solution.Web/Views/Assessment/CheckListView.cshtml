@@ -45,7 +45,7 @@
                                 @m.UserName
                             </td>
                             <td>
-                                @if(m.State == "2")
+                                @if (m.State == "2")
                                 {
                                     <span>待评估</span>
                                 }
@@ -55,7 +55,10 @@
                                 }
                             </td>
                             <td align="center">
-                                <a class="btn btn-info btn-sm" href="/Assessment/CheckDetailView?CheckTaskID=@m.CheckTaskID">评估检查</a>
+                                @if (m.State == "2")
+                                {
+                                    <a class="btn btn-info btn-sm" href="/Assessment/CheckDetailView?CheckTaskID=@m.CheckTaskID">评估检查</a>
+                                }
                             </td>
                         </tr>
                     }
