@@ -40,5 +40,13 @@ namespace Solution.Models
          public string ItemCode { get; set; }
 
          public virtual List<ItemPoint> ItemPoints { get; set; }
+
+         /// <summary>
+         /// 0：普通指标，得分为1-4分的指标
+         /// 1：特殊指标，得分为0和1的指标
+         /// </summary>
+         [DisplayName("ItemType")]
+         [StringLength(1)]
+         public string ItemType { get; set; }
     }
 }

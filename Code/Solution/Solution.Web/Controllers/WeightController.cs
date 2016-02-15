@@ -41,7 +41,7 @@ namespace Solution.Web.Controllers
                 var listAll = (from m in db.CheckItem
                                join n in db.WeightMark on new { CheckItemID = m.CheckItemID, WeightUser = SessionService.UserID } equals new { CheckItemID = n.CheckItemID, WeightUser = n.WeightUser } into temp
                                from t in temp.DefaultIfEmpty()
-                               where m.CheckID == task.CheckID
+                               where m.CheckID == task.CheckID && m.CheckItemType=="0"
                                select new ViewCheckItem
                                {
                                    CheckID = m.CheckID,
@@ -98,7 +98,7 @@ namespace Solution.Web.Controllers
             {
                 var weightTask = db.WeightTask.Where(m => m.WeightTaskID == WeightTaskID).SingleOrDefault();
                 string checkID = weightTask.CheckID;
-                var list = db.CheckItem.Where(m => m.CheckID == checkID).ToList();
+                var list = db.CheckItem.Where(m => m.CheckID == checkID && m.CheckItemType == "0").ToList();
                 foreach (var temp in list)
                 {
                     if (!string.IsNullOrEmpty(collect["input_" + temp.CheckItemID]))
@@ -143,7 +143,7 @@ namespace Solution.Web.Controllers
             {
                 var weightTask = db.WeightTask.Where(m => m.WeightTaskID == WeightTaskID).SingleOrDefault();
                 string checkID = weightTask.CheckID;
-                var list = db.CheckItem.Where(m => m.CheckID == checkID).ToList();
+                var list = db.CheckItem.Where(m => m.CheckID == checkID && m.CheckItemType == "0").ToList();
                 foreach (var temp in list)
                 {
                     if (!string.IsNullOrEmpty(collect["input_" + temp.CheckItemID]))
@@ -226,7 +226,7 @@ namespace Solution.Web.Controllers
                 var listAll = (from m in db.CheckItem
                                join n in db.WeightPoint on new { CheckItemID = m.CheckItemID, WeightUser = SessionService.UserID } equals new { CheckItemID = n.CheckItemID, WeightUser = n.WeightUser } into temp
                                from t in temp.DefaultIfEmpty()
-                               where m.CheckID == task.CheckID
+                               where m.CheckID == task.CheckID && m.CheckItemType == "0"
                                select new ViewCheckItem
                                {
                                    CheckID = m.CheckID,
@@ -283,7 +283,7 @@ namespace Solution.Web.Controllers
             {
                 var weightTask = db.WeightTask.Where(m => m.WeightTaskID == WeightTaskID).SingleOrDefault();
                 string checkID = weightTask.CheckID;
-                var list = db.CheckItem.Where(m => m.CheckID == checkID).ToList();
+                var list = db.CheckItem.Where(m => m.CheckID == checkID && m.CheckItemType == "0").ToList();
                 foreach (var temp in list)
                 {
                     if (!string.IsNullOrEmpty(collect["input_" + temp.CheckItemID]))
@@ -326,7 +326,7 @@ namespace Solution.Web.Controllers
             {
                 var weightTask = db.WeightTask.Where(m => m.WeightTaskID == WeightTaskID).SingleOrDefault();
                 string checkID = weightTask.CheckID;
-                var list = db.CheckItem.Where(m => m.CheckID == checkID).ToList();
+                var list = db.CheckItem.Where(m => m.CheckID == checkID && m.CheckItemType == "0").ToList();
                 foreach (var temp in list)
                 {
                     if (!string.IsNullOrEmpty(collect["input_" + temp.CheckItemID]))

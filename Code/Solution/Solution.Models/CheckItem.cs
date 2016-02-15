@@ -49,5 +49,13 @@ namespace Solution.Models
         public double Weight { get; set; }
 
         public virtual List<CheckItemPoint> CheckItemPoints { get; set; }
+
+        /// <summary>
+        /// 0：普通指标，得分为1-4分的指标
+        /// 1：特殊指标，得分为0和1的指标
+        /// </summary>
+        [DisplayName("ItemType")]
+        [StringLength(1)]
+        public string CheckItemType { get; set; }
     }
 }

@@ -14,6 +14,8 @@
 
         public string CheckItemCode { get; set; }
 
+        public string CheckItemType { get; set; }
+
         public string CheckItemScoreID { get; set; }
 
         public double Score { get; set; }

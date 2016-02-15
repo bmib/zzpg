@@ -52,7 +52,7 @@ namespace Solution.Web.Controllers
             {
                 var list = (from m in db.CheckTask
                             join x in db.CheckItem on m.CheckID equals x.CheckID
-                            join n in db.CheckItemScore on new { CheckItemID = x.CheckItemID, CheckTaskID = m.CheckTaskID} equals new { CheckItemID = n.CheckItemID, CheckTaskID = n.CheckTaskID} into temp
+                            join n in db.CheckItemScore on new { CheckItemID = x.CheckItemID, CheckTaskID = m.CheckTaskID } equals new { CheckItemID = n.CheckItemID, CheckTaskID = n.CheckTaskID } into temp
                             from tt in temp.DefaultIfEmpty()
                             where m.CheckTaskID == CheckTaskID
                             select new ViewCheckTaskItem
@@ -63,6 +63,7 @@ namespace Solution.Web.Controllers
                                 CheckItemName = x.CheckItemName,
                                 CheckItemNumber = x.CheckItemNumber,
                                 CheckStandard = x.CheckStandard,
+                                CheckItemType = x.CheckItemType,
                                 CheckMark = tt.CheckMark == null ? "" : tt.CheckMark,
                                 Score = tt.Score == null ? 0 : tt.Score,
                                 CheckItemScoreID = tt.CheckItemScoreID == null ? "" : tt.CheckItemScoreID
@@ -229,12 +230,16 @@ namespace Solution.Web.Controllers
                                    CheckItemCode = x.CheckItemCode,
                                    CheckItemName = x.CheckItemName,
                                    CheckItemNumber = x.CheckItemNumber,
+                                   CheckItemType = x.CheckItemType,
                                    CheckStandard = x.CheckStandard,
                                    CheckMark = tt.CheckMark == null ? "" : tt.CheckMark,
                                    Score = tt.Score == null ? 0 : tt.Score,
                                    CheckItemScoreID = tt.CheckItemScoreID == null ? "" : tt.CheckItemScoreID,
                                    Weight = x.Weight
                                }).OrderBy(m => m.CheckItemCode).ToList();
+
+                var normalList = listAll.Where(m => m.CheckItemType == "0").ToList();
+                var specialList = listAll.Where(m => m.CheckItemType == "1").ToList();
 
                 var listItemScore = db.CheckItemScore.Where(m => m.CheckTaskID == CheckTaskID).ToList();
                 var FirstLevelList = listAll.Where(m => m.CheckItemCode.Length == 4).OrderBy(m => m.CheckItemCode).ToList();
@@ -243,9 +248,8 @@ namespace Solution.Web.Controllers
                 {
                     if (firstTemp.Score == 0)
                     {
-                        CountUserScore(firstTemp.CheckItemCode, listAll, listItemScore, db);
+                        CountUserScore(firstTemp.CheckItemCode, normalList, listItemScore, db);
                     }
-
                     total = total + firstTemp.Weight * firstTemp.Score;
                 }
 

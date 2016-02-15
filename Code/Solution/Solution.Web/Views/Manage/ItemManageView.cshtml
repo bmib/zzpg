@@ -36,32 +36,32 @@
                 <tbody>
                     @foreach (var m in Model)
                     {
-                        <tr>
-                            <td>
-                                @if (m.ItemCode.Length / 4 == 1)
+                    <tr>
+                        <td>
+                            @if (m.ItemCode.Length / 4 == 1)
                                 {
-                                    <div class="depart1">@m.ItemNumber @m.ItemName</div>
+                                <div class="depart1">@m.ItemNumber @m.ItemName</div>
                                 }
                                 else if (m.ItemCode.Length / 4 == 2)
                                 {
-                                    <div class="depart2">@m.ItemNumber @m.ItemName</div>
+                                <div class="depart2">@m.ItemNumber @m.ItemName</div>
                                 }
                                 else if (m.ItemCode.Length / 4 == 3)
                                 {
-                                    <div class="depart3">@m.ItemNumber @m.ItemName</div>
+                                <div class="depart3">@m.ItemNumber @m.ItemName</div>
                                 }
-                            </td>
-                            <td align="center">
-                                @if (m.ItemCode.Length / 4 < 3)
+                        </td>
+                        <td align="center">
+                            @if (m.ItemCode.Length / 4 < 3)
                                 {
-                                    <a class="btn btn-primary btn-sm" onclick="openAddNextItem('@m.ItemID');">添加下级指标</a>
+                                <a class="btn btn-primary btn-sm" onclick="openAddNextItem('@m.ItemID');">添加下级指标</a>
                                 }
-                                <a class="btn btn-success  btn-sm" title='修改指标' onclick="openModifyItem('@m.ItemID', '@m.ItemName');">
-                                    修改
-                                </a>
-                                <a class="btn btn-danger  btn-sm" href="@Url.Action("ItemDelete", new { ItemCode = m.ItemCode, ItemFactoryID = m.ItemFactoryID })" onclick="return confirm('确定删除该指标及其下级指标吗？')">删除</a>
-                            </td>
-                        </tr>
+                            <a class="btn btn-success  btn-sm" title='修改指标' onclick="openModifyItem('@m.ItemID', '@m.ItemName', '@m.ItemType');">
+                                修改
+                            </a>
+                            <a class="btn btn-danger  btn-sm" href="@Url.Action("ItemDelete", new { ItemCode = m.ItemCode, ItemFactoryID = m.ItemFactoryID })" onclick="return confirm('确定删除该指标及其下级指标吗？')">删除</a>
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>
@@ -88,6 +88,22 @@
                         </label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="txtFirstItemName" placeholder="输入指标名称">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtFirstItem" class="col-sm-2 control-label">
+                            指标类型
+                        </label>
+                        <div class="col-sm-10">
+
+                            <label class="radio-inline">
+                                <input type="radio" name="txtFirstItemType" value="0" checked="checked"> 普通指标
+                            </label>
+
+                            <label class="radio-inline">
+                                <input type="radio" name="txtFirstItemType" value="1"> 特殊指标(评估时只能选择符合、不符合)
+                            </label>
+
                         </div>
                     </div>
                     <div class="form-group">
@@ -147,6 +163,20 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="txtFirstItem" class="col-sm-2 control-label">
+                            指标类型
+                        </label>
+                        <div class="col-sm-10">
+                            <label class="radio-inline">
+                                <input type="radio" name="txtNextItemType" value="0" checked="checked"> 普通指标
+                            </label>
+
+                            <label class="radio-inline">
+                                <input type="radio" name="txtNextItemType" value="1"> 特殊指标(评估时只能选择符合、不符合)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="txtNextItemStandard" class="col-sm-2 control-label">
                             评估标准
                         </label>
@@ -203,6 +233,20 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="txtFirstItem" class="col-sm-2 control-label">
+                            指标类型
+                        </label>
+                        <div class="col-sm-10">
+                            <label class="radio-inline">
+                                <input type="radio" name="txtModifyItemType" value="0"> 普通指标
+                            </label>
+
+                            <label class="radio-inline">
+                                <input type="radio" name="txtModifyItemType" value="1"> 特殊指标(评估时只能选择符合、不符合)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="txtModifyItemStandard" class="col-sm-2 control-label">
                             评估标准
                         </label>
@@ -243,11 +287,12 @@
         var ItemName = $('#txtFirstItemName').val();
         var CheckStandard = $('#txtFirstItemStandard').val();
         var ctrpoint = document.getElementsByName("txtFirstItemPoint");
+        var type = $('input:radio[name=txtFirstItemType]:checked').val();
         var pointList = "";
         for (var i = 0; i < ctrpoint.length; i++) {
             pointList = pointList + ctrpoint[i].value + ',';
         }
-        $.post('/Manage/SaveFirstItem', { ItemName: ItemName, ItemFactoryID: ItemFactoryID, CheckStandard: CheckStandard, pointList: pointList },
+        $.post('/Manage/SaveFirstItem', { ItemName: ItemName, ItemFactoryID: ItemFactoryID, CheckStandard: CheckStandard, pointList: pointList, Type: type },
             function (data, status) {
                 if (!data.result) {
                     alert('操作失败：' + data.message);
@@ -279,12 +324,13 @@
         var txtBeforeItemID = $('#txtBeforeItemID').val();
         var txtNextItemName = $('#txtNextItemName').val();
         var CheckStandard = $('#txtNextItemStandard').val();
+        var type = $('input:radio[name=txtNextItemType]:checked').val();
         var ctrpoint = document.getElementsByName("txtNextItemPoint");
         var pointList = "";
         for (var i = 0; i < ctrpoint.length; i++) {
             pointList = pointList + ctrpoint[i].value + ',';
         }
-        $.post('/Manage/SaveNextItem', { txtNextItemName: txtNextItemName, txtBeforeItemID: txtBeforeItemID, CheckStandard: CheckStandard, pointList: pointList },
+        $.post('/Manage/SaveNextItem', { txtNextItemName: txtNextItemName, txtBeforeItemID: txtBeforeItemID, CheckStandard: CheckStandard, pointList: pointList, Type: type },
             function (data, status) {
                 if (!data.result) {
                     alert('操作失败：' + data.message);
@@ -306,10 +352,16 @@
         $(".divNextItemPoint").eq(id).remove();
     }
 
-    function openModifyItem(txtModifyItemID, txtModifyItemName) {
+    function openModifyItem(txtModifyItemID, txtModifyItemName, txtModifyType) {
         $("#divModifyItemPointList").html("");
         $('#txtModifyItemID').val(txtModifyItemID);
         $('#txtModifyItemName').val(txtModifyItemName);
+        if (txtModifyType == "0") {
+            $('input:radio[name=txtModifyItemType]')[0].checked = true;
+        }
+        else if (txtModifyType == "1") {
+            $('input:radio[name=txtModifyItemType]')[1].checked = true;
+        }
         var txtModifyCheckStandard = "";
         var points = "";
         $.post('/Manage/GetModifyItem', { ItemID: txtModifyItemID },
@@ -336,12 +388,13 @@
         var txtModifyItemID = $('#txtModifyItemID').val();
         var txtModifyItemName = $('#txtModifyItemName').val();
         var CheckStandard = $('#txtModifyItemStandard').val();
+        var type = $('input:radio[name=txtModifyItemType]:checked').val();
         var ctrpoint = document.getElementsByName("txtModifyItemPoint");
         var pointList = "";
         for (var i = 0; i < ctrpoint.length; i++) {
             pointList = pointList + ctrpoint[i].value + ',';
         }
-        $.post('/Manage/SaveModifyItem', { txtModifyItemName: txtModifyItemName, txtModifyItemID: txtModifyItemID, CheckStandard: CheckStandard, pointList: pointList },
+        $.post('/Manage/SaveModifyItem', { txtModifyItemName: txtModifyItemName, txtModifyItemID: txtModifyItemID, CheckStandard: CheckStandard, pointList: pointList, Type: type },
             function (data, status) {
                 if (!data.result) {
                     alert('操作失败：' + data.message);

@@ -247,6 +247,8 @@
     <Content Include="Views\Assessment\CheckDetailView.cshtml" />
     <Content Include="Views\Manage\CheckResultView.cshtml" />
     <Content Include="Views\Manage\CheckResultDetailView.cshtml" />
+    <Content Include="Views\Home\GetPassword.cshtml" />
+    <Content Include="Views\Home\SetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Solution.Common\Solution.Common.csproj">

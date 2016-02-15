@@ -535,7 +535,7 @@ namespace Solution.Web.Controllers
         /// </summary>
         /// <param name="ItemName"></param>
         /// <returns></returns>
-        public ActionResult SaveFirstItem(string ItemName, string ItemFactoryID, string CheckStandard, string pointList)
+        public ActionResult SaveFirstItem(string ItemName, string ItemFactoryID, string CheckStandard, string pointList, string Type)
         {
             if (!string.IsNullOrEmpty(ItemName) && !string.IsNullOrEmpty(ItemFactoryID))
             {
@@ -559,7 +559,8 @@ namespace Solution.Web.Controllers
                         ItemCode = itemCode.ToString().PadLeft(4, '0'),
                         ItemNumber = ItemNumber.ToString(),
                         CheckStandard = CheckStandard,
-                        ItemName = ItemName
+                        ItemName = ItemName,
+                        ItemType = Type
                     };
 
                     //新增指标考核点
@@ -598,7 +599,7 @@ namespace Solution.Web.Controllers
         /// <param name="CheckStandard"></param>
         /// <param name="pointList"></param>
         /// <returns></returns>
-        public ActionResult SaveNextItem(string txtNextItemName, string txtBeforeItemID, string CheckStandard, string pointList)
+        public ActionResult SaveNextItem(string txtNextItemName, string txtBeforeItemID, string CheckStandard, string pointList, string Type)
         {
             if (!string.IsNullOrEmpty(txtNextItemName) && !string.IsNullOrEmpty(txtBeforeItemID))
             {
@@ -625,7 +626,8 @@ namespace Solution.Web.Controllers
                         ItemID = Guid.NewGuid().ToString(),
                         ItemName = txtNextItemName,
                         CheckStandard = CheckStandard,
-                        ItemNumber = string.Concat(beforeItem.ItemNumber, ".", itemNumber.ToString())
+                        ItemNumber = string.Concat(beforeItem.ItemNumber, ".", itemNumber.ToString()),
+                        ItemType = Type
                     };
 
                     //新增指标考核点
@@ -684,7 +686,7 @@ namespace Solution.Web.Controllers
         /// <param name="CheckStandard"></param>
         /// <param name="pointList"></param>
         /// <returns></returns>
-        public ActionResult SaveModifyItem(string txtModifyItemID, string txtModifyItemName, string CheckStandard, string pointList)
+        public ActionResult SaveModifyItem(string txtModifyItemID, string txtModifyItemName, string CheckStandard, string pointList, string Type)
         {
             if (!string.IsNullOrEmpty(txtModifyItemID) && !string.IsNullOrEmpty(txtModifyItemName))
             {
@@ -693,6 +695,7 @@ namespace Solution.Web.Controllers
                     Item curItem = db.Item.Include("ItemPoints").Where(m => m.ItemID == txtModifyItemID).SingleOrDefault();
                     curItem.ItemName = txtModifyItemName;
                     curItem.CheckStandard = CheckStandard;
+                    curItem.ItemType = Type;
                     curItem.ItemPoints.Clear();
 
                     db.SaveChanges();
@@ -853,7 +856,8 @@ namespace Solution.Web.Controllers
                             CheckItemCode = item.ItemCode,
                             CheckItemNumber = item.ItemNumber,
                             CheckStandard = item.CheckStandard,
-                            CheckItemPoints = new List<CheckItemPoint>()
+                            CheckItemPoints = new List<CheckItemPoint>(),
+                            CheckItemType = item.ItemType
                         };
 
                         foreach (var point in item.ItemPoints)
@@ -929,7 +933,7 @@ namespace Solution.Web.Controllers
                     CheckItem checkItem = db.CheckItem.Where(m => m.CheckID == CheckID && m.CheckItemID == CheckItemID).SingleOrDefault();
                     string code = checkItem.CheckItemCode;
                     string beginCode = code.Substring(0, code.Length - 4);
-                    List<CheckItem> checkItemList = db.CheckItem.Where(m => m.CheckID == CheckID && m.CheckItemCode.Length == code.Length && m.CheckItemCode.StartsWith(beginCode)).OrderBy(m => m.CheckItemCode).ToList();
+                    List<CheckItem> checkItemList = db.CheckItem.Where(m => m.CheckID == CheckID && m.CheckItemType == "0" && m.CheckItemCode.Length == code.Length && m.CheckItemCode.StartsWith(beginCode)).OrderBy(m => m.CheckItemCode).ToList();
 
                     return Json(new { result = true, message = "", data = checkItemList });
                 }
@@ -1375,7 +1379,7 @@ namespace Solution.Web.Controllers
                         xlBook = null;
                         succeed = true;
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         succeed = false;
                     }

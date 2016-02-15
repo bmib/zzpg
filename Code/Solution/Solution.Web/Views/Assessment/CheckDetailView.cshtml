@@ -49,53 +49,85 @@
                             <td>
                                 @if (!m.HaveChild)
                                 {
-                                    if (m.Score == 1)
+                                    if (m.CheckItemType == "0")
                                     {
-                                        <label class="radio-inline">
-                                            <input type="radio" name="radio_@m.CheckItemID" value="1" checked="checked" /> 1分
-                                        </label>
+                                        if (m.Score == 1)
+                                        {
+                                            <label class="radio-inline">
+                                                <input type="radio" name="radio_@m.CheckItemID" value="1" checked="checked" /> 1分
+                                            </label>
+                                        }
+                                        else
+                                        {
+                                            <label class="radio-inline">
+                                                <input type="radio" name="radio_@m.CheckItemID" value="1" /> 1分
+                                            </label>
+                                        }
+                                        if (m.Score == 2)
+                                        {
+                                            <label class="radio-inline">
+                                                <input type="radio" name="radio_@m.CheckItemID" value="2" checked="checked" /> 2分
+                                            </label>
+                                        }
+                                        else
+                                        {
+                                            <label class="radio-inline">
+                                                <input type="radio" name="radio_@m.CheckItemID" value="2" /> 2分
+                                            </label>
+                                        }
+                                        if (m.Score == 3)
+                                        {
+                                            <label class="radio-inline">
+                                                <input type="radio" name="radio_@m.CheckItemID" value="3" checked="checked" /> 3分
+                                            </label>
+                                        }
+                                        else
+                                        {
+                                            <label class="radio-inline">
+                                                <input type="radio" name="radio_@m.CheckItemID" value="3" /> 3分
+                                            </label>
+                                        }
+                                        if (m.Score == 4)
+                                        {
+                                            <label class="radio-inline">
+                                                <input type="radio" name="radio_@m.CheckItemID" value="4" checked="checked" /> 4分
+                                            </label>
+                                        }
+                                        else
+                                        {
+                                            <label class="radio-inline">
+                                                <input type="radio" name="radio_@m.CheckItemID" value="4" /> 4分
+                                            </label>
+                                        }
                                     }
                                     else
                                     {
-                                        <label class="radio-inline">
-                                            <input type="radio" name="radio_@m.CheckItemID" value="1" /> 1分
-                                        </label>
-                                    }
-                                    if (m.Score == 2)
-                                    {
-                                        <label class="radio-inline">
-                                            <input type="radio" name="radio_@m.CheckItemID" value="2" checked="checked" /> 2分
-                                        </label>
-                                    }
-                                    else
-                                    {
-                                        <label class="radio-inline">
-                                            <input type="radio" name="radio_@m.CheckItemID" value="2" /> 2分
-                                        </label>
-                                    }
-                                    if (m.Score == 3)
-                                    {
-                                        <label class="radio-inline">
-                                            <input type="radio" name="radio_@m.CheckItemID" value="3" checked="checked" /> 3分
-                                        </label>
-                                    }
-                                    else
-                                    {
-                                        <label class="radio-inline">
-                                            <input type="radio" name="radio_@m.CheckItemID" value="3" /> 3分
-                                        </label>
-                                    }
-                                    if (m.Score == 4)
-                                    {
-                                        <label class="radio-inline">
-                                            <input type="radio" name="radio_@m.CheckItemID" value="4" checked="checked" /> 4分
-                                        </label>
-                                    }
-                                    else
-                                    {
-                                        <label class="radio-inline">
-                                            <input type="radio" name="radio_@m.CheckItemID" value="4" /> 4分
-                                        </label>
+                                        //特殊指标，只有符合和不符合两种
+                                        if (m.Score == 1)
+                                        {
+                                            <label class="radio-inline">
+                                                <input type="radio" name="radio_@m.CheckItemID" value="1" checked="checked" /> 符合
+                                            </label>
+                                        }
+                                        else
+                                        {
+                                            <label class="radio-inline">
+                                                <input type="radio" name="radio_@m.CheckItemID" value="1" /> 符合
+                                            </label>
+                                        }
+
+                                        if (m.Score == 0)
+                                        {
+                                            <label class="radio-inline">
+                                                <input type="radio" name="radio_@m.CheckItemID" value="1" checked="checked" /> 不符合
+                                            </label>
+                                        }
+                                        else
+                                        {
+                                            <label class="radio-inline">
+                                                <input type="radio" name="radio_@m.CheckItemID" value="1" /> 不符合
+                                            </label>
+                                        }
                                     }
                                 }
                             </td>
