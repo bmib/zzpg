@@ -1,4 +1,5 @@
-﻿using Solution.Common;
+﻿using Microsoft.Office.Interop.Excel;
+using Solution.Common;
 using Solution.Framework.Contract;
 using Solution.Models;
 using Solution.Services;
@@ -7,11 +8,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.Office.Interop.Excel;
-using System.Reflection;
-using System.Runtime.InteropServices;
 namespace Solution.Web.Controllers
 {
     public class ManageController : BaseController
@@ -496,7 +495,7 @@ namespace Solution.Web.Controllers
                 int iFirst = 0;
                 int iSecond = 0;
                 int iThird = 0;
-                List<Item> items = db.Item.OrderBy(m => m.ItemCode).ToList();
+                List<Item> items = db.Item.Where(m => m.ItemFactoryID == ItemFactoryID).OrderBy(m => m.ItemCode).ToList();
                 for (int i = 0; i < items.Count; i++)
                 {
                     if (items[i].ItemCode.Length == 4)
@@ -599,7 +598,7 @@ namespace Solution.Web.Controllers
         /// <param name="CheckStandard"></param>
         /// <param name="pointList"></param>
         /// <returns></returns>
-        public ActionResult SaveNextItem(string txtNextItemName, string txtBeforeItemID, string CheckStandard, string pointList, string Type)
+        public ActionResult SaveNextItem(string txtNextItemName, string txtBeforeItemID, string CheckStandard, string pointList, string Type, string ItemFactoryID)
         {
             if (!string.IsNullOrEmpty(txtNextItemName) && !string.IsNullOrEmpty(txtBeforeItemID))
             {
@@ -611,7 +610,7 @@ namespace Solution.Web.Controllers
                     int itemCode = 1;
                     int itemNumber = 1;
                     //获取下级部门编码最大的部门
-                    Item item = db.Item.Where(m => m.ItemCode.Length == len && m.ItemCode.StartsWith(code)).OrderByDescending(m => m.ItemCode).FirstOrDefault();
+                    Item item = db.Item.Where(m => m.ItemCode.Length == len && m.ItemCode.StartsWith(code) && m.ItemFactoryID == ItemFactoryID).OrderByDescending(m => m.ItemCode).FirstOrDefault();
                     if (item != null)
                     {
                         itemCode = int.Parse(item.ItemCode.Substring(beforeItem.ItemCode.Length, 4)) + 1;
@@ -819,6 +818,7 @@ namespace Solution.Web.Controllers
 
                 var weightTaskList = (from m in db.WeightTask
                                       join n in db.User on m.WeightUser equals n.UserID
+                                      where m.CheckID == CheckID
                                       select new ViewWeightTask
                                                    {
                                                        CheckID = m.CheckID,
@@ -995,6 +995,7 @@ namespace Solution.Web.Controllers
                                      join u in db.User on m.UserID equals u.UserID
                                      join u2 in db.User on m.Checker equals u2.UserID into temp
                                      from tt in temp.DefaultIfEmpty()
+                                     where m.CheckID == CheckID
                                      select new ViewCheckUser
                                      {
                                          CheckID = m.CheckID,
@@ -1239,12 +1240,16 @@ namespace Solution.Web.Controllers
                     //新生成Excel文件
                     System.Data.DataTable dt = new System.Data.DataTable("ExportData");
                     dt.Columns.Add("ItemName");
+                    dt.Columns.Add("Weight");
                     dt.Rows.Add("");
+                    dt.Rows[0][0] = "指标名称";
+                    dt.Rows[0][1] = "权重";
                     var checkItemList = db.CheckItem.Where(m => m.CheckID == CheckID).OrderBy(m => m.CheckItemCode).ToList();
                     for (int i = 0; i < checkItemList.Count; i++)
                     {
                         dt.Rows.Add(checkItemList[i].CheckItemCode);
                         dt.Rows[i + 1]["ItemName"] = string.Concat(checkItemList[i].CheckItemNumber, " ", checkItemList[i].CheckItemName);
+                        dt.Rows[i + 1]["Weight"] = checkItemList[i].Weight;
                     }
 
                     dt.Rows.Add("Total");
@@ -1264,7 +1269,7 @@ namespace Solution.Web.Controllers
                     for (int j = 0; j < checkTask.Count; j++)
                     {
                         dt.Columns.Add(checkTask[j].UserID);
-                        dt.Rows[0][j + 1] = checkTask[j].UserName;
+                        dt.Rows[0][j + 2] = checkTask[j].UserName;
 
                         string uID = checkTask[j].UserID;
                         var list = (from n in db.CheckTask
@@ -1283,13 +1288,13 @@ namespace Solution.Web.Controllers
 
                         for (int k = 0; k < list.Count; k++)
                         {
-                            dt.Rows[k + 1][j + 1] = list[k].Score;
+                            dt.Rows[k + 1][j + 2] = list[k].Score;
                         }
                         string cTaskID = checkTask[j].CheckTaskID;
                         var userScore = db.CheckUserScore.Where(m => m.CheckTaskID == cTaskID).SingleOrDefault();
                         if (userScore != null)
                         {
-                            dt.Rows[list.Count + 1][j + 1] = userScore.Score;
+                            dt.Rows[list.Count + 1][j + 2] = userScore.Score;
                         }
                     }
 
@@ -1394,6 +1399,92 @@ namespace Solution.Web.Controllers
                 }
             }
             return succeed;
+        }
+
+        /// <summary>
+        /// 生成excel文件并导出
+        /// </summary>
+        /// <param name="CheckID"></param>
+        /// <returns></returns>
+        public ActionResult CreateCheckResultFile(string CheckID)
+        {
+            using (DBContext db = new DBContext())
+            {
+                var model = db.Check.Where(m => m.CheckID == CheckID).SingleOrDefault();
+                //新生成Excel文件
+                System.Data.DataTable dt = new System.Data.DataTable("ExportData");
+                dt.Columns.Add("ItemName");
+                dt.Columns.Add("Weight");
+                dt.Rows.Add("");
+                dt.Rows[0][0] = "指标名称";
+                dt.Rows[0][1] = "权重";
+                var checkItemList = db.CheckItem.Where(m => m.CheckID == CheckID).OrderBy(m => m.CheckItemCode).ToList();
+                for (int i = 0; i < checkItemList.Count; i++)
+                {
+                    dt.Rows.Add(checkItemList[i].CheckItemCode);
+                    dt.Rows[i + 1]["ItemName"] = string.Concat(checkItemList[i].CheckItemNumber, " ", checkItemList[i].CheckItemName);
+                    dt.Rows[i + 1]["Weight"] = checkItemList[i].Weight;
+                }
+
+                dt.Rows.Add("Total");
+                dt.Rows[checkItemList.Count + 1]["ItemName"] = "总分";
+
+                var checkTask = (from m in db.CheckTask
+                                 join n in db.User on m.UserID equals n.UserID
+                                 where m.CheckID == CheckID && m.State == "3"
+                                 select new
+                                 {
+                                     UserID = m.UserID,
+                                     Department = n.Department,
+                                     UserName = n.UserName,
+                                     CheckTaskID = m.CheckTaskID
+                                 }).ToList();
+
+                for (int j = 0; j < checkTask.Count; j++)
+                {
+                    dt.Columns.Add(checkTask[j].UserID);
+                    dt.Rows[0][j + 2] = checkTask[j].UserName;
+
+                    string uID = checkTask[j].UserID;
+                    var list = (from n in db.CheckTask
+                                join x in db.CheckItemScore on n.CheckTaskID equals x.CheckTaskID
+                                join h in db.CheckItem on x.CheckItemID equals h.CheckItemID
+                                where n.CheckID == CheckID && n.UserID == uID && n.State == "3"
+                                select new ViewCheckResultDetail
+                                {
+                                    CheckItemID = x.CheckItemID,
+                                    CheckItemName = h.CheckItemName,
+                                    CheckItemNumber = h.CheckItemNumber,
+                                    CheckItemCode = h.CheckItemCode,
+                                    Score = x.Score,
+                                    CheckMark = x.CheckMark
+                                }).OrderBy(m => m.CheckItemCode).ToList();
+
+                    for (int k = 0; k < list.Count; k++)
+                    {
+                        dt.Rows[k + 1][j + 2] = list[k].Score;
+                    }
+                    string cTaskID = checkTask[j].CheckTaskID;
+                    var userScore = db.CheckUserScore.Where(m => m.CheckTaskID == cTaskID).SingleOrDefault();
+                    if (userScore != null)
+                    {
+                        dt.Rows[list.Count + 1][j + 2] = userScore.Score;
+                    }
+                }
+
+                //将DataTable保存为excel
+                string FileName = string.Concat(DateTime.Now.ToString("yyyyMMddHHmmssffff"), ".xlsx");
+                string FilePath = Server.MapPath(string.Concat("~/Content/file/", FileName));
+                if (ExportExcel(dt, FilePath))
+                {
+                    model.ExcelFileName = FileName;
+                }
+
+                db.SaveChanges();
+
+                return File(FilePath, "application/ms-excel", string.Concat(DateTime.Now.ToString("yyyyMMddHHmmssffff"), ".xlsx"));
+
+            }
         }
 
         /// <summary>

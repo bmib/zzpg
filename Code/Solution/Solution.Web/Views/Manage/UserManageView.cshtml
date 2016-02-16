@@ -46,37 +46,37 @@
                 <tbody>
                     @foreach (var m in Model)
                     {
-                        <tr>
-                            <td>
-                                @m.UserName
-                            </td>
-                            <td>
-                                @m.Email
-                            </td>
-                            <td>
-                                @m.Department
-                            </td>
-                            <td>
-                                @if (m.Roles.Contains("admin"))
+                    <tr>
+                        <td>
+                            @m.UserName
+                        </td>
+                        <td>
+                            @m.Email
+                        </td>
+                        <td>
+                            @m.Department
+                        </td>
+                        <td>
+                            @if (m.Roles.Contains("admin"))
                                 {
-                                    <span>[公司管理员]&nbsp; &nbsp;</span>
+                                <span>[公司管理员]&nbsp; &nbsp;</span>
                                 }
-                                @if (m.Roles.Contains("pro"))
+                            @if (m.Roles.Contains("pro"))
                                 {
-                                    <span>[专家]&nbsp; &nbsp;</span>
+                                <span>[专家]&nbsp; &nbsp;</span>
                                 }
-                                @if (m.Roles.Contains("chk"))
+                            @if (m.Roles.Contains("chk"))
                                 {
-                                    <span>[检查员]&nbsp; &nbsp;</span>
+                                <span>[检查员]&nbsp; &nbsp;</span>
                                 }
-                            </td>
-                            <td align="center">
-                                <a class="btn btn-success  btn-sm" title='修改' onclick="openModifyUser('@m.UserID', '@m.UserName', '@m.Email', '@m.Password', '@m.Department', '@m.Roles');">
-                                    修改
-                                </a>
-                                <a class="btn btn-danger  btn-sm" href="@Url.Action("UserDelete", new { UserID = m.UserID })" onclick="return confirm('确定删除该用户吗？')">删除</a>
-                            </td>
-                        </tr>
+                        </td>
+                        <td align="center">
+                            <a class="btn btn-success  btn-sm" title='修改' onclick="openModifyUser('@m.UserID', '@m.UserName', '@m.Email', '@m.Password', '@m.Department', '@m.Roles');">
+                                修改
+                            </a>
+                            <a class="btn btn-danger  btn-sm" href="@Url.Action("UserDelete", new { UserID = m.UserID })" onclick="return confirm('确定删除该用户吗？')">删除</a>
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>
@@ -134,13 +134,13 @@
                             角色
                         </label>
                         <div class="col-sm-10">
-                            <label>
+                            <label class="checkbox-inline">
                                 <input type="checkbox" name="txtaddRoles" value="admin" id="txtaddRolesadmin" />公司管理员
                             </label>&nbsp;&nbsp;
-                            <label>
+                            <label class="checkbox-inline">
                                 <input type="checkbox" name="txtaddRoles" value="pro" id="txtaddRolespro" />专家
                             </label>&nbsp;&nbsp;
-                            <label>
+                            <label class="checkbox-inline">
                                 <input type="checkbox" name="txtaddRoles" value="chk" id="txtaddRoleschk" />检查员
                             </label>
                         </div>
@@ -182,7 +182,7 @@
                             <input id="input-1" type="file" class="file" data-show-preview="false">
                         </div>
                     </div>
-              
+
                 </form>
                 <script>
                     //初始化fileinput控件（第一次初始化）

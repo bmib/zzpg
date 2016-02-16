@@ -32,10 +32,10 @@ namespace Solution.Web.Controllers
                                 UserName = n.UserName,
                                 Department = n.Department,
                                 CheckID = m.CheckID,
-                                Check = m.Check,
+                                CheckName = m.Check.CheckName,
                                 Checker = m.Checker,
                                 State = m.State
-                            }).OrderBy(m => m.UserName).OrderBy(m => m.Department).OrderBy(m => m.State).ToList();
+                            }).OrderBy(m => m.UserName).OrderBy(m => m.Department).OrderBy(m => m.CheckName).OrderBy(m => m.State).ToList();
 
                 return View(list);
             }
@@ -65,7 +65,7 @@ namespace Solution.Web.Controllers
                                 CheckStandard = x.CheckStandard,
                                 CheckItemType = x.CheckItemType,
                                 CheckMark = tt.CheckMark == null ? "" : tt.CheckMark,
-                                Score = tt.Score == null ? 0 : tt.Score,
+                                Score = tt.Score == null ? 0.01 : tt.Score,
                                 CheckItemScoreID = tt.CheckItemScoreID == null ? "" : tt.CheckItemScoreID
                             }).OrderBy(m => m.CheckItemCode).ToList();
 
@@ -241,8 +241,9 @@ namespace Solution.Web.Controllers
                 var normalList = listAll.Where(m => m.CheckItemType == "0").ToList();
                 var specialList = listAll.Where(m => m.CheckItemType == "1").ToList();
 
+                //计算各级普通指标得分
                 var listItemScore = db.CheckItemScore.Where(m => m.CheckTaskID == CheckTaskID).ToList();
-                var FirstLevelList = listAll.Where(m => m.CheckItemCode.Length == 4).OrderBy(m => m.CheckItemCode).ToList();
+                var FirstLevelList = normalList.Where(m => m.CheckItemCode.Length == 4).OrderBy(m => m.CheckItemCode).ToList();
                 double total = 0;
                 foreach (var firstTemp in FirstLevelList)
                 {
@@ -251,6 +252,11 @@ namespace Solution.Web.Controllers
                         CountUserScore(firstTemp.CheckItemCode, normalList, listItemScore, db);
                     }
                     total = total + firstTemp.Weight * firstTemp.Score;
+                }
+
+                foreach (var sTemp in specialList)
+                {
+                    total = total * sTemp.Score; //结合特殊指标得分，计算最终得分。
                 }
 
                 total = Math.Round(total, 2);

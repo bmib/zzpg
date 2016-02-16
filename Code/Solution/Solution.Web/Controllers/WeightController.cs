@@ -361,13 +361,13 @@ namespace Solution.Web.Controllers
                 if (count == 0)
                 {
                     //计算权重
-                    var checkItemAll = db.CheckItem.Where(m => m.CheckID == weightTask.CheckID).ToList();
+                    var checkItemAll = db.CheckItem.Where(m => m.CheckID == weightTask.CheckID && m.CheckItemType == "0").ToList();
                     var proCount = db.WeightTask.Where(m => m.CheckID == weightTask.CheckID && m.Type == "1").Count();
                     var checkItemTempList = checkItemAll.Where(m => m.CheckItemCode.Length == 4).OrderByDescending(m => m.WeightOrder).ToList();
                     CountWeight(checkItemTempList, proCount);
                     for (int i = 0; i < checkItemTempList.Count; i++)
                     {
-                        GetNextLevel(checkItemAll, list[i].CheckItemCode, proCount);
+                        GetNextLevel(checkItemAll, checkItemTempList[i].CheckItemCode, proCount);
                     }
                 }
 

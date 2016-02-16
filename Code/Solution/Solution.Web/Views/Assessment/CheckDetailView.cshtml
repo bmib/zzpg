@@ -119,13 +119,13 @@
                                         if (m.Score == 0)
                                         {
                                             <label class="radio-inline">
-                                                <input type="radio" name="radio_@m.CheckItemID" value="1" checked="checked" /> 不符合
+                                                <input type="radio" name="radio_@m.CheckItemID" value="0" checked="checked" /> 不符合
                                             </label>
                                         }
                                         else
                                         {
                                             <label class="radio-inline">
-                                                <input type="radio" name="radio_@m.CheckItemID" value="1" /> 不符合
+                                                <input type="radio" name="radio_@m.CheckItemID" value="0" /> 不符合
                                             </label>
                                         }
                                     }
@@ -163,6 +163,11 @@
                     </tr>
                 </tbody>
             </table>
+
+            <p class="navbar-wrapper">
+                <a class="btn btn-primary" href="#" onclick="SaveForm();">保存</a>
+                <a class="btn btn-danger" href="#" onclick="SubmitForm();">提交</a>
+            </p>
         </form>
     </div>
 </div>

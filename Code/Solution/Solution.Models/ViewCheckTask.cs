@@ -7,7 +7,7 @@ namespace Solution.Models
 
         public string CheckID { get; set; }
 
-        public  Check Check { get; set; }
+        public string CheckName { get; set; }
 
         public string UserID { get; set; }
 

@@ -42,20 +42,27 @@
                             <tbody>
                                 @for (int j = 0; j < Model[i].ViewCheckItemList.Count; j++)
                                 {
-                                    <tr>
-                                        <td>
-                                            @Model[i].ViewCheckItemList[j].CheckItemName
-                                        </td>
-                                        <td>
-                                            <input type="text" maxlength="1" min="1" max="6" onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))" style="ime-mode:Disabled" value="@Model[i].ViewCheckItemList[j].Score" name="input_@Model[i].ViewCheckItemList[j].CheckItemID" class="form-control checkItemWeightMarkInput" />
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td>
+                                        @Model[i].ViewCheckItemList[j].CheckItemName
+                                    </td>
+                                    <td>
+                                        <input type="text" maxlength="1" min="1" max="6" onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))" style="ime-mode:Disabled" value="@Model[i].ViewCheckItemList[j].Score" name="input_@Model[i].ViewCheckItemList[j].CheckItemID" class="form-control checkItemWeightMarkInput" />
+                                    </td>
+                                </tr>
                                 }
                             </tbody>
                         </table>
+
+
                     </div>
                 </div>
             }
+
+            <p>
+                <a class="btn btn-primary" href="#" onclick="SaveForm();">保存</a>
+                <a class="btn btn-danger" href="#" onclick="SubmitForm();">提交</a>
+            </p>
         </form>
     </div>
 </div>
@@ -76,23 +83,23 @@
         if (!result) {
             alert("分值必须为1-6的数字，请重新录入！");
         }
-        else{
-        var jsonObj = $('#ViewCheckItemForm').serializeArray();
-        var WeightTaskID = {};
-        WeightTaskID.name = 'WeightTaskID';
-        WeightTaskID.value = getQueryString("WeightTaskID");
-        jsonObj.push(WeightTaskID);
-        $.post('/Weight/SaveWeightMark',
-                   jsonObj,
-                   function (data, status) {
-                       if (!data.result) {
-                           alert(data.message);
-                           return;
-                       }
-                       else {
-                           window.location.reload();
-                       }
-                   });
+        else {
+            var jsonObj = $('#ViewCheckItemForm').serializeArray();
+            var WeightTaskID = {};
+            WeightTaskID.name = 'WeightTaskID';
+            WeightTaskID.value = getQueryString("WeightTaskID");
+            jsonObj.push(WeightTaskID);
+            $.post('/Weight/SaveWeightMark',
+                       jsonObj,
+                       function (data, status) {
+                           if (!data.result) {
+                               alert(data.message);
+                               return;
+                           }
+                           else {
+                               window.location.reload();
+                           }
+                       });
         }
     }
 

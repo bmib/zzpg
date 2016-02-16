@@ -21,6 +21,9 @@
                 <thead>
                     <tr>
                         <th>
+                            评估名称
+                        </th>
+                        <th>
                             部门
                         </th>
                         <th>
@@ -38,6 +41,9 @@
                     @foreach (var m in Model)
                     {
                         <tr>
+                            <td>
+                                @m.CheckName
+                            </td>
                             <td>
                                 @m.Department
                             </td>
@@ -57,7 +63,7 @@
                             <td align="center">
                                 @if (m.State == "2")
                                 {
-                                    <a class="btn btn-info btn-sm" href="/Assessment/CheckDetailView?CheckTaskID=@m.CheckTaskID">评估检查</a>
+                                    <a class="btn btn-success btn-sm" href="/Assessment/CheckDetailView?CheckTaskID=@m.CheckTaskID">开始评估检查</a>
                                 }
                             </td>
                         </tr>

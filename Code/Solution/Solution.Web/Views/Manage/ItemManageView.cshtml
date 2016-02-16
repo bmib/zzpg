@@ -330,7 +330,7 @@
         for (var i = 0; i < ctrpoint.length; i++) {
             pointList = pointList + ctrpoint[i].value + ',';
         }
-        $.post('/Manage/SaveNextItem', { txtNextItemName: txtNextItemName, txtBeforeItemID: txtBeforeItemID, CheckStandard: CheckStandard, pointList: pointList, Type: type },
+        $.post('/Manage/SaveNextItem', { txtNextItemName: txtNextItemName, ItemFactoryID: ItemFactoryID, txtBeforeItemID: txtBeforeItemID, CheckStandard: CheckStandard, pointList: pointList, Type: type },
             function (data, status) {
                 if (!data.result) {
                     alert('操作失败：' + data.message);

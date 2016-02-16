@@ -2,3 +2,4 @@ F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Common\bin\
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Common\bin\Release\Solution.Common.pdb
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Common\obj\Release\Solution.Common.dll
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Common\obj\Release\Solution.Common.pdb
+F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Common\obj\Release\Solution.Common.csprojResolveAssemblyReference.cache

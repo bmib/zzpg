@@ -6,7 +6,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>C:\Users\JOHNHE\Desktop\zzpg20160205</_PublishTargetUrl>
+    <_PublishTargetUrl>C:\Users\JOHNHE\Desktop\zzpg20160216</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/Antlr3.Runtime.dll">
@@ -28,7 +28,7 @@
       <publishTime>11/24/2015 15:07:16</publishTime>
     </File>
     <File Include="bin/Solution.Common.dll">
-      <publishTime>02/05/2016 21:21:57</publishTime>
+      <publishTime>02/16/2016 14:36:25</publishTime>
     </File>
     <File Include="bin/Solution.Core.dll">
       <publishTime>02/05/2016 21:21:59</publishTime>
@@ -37,13 +37,13 @@
       <publishTime>02/05/2016 21:21:57</publishTime>
     </File>
     <File Include="bin/Solution.Models.dll">
-      <publishTime>02/15/2016 16:22:43</publishTime>
+      <publishTime>02/16/2016 14:36:25</publishTime>
     </File>
     <File Include="bin/Solution.Services.dll">
-      <publishTime>02/15/2016 16:22:44</publishTime>
+      <publishTime>02/16/2016 14:36:26</publishTime>
     </File>
     <File Include="bin/Solution.Web.dll">
-      <publishTime>02/15/2016 16:22:46</publishTime>
+      <publishTime>02/16/2016 14:36:27</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>12/08/2015 22:47:43</publishTime>
@@ -334,25 +334,31 @@
       <publishTime>02/14/2016 08:43:32</publishTime>
     </File>
     <File Include="Views/Assessment/CheckDetailView.cshtml">
-      <publishTime>02/05/2016 10:36:41</publishTime>
+      <publishTime>02/16/2016 13:41:16</publishTime>
     </File>
     <File Include="Views/Assessment/CheckListView.cshtml">
-      <publishTime>02/14/2016 08:44:12</publishTime>
+      <publishTime>02/16/2016 11:29:38</publishTime>
     </File>
     <File Include="Views/Home/Error.cshtml">
       <publishTime>12/10/2015 18:00:38</publishTime>
     </File>
+    <File Include="Views/Home/GetPassword.cshtml">
+      <publishTime>02/16/2016 14:48:15</publishTime>
+    </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>12/01/2015 18:47:41</publishTime>
+      <publishTime>02/16/2016 14:45:22</publishTime>
     </File>
     <File Include="Views/Home/Login.cshtml">
-      <publishTime>02/04/2016 18:02:51</publishTime>
+      <publishTime>02/16/2016 14:47:32</publishTime>
     </File>
     <File Include="Views/Home/Register.cshtml">
-      <publishTime>12/10/2015 18:49:35</publishTime>
+      <publishTime>02/16/2016 14:47:49</publishTime>
+    </File>
+    <File Include="Views/Home/SetPassword.cshtml">
+      <publishTime>02/16/2016 14:47:59</publishTime>
     </File>
     <File Include="Views/Manage/CheckDetailView.cshtml">
-      <publishTime>02/04/2016 11:17:28</publishTime>
+      <publishTime>02/16/2016 10:50:07</publishTime>
     </File>
     <File Include="Views/Manage/CheckManageView.cshtml">
       <publishTime>02/05/2016 10:40:08</publishTime>
@@ -361,7 +367,7 @@
       <publishTime>02/05/2016 11:08:32</publishTime>
     </File>
     <File Include="Views/Manage/CheckResultView.cshtml">
-      <publishTime>02/05/2016 10:58:56</publishTime>
+      <publishTime>02/16/2016 14:00:29</publishTime>
     </File>
     <File Include="Views/Manage/CheckUserAddView.cshtml">
       <publishTime>02/03/2016 10:35:38</publishTime>
@@ -376,31 +382,31 @@
       <publishTime>01/29/2016 09:31:38</publishTime>
     </File>
     <File Include="Views/Manage/ItemManageView.cshtml">
-      <publishTime>02/15/2016 16:19:29</publishTime>
+      <publishTime>02/16/2016 10:34:30</publishTime>
     </File>
     <File Include="Views/Manage/PayListView.cshtml">
       <publishTime>02/03/2016 11:12:29</publishTime>
     </File>
     <File Include="Views/Manage/UserManageView.cshtml">
-      <publishTime>01/18/2016 09:51:32</publishTime>
+      <publishTime>02/16/2016 14:53:01</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>12/01/2015 18:39:00</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>02/04/2016 18:51:58</publishTime>
+      <publishTime>02/16/2016 14:44:29</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>12/01/2015 18:39:00</publishTime>
     </File>
     <File Include="Views/Weight/ItemDegreeDetailView.cshtml">
-      <publishTime>02/04/2016 16:06:40</publishTime>
+      <publishTime>02/16/2016 11:17:49</publishTime>
     </File>
     <File Include="Views/Weight/ItemDegreeView.cshtml">
       <publishTime>02/03/2016 17:00:57</publishTime>
     </File>
     <File Include="Views/Weight/ItemSortDetailView.cshtml">
-      <publishTime>02/03/2016 18:14:30</publishTime>
+      <publishTime>02/16/2016 11:14:58</publishTime>
     </File>
     <File Include="Views/Weight/ItemSortView.cshtml">
       <publishTime>02/03/2016 15:49:11</publishTime>
