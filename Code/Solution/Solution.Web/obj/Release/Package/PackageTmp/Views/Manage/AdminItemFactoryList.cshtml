@@ -18,7 +18,7 @@
                 <tbody>
                     <tr>
                         <td>
-                            源指标库：<select id="ItemFactorySource">
+                            源指标库：<select id="ItemFactorySource" class="form-control">
                                 <option value="34c5843f-c07b-40f0-afca-bc8ba4c68fa0">飞行签派员资质能力评估</option>
                             </select>
                         </td>
@@ -26,7 +26,7 @@
                     <tr>
                         <td>
                             目标指标库：
-                            <select id="CompanySelect" onchange="GetItemFactory();">
+                            <select id="CompanySelect" onchange="GetItemFactory();" class="form-control form-inline">
                                 <option></option>
                                 @foreach (var com in (List<Company>)ViewBag.Companys)
                                 {
@@ -34,7 +34,7 @@
                                 }
                             </select>
 
-                            <select id="ItemFactorySelect"></select>
+                            <select id="ItemFactorySelect" class="form-control form-inline"></select>
                         </td>
                     </tr>
                     <tr>

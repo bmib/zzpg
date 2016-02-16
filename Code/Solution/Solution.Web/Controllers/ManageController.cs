@@ -366,6 +366,12 @@ namespace Solution.Web.Controllers
         {
             using (DBContext db = new DBContext())
             {
+                var itemList = db.Item.Include("ItemPoints").Where(m => m.ItemFactoryID == itemFatoryID).ToList();
+                foreach(var item in itemList)
+                {
+                    item.ItemPoints.Clear();
+                    db.Item.Remove(item);
+                }
                 var itemFactory = db.ItemFactory.Where(m => m.ItemFactoryID.Equals(itemFatoryID)).FirstOrDefault();
 
                 db.ItemFactory.Remove(itemFactory);
@@ -373,7 +379,8 @@ namespace Solution.Web.Controllers
                 db.SaveChanges();
             }
 
-            return RedirectToAction("ItemFactoryList");
+            //return RedirectToAction("ItemFactoryList");
+            return new RedirectResult("/Manage/ItemFactoryList");
         }
 
         /// <summary>
@@ -454,28 +461,6 @@ namespace Solution.Web.Controllers
         {
             using (DBContext db = new DBContext())
             {
-                //重新计算指标的编号
-                //List<Item> numList = db.Item.Where(m => m.ItemFactoryID == ItemFactoryID && m.ItemCode.Length == ItemCode.Length).ToList();
-                //Item numItem = db.Item.Where(m => m.ItemFactoryID == ItemFactoryID && m.ItemCode == ItemCode).SingleOrDefault();
-                //foreach (var temp in numList)
-                //{
-                //    var nums = temp.ItemNumber.Split('.');
-                //    int last = int.Parse(nums[nums.Length - 1]);
-                //    var curNums = numItem.ItemNumber.Split('.');
-                //    if (last > int.Parse(curNums[curNums.Length - 1]))
-                //    {
-                //        string strnumber = string.Empty; 
-                //        for (int i = 0; i < nums.Length - 1; i++)
-                //        {
-                //            strnumber = string.Concat(strnumber, nums[i], ".");
-                //        }
-
-                //        strnumber = string.Concat(strnumber, (last-1).ToString());
-
-                //        temp.ItemNumber = strnumber;
-                //    }
-                //}
-
                 //删除指标及下级指标
                 List<Item> itemList = db.Item.Where(m => m.ItemCode.StartsWith(ItemCode) && m.ItemFactoryID == ItemFactoryID).ToList();
                 foreach (Item item in itemList)
@@ -1620,6 +1605,17 @@ namespace Solution.Web.Controllers
             {
                 using (DBContext db = new DBContext())
                 {
+                    //删除已有的
+                    var itemList = db.Item.Include("ItemPoints").Where(m => m.ItemFactoryID == targetID).ToList();
+                    foreach (var item in itemList)
+                    {
+                        item.ItemPoints.Clear();
+                        db.Item.Remove(item);
+                    }
+
+                    db.SaveChanges();
+
+                    //复制
                     var list = db.Item.Include("ItemPoints").Where(m => m.ItemFactoryID == sourceID).ToList();
                     foreach (var temp in list)
                     {

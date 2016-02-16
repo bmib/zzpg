@@ -36,32 +36,32 @@
                 <tbody>
                     @foreach (var m in Model)
                     {
-                    <tr>
-                        <td>
-                            @if (m.ItemCode.Length / 4 == 1)
+                        <tr>
+                            <td>
+                                @if (m.ItemCode.Length / 4 == 1)
                                 {
-                                <div class="depart1">@m.ItemNumber @m.ItemName</div>
+                                    <div class="depart1">@m.ItemNumber @m.ItemName</div>
                                 }
                                 else if (m.ItemCode.Length / 4 == 2)
                                 {
-                                <div class="depart2">@m.ItemNumber @m.ItemName</div>
+                                    <div class="depart2">@m.ItemNumber @m.ItemName</div>
                                 }
                                 else if (m.ItemCode.Length / 4 == 3)
                                 {
-                                <div class="depart3">@m.ItemNumber @m.ItemName</div>
+                                    <div class="depart3">@m.ItemNumber @m.ItemName</div>
                                 }
-                        </td>
-                        <td align="center">
-                            @if (m.ItemCode.Length / 4 < 3)
+                            </td>
+                            <td align="center">
+                                @if (m.ItemCode.Length / 4 < 3)
                                 {
-                                <a class="btn btn-primary btn-sm" onclick="openAddNextItem('@m.ItemID');">添加下级指标</a>
+                                    <a class="btn btn-primary btn-sm" onclick="openAddNextItem('@m.ItemID');">添加下级指标</a>
                                 }
-                            <a class="btn btn-success  btn-sm" title='修改指标' onclick="openModifyItem('@m.ItemID', '@m.ItemName', '@m.ItemType');">
-                                修改
-                            </a>
-                            <a class="btn btn-danger  btn-sm" href="@Url.Action("ItemDelete", new { ItemCode = m.ItemCode, ItemFactoryID = m.ItemFactoryID })" onclick="return confirm('确定删除该指标及其下级指标吗？')">删除</a>
-                        </td>
-                    </tr>
+                                <a class="btn btn-success  btn-sm" title='修改指标' onclick="openModifyItem('@m.ItemID', '@m.ItemName', '@m.ItemType');">
+                                    修改
+                                </a>
+                                <a class="btn btn-danger  btn-sm" href="@Url.Action("ItemDelete", new { ItemCode = m.ItemCode, ItemFactoryID = m.ItemFactoryID })" onclick="return confirm('确定删除该指标及其下级指标吗？')">删除</a>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>

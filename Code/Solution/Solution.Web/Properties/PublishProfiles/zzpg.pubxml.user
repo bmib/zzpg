@@ -43,7 +43,7 @@
       <publishTime>02/16/2016 17:11:42</publishTime>
     </File>
     <File Include="bin/Solution.Web.dll">
-      <publishTime>02/16/2016 17:39:21</publishTime>
+      <publishTime>02/16/2016 17:58:40</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>12/08/2015 22:47:43</publishTime>
@@ -364,7 +364,7 @@
       <publishTime>02/16/2016 14:47:59</publishTime>
     </File>
     <File Include="Views/Manage/AdminItemFactoryList.cshtml">
-      <publishTime>02/16/2016 16:51:03</publishTime>
+      <publishTime>02/16/2016 17:55:40</publishTime>
     </File>
     <File Include="Views/Manage/AdminPayList.cshtml">
       <publishTime>02/16/2016 16:46:49</publishTime>
@@ -394,7 +394,7 @@
       <publishTime>01/29/2016 09:31:38</publishTime>
     </File>
     <File Include="Views/Manage/ItemManageView.cshtml">
-      <publishTime>02/16/2016 10:34:30</publishTime>
+      <publishTime>02/16/2016 17:44:53</publishTime>
     </File>
     <File Include="Views/Manage/PayListView.cshtml">
       <publishTime>02/03/2016 11:12:29</publishTime>
