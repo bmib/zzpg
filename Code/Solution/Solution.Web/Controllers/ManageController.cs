@@ -1540,5 +1540,138 @@ namespace Solution.Web.Controllers
             }
             return Json(new { result = true, message = "" });
         }
+
+        /// <summary>
+        /// 管理支付页面
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult AdminPayList()
+        {
+            using (DBContext db = new DBContext())
+            {
+                var list = (from m in db.Pay
+                            join c in db.Company on m.CompanyID equals c.CompanyID
+                            select new ViewPay
+                            {
+                                PayID = m.PayID,
+                                CompanyID = c.CompanyID,
+                                CompanyName = c.CompanyName,
+                                CreatedTime = m.CreatedTime,
+                                Money = m.Money,
+                                State = m.State
+                            }).OrderBy(m => m.CompanyName).OrderBy(m => m.State).ToList();
+                return View(list);
+            }
+        }
+
+        /// <summary>
+        /// 确认支付信息
+        /// </summary>
+        /// <param name="PayID"></param>
+        /// <returns></returns>
+        public ActionResult PaySucess(string PayID)
+        {
+            using (DBContext db = new DBContext())
+            {
+                var pay = db.Pay.Where(m => m.PayID == PayID).SingleOrDefault();
+                pay.State = "2";
+
+                var list = (from m in db.CheckTask
+                            join n in db.PayCheckTask on m.CheckTaskID equals n.CheckTaskID
+                            where n.PayID == PayID
+                            select m
+                                ).ToList();
+
+                foreach (var temp in list)
+                {
+                    temp.State = "1";
+                }
+
+                db.SaveChanges();
+            }
+
+            return Json(new { result = true, message = "" });
+        }
+
+        /// <summary>
+        /// 复制指标库页面
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult AdminItemFactoryList()
+        {
+            using (DBContext db = new DBContext())
+            {
+                var companys = db.Company.ToList();
+                ViewBag.Companys = companys;
+            }
+
+            return View();
+        }
+
+        /// <summary>
+        /// 复制指标库操作
+        /// </summary>
+        /// <param name="sourceID"></param>
+        /// <param name="targetID"></param>
+        /// <returns></returns>
+        public ActionResult CopyItemFactory(string sourceID, string targetID)
+        {
+            if (!string.IsNullOrEmpty(sourceID) && !string.IsNullOrEmpty(targetID))
+            {
+                using (DBContext db = new DBContext())
+                {
+                    var list = db.Item.Include("ItemPoints").Where(m => m.ItemFactoryID == sourceID).ToList();
+                    foreach (var temp in list)
+                    {
+                        Item item = new Item
+                        {
+                            ItemFactoryID = targetID,
+                            ItemID = Guid.NewGuid().ToString(),
+                            ItemNumber = temp.ItemNumber,
+                            ItemCode = temp.ItemCode,
+                            ItemName = temp.ItemName,
+                            ItemType = temp.ItemType,
+                            CheckStandard = temp.CheckStandard,
+                            ItemPoints = new List<ItemPoint>()
+                        };
+
+
+
+                        foreach (var point in temp.ItemPoints)
+                        {
+                            ItemPoint p = new ItemPoint
+                            {
+                                ItemID = item.ItemID,
+                                ItemPointID = Guid.NewGuid().ToString(),
+                                ItemPointName = point.ItemPointName
+                            };
+
+                            item.ItemPoints.Add(p);
+                        }
+
+                        db.Item.Add(item);
+                    }
+
+                    db.SaveChanges();
+                }
+            }
+
+            return Json(new { result = true, message = "" });
+        }
+
+        /// <summary>
+        /// 根据选择的公司获取指标库
+        /// </summary>
+        /// <param name="companyID"></param>
+        /// <returns></returns>
+        public ActionResult GetItemFactory(string companyID)
+        {
+            using (DBContext db = new DBContext())
+            {
+                var list = db.ItemFactory.Where(m => m.CompanyID == companyID).ToList();
+
+                return Json(new { result = true, message = "", data = list }); 
+            }
+        }
     }
 }

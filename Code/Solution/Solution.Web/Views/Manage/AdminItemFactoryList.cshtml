@@ -1,0 +1,91 @@
+﻿@using Solution.Framework.Contract
+@using Solution.Framework.Utility
+@using Solution.Framework.Web.Controls
+@using Solution.Models;
+
+@model List<ViewPay>
+<div class="container">
+    <div class="container-fluid">
+        <div class="page-title">
+            <ol class="breadcrumb">
+                <li><a href="/Home/Index">首页</a></li>
+                <li><a href="/Manage/CheckManageView">评估管理</a></li>
+                <li class="active">复制指标</li>
+            </ol>
+        </div>
+        <form id="departForm" method="post">
+            <table class="table table-bordered table-hover table-striped">
+                <tbody>
+                    <tr>
+                        <td>
+                            源指标库：<select id="ItemFactorySource">
+                                <option value="34c5843f-c07b-40f0-afca-bc8ba4c68fa0">飞行签派员资质能力评估</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            目标指标库：
+                            <select id="CompanySelect" onchange="GetItemFactory();">
+                                <option></option>
+                                @foreach (var com in (List<Company>)ViewBag.Companys)
+                                {
+                                    <option value="@com.CompanyID">@com.CompanyName</option>
+                                }
+                            </select>
+
+                            <select id="ItemFactorySelect"></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a class="btn btn-success  btn-sm" href="#" onclick="Copy();">复制</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+<script>
+    //点击支付按钮
+    function Copy() {
+        var sourceID = $("#ItemFactorySource").val();
+        var targetID = $("#ItemFactorySelect").val();
+        $.post('/Manage/CopyItemFactory', { sourceID: sourceID, targetID: targetID },
+             function (data, status) {
+                 if (!data.result) {
+                     alert('操作失败：' + data.message);
+                     return;
+                 }
+                 else {
+                     alert("操作成功！");
+                     window.location.reload();
+                 }
+             });
+    }
+
+    function GetItemFactory() {
+        var companyID = $("#CompanySelect").val();
+        $.post('/Manage/GetItemFactory', { companyID: companyID },
+             function (data, status) {
+                 if (!data.result) {
+                     alert('操作失败：' + data.message);
+                     return;
+                 }
+                 else {
+                     var result = eval(data).data;
+                     var html = "";
+                     $.each(result, function (idx, item) {
+                         html += '<option value="' + item.ItemFactoryID + '">' + item.ItemFactoryName + '</option>';
+                     });
+
+                     $("#ItemFactorySelect").html(html);
+                 }
+             });
+    }
+</script>
+
+
+

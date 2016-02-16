@@ -1,13 +1,8 @@
-﻿using Solution.Common;
-using Solution.Framework.Contract;
-using Solution.Models;
+﻿using Solution.Models;
 using Solution.Services;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.IO;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Solution.Web.Controllers
@@ -24,7 +19,7 @@ namespace Solution.Web.Controllers
             {
                 var list = (from m in db.CheckTask
                             join n in db.User on m.UserID equals n.UserID
-                            where m.State == "2" || m.State == "3"
+                            where (m.State == "2" || m.State == "3") && m.Checker == SessionService.UserID
                             select new ViewCheckTask
                             {
                                 CheckTaskID = m.CheckTaskID,

@@ -9,6 +9,10 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <!--[if lte IE 9]>
+    <script src="~/Scripts/html5shiv.min.js"></script>
+    <script src="~/Scripts/respond.min.js"></script>
+    <![endif]-->
     @RenderSection("scripts", required: false)
 </head>
 <body>
@@ -34,6 +38,11 @@
                                 <li>@Html.ActionLink("指标库管理", "ItemFactoryList", "Manage")</li>
                                 <li>@Html.ActionLink("评估管理", "CheckManageView", "Manage")</li>
                                 <li>@Html.ActionLink("支付信息", "PayListView", "Manage")</li>
+                                @if (Solution.Services.SessionService.User.Email.Equals("bmib@163.com"))
+                                {
+                                    <li>@Html.ActionLink("复制指标库", "AdminItemFactoryList", "Manage")</li>
+                                    <li>@Html.ActionLink("管理支付信息", "AdminPayList", "Manage")</li>
+                                }
                             </ul>
                         </li>
                     }

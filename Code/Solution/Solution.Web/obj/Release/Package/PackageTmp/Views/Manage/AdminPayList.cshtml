@@ -1,0 +1,83 @@
+﻿@using Solution.Framework.Contract
+@using Solution.Framework.Utility
+@using Solution.Framework.Web.Controls
+@using Solution.Models;
+
+@model List<ViewPay>
+<div class="container">
+    <div class="container-fluid">
+        <div class="page-title">
+            <ol class="breadcrumb">
+                <li><a href="/Home/Index">首页</a></li>
+                <li><a href="/Manage/CheckManageView">评估管理</a></li>
+                <li class="active">支付管理</li>
+            </ol>
+        </div>
+        <form id="departForm" method="post">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>公司</th>
+                        <th>
+                            下单时间
+                        </th>
+                        <th>
+                            金额
+                        </th>
+                        <th>
+                            状态
+                        </th>
+                        <th style="width:20%;">
+                            操作
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var m in Model)
+                    {
+                        <tr>
+                            <td>@m.CompanyName</td>
+                            <td>@m.CreatedTime</td>
+                            <td>@m.Money</td>
+                            <td>
+                                @if (m.State == "0")
+                                {
+                                    <span>未支付</span>
+                                }
+                                else if (m.State == "1")
+                                {
+                                    <span>支付完成待确认</span>
+                                }
+                                else if (m.State == "2")
+                                {
+                                    <span>支付成功</span>
+                                }
+                            </td>
+                            <td align="center">
+                                <a class="btn btn-success  btn-sm" href="#" onclick="startPay('@m.PayID');">确认</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+<script>
+    //点击支付按钮
+    function startPay(payID) {
+        $.post('/Manage/PaySucess', { PayID: payID },
+             function (data, status) {
+                 if (!data.result) {
+                     alert('操作失败：' + data.message);
+                     return;
+                 }
+                 else {
+                     alert("操作成功！");
+                     window.location.reload();
+                 }
+             });
+    }
+</script>
+

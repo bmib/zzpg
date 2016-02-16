@@ -37,13 +37,13 @@
       <publishTime>02/05/2016 21:21:57</publishTime>
     </File>
     <File Include="bin/Solution.Models.dll">
-      <publishTime>02/16/2016 14:36:25</publishTime>
+      <publishTime>02/16/2016 17:11:41</publishTime>
     </File>
     <File Include="bin/Solution.Services.dll">
-      <publishTime>02/16/2016 14:36:26</publishTime>
+      <publishTime>02/16/2016 17:11:42</publishTime>
     </File>
     <File Include="bin/Solution.Web.dll">
-      <publishTime>02/16/2016 14:36:27</publishTime>
+      <publishTime>02/16/2016 17:39:21</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>12/08/2015 22:47:43</publishTime>
@@ -294,6 +294,9 @@
     <File Include="Scripts/bootstrap.min.js">
       <publishTime>06/16/2015 16:12:50</publishTime>
     </File>
+    <File Include="Scripts/html5shiv.min.js">
+      <publishTime>02/16/2016 17:08:49</publishTime>
+    </File>
     <File Include="Scripts/jquery-1.10.2.js">
       <publishTime>12/01/2015 18:39:01</publishTime>
     </File>
@@ -318,6 +321,9 @@
     <File Include="Scripts/modernizr-2.6.2.js">
       <publishTime>12/01/2015 18:39:02</publishTime>
     </File>
+    <File Include="Scripts/npm.js">
+      <publishTime>06/16/2015 16:12:50</publishTime>
+    </File>
     <File Include="Scripts/respond.js">
       <publishTime>12/01/2015 18:39:02</publishTime>
     </File>
@@ -331,7 +337,7 @@
       <publishTime>02/04/2016 18:45:33</publishTime>
     </File>
     <File Include="Scripts/_references.js">
-      <publishTime>02/14/2016 08:43:32</publishTime>
+      <publishTime>02/16/2016 17:09:20</publishTime>
     </File>
     <File Include="Views/Assessment/CheckDetailView.cshtml">
       <publishTime>02/16/2016 13:41:16</publishTime>
@@ -349,13 +355,19 @@
       <publishTime>02/16/2016 14:45:22</publishTime>
     </File>
     <File Include="Views/Home/Login.cshtml">
-      <publishTime>02/16/2016 14:47:32</publishTime>
+      <publishTime>02/16/2016 14:59:34</publishTime>
     </File>
     <File Include="Views/Home/Register.cshtml">
       <publishTime>02/16/2016 14:47:49</publishTime>
     </File>
     <File Include="Views/Home/SetPassword.cshtml">
       <publishTime>02/16/2016 14:47:59</publishTime>
+    </File>
+    <File Include="Views/Manage/AdminItemFactoryList.cshtml">
+      <publishTime>02/16/2016 16:51:03</publishTime>
+    </File>
+    <File Include="Views/Manage/AdminPayList.cshtml">
+      <publishTime>02/16/2016 16:46:49</publishTime>
     </File>
     <File Include="Views/Manage/CheckDetailView.cshtml">
       <publishTime>02/16/2016 10:50:07</publishTime>
@@ -394,19 +406,19 @@
       <publishTime>12/01/2015 18:39:00</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>02/16/2016 14:44:29</publishTime>
+      <publishTime>02/16/2016 17:10:56</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>12/01/2015 18:39:00</publishTime>
     </File>
     <File Include="Views/Weight/ItemDegreeDetailView.cshtml">
-      <publishTime>02/16/2016 11:17:49</publishTime>
+      <publishTime>02/16/2016 15:48:33</publishTime>
     </File>
     <File Include="Views/Weight/ItemDegreeView.cshtml">
       <publishTime>02/03/2016 17:00:57</publishTime>
     </File>
     <File Include="Views/Weight/ItemSortDetailView.cshtml">
-      <publishTime>02/16/2016 11:14:58</publishTime>
+      <publishTime>02/16/2016 15:48:49</publishTime>
     </File>
     <File Include="Views/Weight/ItemSortView.cshtml">
       <publishTime>02/03/2016 15:49:11</publishTime>

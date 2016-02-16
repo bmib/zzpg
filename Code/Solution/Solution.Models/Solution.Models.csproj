@@ -74,6 +74,7 @@
     <Compile Include="ViewCheckTask.cs" />
     <Compile Include="ViewCheckTaskItem.cs" />
     <Compile Include="ViewCheckUser.cs" />
+    <Compile Include="ViewPay.cs" />
     <Compile Include="ViewWeightTask.cs" />
     <Compile Include="WeightMark.cs" />
     <Compile Include="WeightPoint.cs" />
