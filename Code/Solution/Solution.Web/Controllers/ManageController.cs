@@ -367,7 +367,7 @@ namespace Solution.Web.Controllers
             using (DBContext db = new DBContext())
             {
                 var itemList = db.Item.Include("ItemPoints").Where(m => m.ItemFactoryID == itemFatoryID).ToList();
-                foreach(var item in itemList)
+                foreach (var item in itemList)
                 {
                     item.ItemPoints.Clear();
                     db.Item.Remove(item);
@@ -379,7 +379,6 @@ namespace Solution.Web.Controllers
                 db.SaveChanges();
             }
 
-            //return RedirectToAction("ItemFactoryList");
             return new RedirectResult("/Manage/ItemFactoryList");
         }
 
@@ -548,6 +547,7 @@ namespace Solution.Web.Controllers
                     };
 
                     //新增指标考核点
+                    int pointOrder = 1;
                     if (!string.IsNullOrEmpty(pointList))
                     {
                         foreach (string point in pointList.Split(','))
@@ -558,9 +558,11 @@ namespace Solution.Web.Controllers
                                 {
                                     ItemID = newItem.ItemID,
                                     ItemPointID = Guid.NewGuid().ToString(),
-                                    ItemPointName = point
+                                    ItemPointName = point,
+                                    ItemPointOrder = pointOrder
                                 };
                                 db.ItemPoint.Add(itemPoint);
+                                pointOrder++;
                             }
                         }
                     }
@@ -615,6 +617,7 @@ namespace Solution.Web.Controllers
                     };
 
                     //新增指标考核点
+                    int pointOrder = 1;
                     if (!string.IsNullOrEmpty(pointList))
                     {
                         foreach (string point in pointList.Split(','))
@@ -625,9 +628,11 @@ namespace Solution.Web.Controllers
                                 {
                                     ItemID = newItem.ItemID,
                                     ItemPointID = Guid.NewGuid().ToString(),
-                                    ItemPointName = point
+                                    ItemPointName = point,
+                                    ItemPointOrder = pointOrder
                                 };
                                 db.ItemPoint.Add(itemPoint);
+                                pointOrder++;
                             }
                         }
                     }
@@ -653,7 +658,8 @@ namespace Solution.Web.Controllers
             {
                 Item item = db.Item.Include("ItemPoints").Where(m => m.ItemID == ItemID).FirstOrDefault();
                 string points = string.Empty;
-                foreach (ItemPoint p in item.ItemPoints)
+                var list = item.ItemPoints.OrderBy(m => m.ItemPointOrder);
+                foreach (ItemPoint p in list)
                 {
                     points += p.ItemPointName + ",";
                 }
@@ -685,6 +691,7 @@ namespace Solution.Web.Controllers
                     db.SaveChanges();
 
                     //新增指标考核点
+                    int pointOrder = 1;
                     if (!string.IsNullOrEmpty(pointList))
                     {
                         foreach (string point in pointList.Split(','))
@@ -695,9 +702,11 @@ namespace Solution.Web.Controllers
                                 {
                                     ItemID = curItem.ItemID,
                                     ItemPointID = Guid.NewGuid().ToString(),
-                                    ItemPointName = point
+                                    ItemPointName = point,
+                                    ItemPointOrder = pointOrder
                                 };
                                 db.ItemPoint.Add(itemPoint);
+                                pointOrder++;
                             }
                         }
                     }
@@ -1666,7 +1675,7 @@ namespace Solution.Web.Controllers
             {
                 var list = db.ItemFactory.Where(m => m.CompanyID == companyID).ToList();
 
-                return Json(new { result = true, message = "", data = list }); 
+                return Json(new { result = true, message = "", data = list });
             }
         }
     }

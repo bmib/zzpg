@@ -9,3 +9,4 @@ F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Models\obj\
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Models\obj\Release\Solution.Models.csproj.GenerateResource.Cache
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Models\obj\Release\Solution.Models.dll
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Models\obj\Release\Solution.Models.pdb
+F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Models\obj\Release\Solution.Models.csprojResolveAssemblyReference.cache

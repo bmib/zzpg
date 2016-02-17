@@ -22,5 +22,8 @@ namespace Solution.Models
         [DisplayName("指标考核点名称")]
         [StringLength(1024)]
         public string CheckItemPointName { get; set; }
+
+        [DisplayName("排序号")]
+        public int ItemPointOrder { get; set; }
     }
 }

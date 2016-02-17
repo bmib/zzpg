@@ -219,8 +219,9 @@
 
         var point = $("#checkpointInput_" + CheckItemID).val();
         var html = "";
-        for (var i = 0 ; i < point.split(',').length; i++) {
-            html += point.split(',')[i] + "<br />";
+        var arrList = point.split(',');
+        for (var i = 0 ; i < arrList.length; i++) {
+            html += arrList[i] + "<br />";
         }
 
         $("#divCheckPoint").html(html);

@@ -67,7 +67,7 @@ namespace Solution.Web.Controllers
                 foreach (var item in list)
                 {
                     //获取考核点
-                    var points = db.CheckItemPoint.Where(m => m.CheckItemID == item.CheckItemID).ToList();
+                    var points = db.CheckItemPoint.Where(m => m.CheckItemID == item.CheckItemID).OrderBy(m => m.ItemPointOrder).ToList();
                     string point = string.Empty;
                     foreach (var p in points)
                     {
