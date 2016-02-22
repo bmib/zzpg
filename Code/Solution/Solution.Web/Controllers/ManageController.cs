@@ -1226,7 +1226,7 @@ namespace Solution.Web.Controllers
                 var model = db.Check.Where(m => m.CheckID == CheckID).SingleOrDefault();
                 if (model != null && !string.IsNullOrEmpty(model.ExcelFileName))
                 {
-                    var fileName = Server.MapPath(string.Concat("~/Content/file/", model.ExcelFileName));
+                    var fileName = Server.MapPath(string.Concat("~/Files/", model.ExcelFileName));
                     return File(fileName, "application/ms-excel", string.Concat(DateTime.Now.ToString("yyyyMMddHHmmssffff"), ".xlsx"));
                 }
                 else
@@ -1294,7 +1294,7 @@ namespace Solution.Web.Controllers
 
                     //将DataTable保存为excel
                     string FileName = string.Concat(DateTime.Now.ToString("yyyyMMddHHmmssffff"), ".xlsx");
-                    string FilePath = Server.MapPath(string.Concat("~/Content/file/", FileName));
+                    string FilePath = Server.MapPath(string.Concat("~/Files/", FileName));
                     if (ExportExcel(dt, FilePath))
                     {
                         model.ExcelFileName = FileName;
@@ -1468,16 +1468,10 @@ namespace Solution.Web.Controllers
 
                 //将DataTable保存为excel
                 string FileName = string.Concat(DateTime.Now.ToString("yyyyMMddHHmmssffff"), ".xlsx");
-                string FilePath = Server.MapPath(string.Concat("~/Content/file/", FileName));
-                if (ExportExcel(dt, FilePath))
-                {
-                    model.ExcelFileName = FileName;
-                }
-
-                db.SaveChanges();
+                string FilePath = Server.MapPath(string.Concat("~/Files/", FileName));
+                bool eResult = ExportExcel(dt, FilePath);
 
                 return File(FilePath, "application/ms-excel", string.Concat(DateTime.Now.ToString("yyyyMMddHHmmssffff"), ".xlsx"));
-
             }
         }
 
