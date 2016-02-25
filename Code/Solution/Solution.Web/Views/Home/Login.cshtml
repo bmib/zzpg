@@ -26,12 +26,15 @@
     </style>
     <script>
         function login() {
+            var btn = $("#loginButton");
+            btn.button('loading');
             if ($("#loginForm").valid()) {
                 var jsonObj = $("#loginForm").serializeArray();
-                $.post("/Home/LoginAction", jsonObj, 
+                $.post("/Home/LoginAction", jsonObj,
                 function (data) {
                     if (!data.result) {
-                        alert(data.message);
+                        //alert(data.message);
+                        $.messager.popup(data.message);
                         return;
                     }
                     else {
@@ -39,6 +42,7 @@
                     }
                 });
             }
+            btn.button('reset');
         }
 
         $.ajaxSetup({
@@ -73,7 +77,7 @@
                 @Html.ValidationSummary()
             </div>
             <div class="form-group-lg">
-                <button class="btn btn-success btn-lg btn-block form-control" type="button" style="max-width: 280px;" onclick="login();">登录</button>
+                <button id="loginButton" class="btn btn-success btn-lg btn-block form-control" type="button" style="max-width: 280px;" onclick="login();" data-loading-text="登录中..." autocomplete="off">登录</button>
             </div><hr />
             <div>
                 <a href="/Home/GetPassword" title="点击找回密码">忘记密码</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/Home/Register" title="注册">免费注册&nbsp;<span class="alert-warning">(仅限公司管理员注册)</span></a>

@@ -22,6 +22,7 @@ namespace Solution.Web
                       "~/Content/bootstrap-fileinput-master/js/fileinput.min.js",
                       "~/Content/bootstrap-fileinput-master/js/fileinput_locale_zh.js",
                       "~/Scripts/respond.js",
+                      "~/Scripts/jquery.bootstrap.min.js",
                        "~/Scripts/Solution.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

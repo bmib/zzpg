@@ -239,12 +239,14 @@
                    jsonObj,
                    function (data, status) {
                        if (!data.result) {
-                           alert(data.message);
+                           //alert(data.message);
+                           $.messager.popup(data.message);
                            return;
                        }
                        else {
                            //window.location.reload();
-                           alert("保存成功");
+                           //alert("保存成功");
+                           $.messager.popup("保存成功！");
                        }
                    });
     }
@@ -259,11 +261,12 @@
                    jsonObj,
                    function (data, status) {
                        if (!data.result) {
-                           alert(data.message);
+                           //alert(data.message);
+                           $.messager.popup(data.message);
                            return;
                        }
                        else {
-
+                           $.messager.popup("提交成功！");
                            window.location.href = "/Assessment/CheckListView";
                        }
                    });

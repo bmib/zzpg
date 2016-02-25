@@ -272,7 +272,8 @@
         $.post('/Manage/ImportCheckItems', { CheckID: CheckID, factoryID: factoryID },
           function (data, status) {
               if (!data.result) {
-                  alert('操作失败：' + data.message);
+                  //alert('操作失败：' + data.message);
+                  $.messager.popup('操作失败：' + data.message);
                   return;
               }
               else {
@@ -302,7 +303,8 @@
             $.post('/Manage/AssignPro', { CheckID: CheckID, proUser: s2 },
               function (data, status) {
                   if (!data.result) {
-                      alert('操作失败：' + data.message);
+                      //alert('操作失败：' + data.message);
+                      $.messager.popup('操作失败：' + data.message);
                       return;
                   }
                   else {
@@ -319,7 +321,8 @@
         $.post('/Manage/GetModifyCheckItemWeight', { CheckID: CheckID, CheckItemID: CheckItemID },
               function (data, status) {
                   if (!data.result) {
-                      alert('操作失败：' + data.message);
+                      //alert('操作失败：' + data.message);
+                      $.messager.popup('操作失败：' + data.message);
                       return;
                   }
                   else {
@@ -348,6 +351,7 @@
 
         if (count != 1) {
             alert("权重之和必须等于1");
+
         }
         else {
             var jsonObj = $('#weightForm').serializeArray();

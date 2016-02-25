@@ -32,7 +32,8 @@
                 $.post("/Home/RegisterSubmit", jsonObj,
                 function (data, status) {
                     if (!data.result) {
-                        alert(data.message);
+                        //alert(data.message);
+                        $.messager.popup(data.message);
                         return;
                     }
                     else {
