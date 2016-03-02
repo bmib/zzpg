@@ -42,22 +42,109 @@ input[type="checkbox"].input-validation-error {
 }
 
 /*自定义*/
-.page-title{
-    margin-top:10px;
+.page-title {
+    margin-top: 10px;
 }
 
-.depart1{
-    margin-left:0px;
+.depart1 {
+    margin-left: 0px;
 }
-.depart2{
-    margin-left:20px;
+
+.depart2 {
+    margin-left: 20px;
 }
-.depart3{
-    margin-left:40px;
+
+.depart3 {
+    margin-left: 40px;
 }
-.depart4{
-    margin-left:60px;
+
+.depart4 {
+    margin-left: 60px;
 }
-.depart5{
-    margin-left:80px;
+
+.depart5 {
+    margin-left: 80px;
 }
+
+
+.main-default-body {
+    background: url(images/index_bg.jpg) center top no-repeat;
+    padding: 0;
+    margin: 0;
+}
+
+.site-head {
+    color: #FFFFFF;
+    font-size: 24px;
+    margin-left: 30px;
+    margin-top: 30px;
+}
+
+.site-wrapper {
+    width: 100%;
+    min-width: 700px;
+    margin: 0;
+    padding: 0;
+}
+
+.site-inner {
+    width: 100%;
+    text-align: center;
+}
+
+.inner-cover {
+    color: white;
+    padding: 30px;
+    width: 700px;
+    margin: 0 auto;
+    margin-top: 60px;
+}
+
+.cover-heading {
+}
+
+.lead {
+    font-size: 16px;
+    line-height: 30px;
+}
+
+.btn-cus {
+    color: #FFF;
+    background-color: #49bcb5;
+    min-width: 220px;
+    border: 2px solid #49bcb5;
+}
+
+    .btn-cus:hover {
+        color: #FFF;
+        background-color: #399994;
+        border: 2px solid #399994;
+    }
+
+    .btn-cus:active {
+        color: #FFF;
+    }
+
+    .btn-cus:visited {
+        color: #FFF;
+    }
+
+.btn-cus2 {
+    color: #FFF;
+    background: 0 0;
+    min-width: 220px;
+    border: 2px solid #fff;
+}
+
+    .btn-cus2:hover {
+        color: #49bcb5;
+        border: 2px solid #49bcb5;
+    }
+
+    .btn-cus2:active {
+        color: #FFF;
+    }
+
+    .btn-cus2:visited {
+        color: #FFF;
+    }

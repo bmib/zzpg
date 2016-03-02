@@ -6,7 +6,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>C:\Users\JOHNHE\Desktop\zzpg20160222</_PublishTargetUrl>
+    <_PublishTargetUrl>C:\Users\JOHNHE\Desktop\zzpg20160302</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/Antlr3.Runtime.dll">
@@ -43,7 +43,7 @@
       <publishTime>02/17/2016 12:01:31</publishTime>
     </File>
     <File Include="bin/Solution.Web.dll">
-      <publishTime>02/22/2016 14:24:13</publishTime>
+      <publishTime>03/02/2016 15:13:07</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>12/08/2015 22:47:43</publishTime>
@@ -249,6 +249,9 @@
     <File Include="Content/bootstrap.min.css">
       <publishTime>06/16/2015 16:12:50</publishTime>
     </File>
+    <File Include="Content/cover.css">
+      <publishTime>03/02/2016 11:18:38</publishTime>
+    </File>
     <File Include="Content/images/404.jpg">
       <publishTime>12/10/2015 17:56:55</publishTime>
     </File>
@@ -258,11 +261,17 @@
     <File Include="Content/images/code2.jpg">
       <publishTime>02/03/2016 11:07:03</publishTime>
     </File>
+    <File Include="Content/images/index_bg.jpg">
+      <publishTime>03/02/2016 09:55:04</publishTime>
+    </File>
+    <File Include="Content/images/logo.png">
+      <publishTime>03/02/2016 12:58:03</publishTime>
+    </File>
     <File Include="Content/sb-admin-2.css">
       <publishTime>11/29/2015 02:17:10</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>01/22/2016 15:19:01</publishTime>
+      <publishTime>03/02/2016 15:11:03</publishTime>
     </File>
     <File Include="Content/template/UserTemplate.xls">
       <publishTime>01/13/2016 07:54:54</publishTime>
@@ -306,6 +315,9 @@
     <File Include="Scripts/jquery-1.10.2.min.map">
       <publishTime>12/01/2015 18:39:01</publishTime>
     </File>
+    <File Include="Scripts/jquery.bootstrap.min.js">
+      <publishTime>02/23/2016 11:11:26</publishTime>
+    </File>
     <File Include="Scripts/jquery.validate.js">
       <publishTime>12/07/2015 15:11:13</publishTime>
     </File>
@@ -337,10 +349,10 @@
       <publishTime>02/04/2016 18:45:33</publishTime>
     </File>
     <File Include="Scripts/_references.js">
-      <publishTime>02/16/2016 17:09:20</publishTime>
+      <publishTime>03/02/2016 11:15:24</publishTime>
     </File>
     <File Include="Views/Assessment/CheckDetailView.cshtml">
-      <publishTime>02/17/2016 11:28:46</publishTime>
+      <publishTime>02/23/2016 15:51:08</publishTime>
     </File>
     <File Include="Views/Assessment/CheckListView.cshtml">
       <publishTime>02/16/2016 11:29:38</publishTime>
@@ -349,37 +361,40 @@
       <publishTime>12/10/2015 18:00:38</publishTime>
     </File>
     <File Include="Views/Home/GetPassword.cshtml">
-      <publishTime>02/16/2016 14:48:15</publishTime>
+      <publishTime>02/23/2016 15:49:38</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
       <publishTime>02/16/2016 14:45:22</publishTime>
     </File>
     <File Include="Views/Home/Login.cshtml">
-      <publishTime>02/16/2016 14:59:34</publishTime>
+      <publishTime>02/23/2016 11:39:44</publishTime>
     </File>
     <File Include="Views/Home/Register.cshtml">
-      <publishTime>02/16/2016 14:47:49</publishTime>
+      <publishTime>02/23/2016 15:49:03</publishTime>
     </File>
     <File Include="Views/Home/SetPassword.cshtml">
-      <publishTime>02/16/2016 14:47:59</publishTime>
+      <publishTime>02/23/2016 15:49:20</publishTime>
+    </File>
+    <File Include="Views/Main/Default.cshtml">
+      <publishTime>03/02/2016 14:52:10</publishTime>
     </File>
     <File Include="Views/Manage/AdminItemFactoryList.cshtml">
-      <publishTime>02/16/2016 17:55:40</publishTime>
+      <publishTime>02/23/2016 15:52:13</publishTime>
     </File>
     <File Include="Views/Manage/AdminPayList.cshtml">
-      <publishTime>02/16/2016 16:46:49</publishTime>
+      <publishTime>02/23/2016 15:53:04</publishTime>
     </File>
     <File Include="Views/Manage/CheckDetailView.cshtml">
-      <publishTime>02/16/2016 10:50:07</publishTime>
+      <publishTime>02/23/2016 15:55:04</publishTime>
     </File>
     <File Include="Views/Manage/CheckManageView.cshtml">
       <publishTime>02/05/2016 10:40:08</publishTime>
     </File>
     <File Include="Views/Manage/CheckResultDetailView.cshtml">
-      <publishTime>02/05/2016 11:08:32</publishTime>
+      <publishTime>02/22/2016 14:30:29</publishTime>
     </File>
     <File Include="Views/Manage/CheckResultView.cshtml">
-      <publishTime>02/16/2016 14:00:29</publishTime>
+      <publishTime>02/22/2016 14:30:00</publishTime>
     </File>
     <File Include="Views/Manage/CheckUserAddView.cshtml">
       <publishTime>02/03/2016 10:35:38</publishTime>

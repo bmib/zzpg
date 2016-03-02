@@ -70,11 +70,13 @@
         $.post('/Manage/PaySucess', { PayID: payID },
              function (data, status) {
                  if (!data.result) {
-                     alert('操作失败：' + data.message);
+                     //alert('操作失败：' + data.message);
+                     $.messager.popup('操作失败：' + data.message);
                      return;
                  }
                  else {
-                     alert("操作成功！");
+                     //alert("操作成功！");
+                     $.messager.popup("操作成功！");
                      window.location.reload();
                  }
              });

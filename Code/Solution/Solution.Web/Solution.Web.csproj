@@ -125,6 +125,7 @@
     <Compile Include="Controllers\AssessmentController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\WeightController.cs" />
     <Compile Include="Filters\LoggerFilter.cs" />
@@ -180,9 +181,12 @@
     <Content Include="Content\bootstrap-treeview\js\bootstrap-treeview.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\cover.css" />
     <Content Include="Content\images\404.jpg" />
     <Content Include="Content\images\code.jpg" />
     <Content Include="Content\images\code2.jpg" />
+    <Content Include="Content\images\index_bg.jpg" />
+    <Content Include="Content\images\logo.png" />
     <Content Include="Content\sb-admin-2.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -254,6 +258,7 @@
     <Content Include="Views\Home\SetPassword.cshtml" />
     <Content Include="Views\Manage\AdminPayList.cshtml" />
     <Content Include="Views\Manage\AdminItemFactoryList.cshtml" />
+    <Content Include="Views\Main\Default.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Solution.Common\Solution.Common.csproj">

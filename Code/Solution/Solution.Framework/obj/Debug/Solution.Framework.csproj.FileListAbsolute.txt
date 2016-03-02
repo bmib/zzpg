@@ -46,3 +46,4 @@ F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Framework\b
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Framework\bin\Debug\zh-Hans\System.Web.WebPages.Razor.resources.dll
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Framework\obj\Debug\Solution.Framework.dll
 F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Framework\obj\Debug\Solution.Framework.pdb
+F:\HEHUAJIE\DOCUMENTS\资质评估系统\zzpg\Code\Solution\Solution.Framework\obj\Debug\Solution.Framework.csprojResolveAssemblyReference.cache
